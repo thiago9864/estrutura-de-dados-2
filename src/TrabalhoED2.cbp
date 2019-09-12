@@ -47,7 +47,9 @@
 		<Unit filename="ordenacao/QuickSort.h" />
 		<Unit filename="ordenacao/SelectionSort.h" />
 		<Unit filename="ordenacao/HeapSort.h" />
-		<Unit filename="hashing/HashEndAberto.h" />
+		<Unit filename="hashing/EndSondagemLinear.h" />
+		<Unit filename="hashing/EndSondagemQuadratica.h" />
+		<Unit filename="hashing/HashMapItem.h" />
 		<Extensions>
 			<code_completion />
 			<envvars />

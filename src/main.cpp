@@ -43,20 +43,16 @@ uint64_t unix_timestamp()
 
 int main(int argc, char *argv[])
 {
-    //Memoria memInfo;
-    //cout << "Uso de memoria atual: " << memInfo.getCurrentRSS() << endl;
-    //int peakMemoryIni = memInfo.getPeakRSS();
-
     cout << "---------- INICIO -----------" << endl;
-/*
-    int numRegistros = 100;
+
+    int numRegistros = 5;
     LeitorGameInfo *gameInfo = new LeitorGameInfo(numRegistros);
 
     GameInfo *dataset = gameInfo->getDataset();
 
     cout << numRegistros << " registros do arquivo de Game Info" << endl;
-    
-    
+
+
     for(int i=0; i<numRegistros; i++){
         GameInfo gameInfo = dataset[i];
         cout << "id: " << gameInfo.id << ", boardgamecategory: ";
@@ -65,40 +61,40 @@ int main(int argc, char *argv[])
         }
         cout << endl;
     }
-*/
+
     //////////////////
     cout << endl;
-/*
+
     LeitorUserReviews *userReviews = new LeitorUserReviews(numRegistros);
 
     UserReview *dataset2 = userReviews->getDataset();
 
     cout << numRegistros << " registros do arquivo de User Reviews" << endl;
-    
-    
+
+
     for(int i=0; i<numRegistros; i++){
         UserReview userReview = dataset2[i];
         cout << "id: " << userReview.id << ", ";
         cout << "user: " << userReview.user << ", ";
         cout << "rating: " << userReview.rating << endl;
     }
-*/    
+
 
     //////////////////
     cout << endl;
-/*
-    int numRegistrosUsrRated = 50;
-    LeitorUsersRated *usersRated = new LeitorUsersRated(numRegistrosUsrRated);
+
+    //numRegistros = 50;
+    LeitorUsersRated *usersRated = new LeitorUsersRated(numRegistros);
 
     UsersRated *dataset3 = usersRated->getDataset();
 
-    cout << numRegistrosUsrRated << " registros do arquivo de Users Rated" << endl;
-    
-    for(int i=0; i<numRegistrosUsrRated; i++){
+    cout << numRegistros << " registros do arquivo de Users Rated" << endl;
+
+    for(int i=0; i<numRegistros; i++){
         cout << "id: " << dataset3[i].id << ", ";
         cout << "users rated: " << dataset3[i].usersRated << endl;
     }
-*/
+
     uint64_t inicio = unix_timestamp();
     //BubbleSort<UsersRated> *bubbleSort = new BubbleSort<UsersRated>();
     //bubbleSort->ordenar(dataset3, numRegistrosUsrRated);
@@ -118,34 +114,37 @@ int main(int argc, char *argv[])
     //calcula o tempo
     uint64_t fim = unix_timestamp();
     double tempo = (fim-inicio)/(double)1000;
-    
+
 
     //imprime o vetor
-    
+
     cout << "registros do arquivo de Users Rated ordenados" << endl;
     for(int i=0; i<numRegistrosUsrRated; i++){
         cout << "id: " << dataset3[i].id << ", ";
         cout << "users rated: " << dataset3[i].usersRated << endl;
     }
-    
+
 
     cout << inicio << ", " << fim << endl;
 
     cout << endl << "Tempo de execucao: " << tempo << " seg" << endl;
     */
 
-    int numRegistrosUsrReview = 50;
-    LeitorUserReviews *userReviews = new LeitorUserReviews(numRegistrosUsrReview);
-    UserReview *dataset2 = userReviews->getDataset();
+    int numRegistrosUsrReview = 5;
+    LeitorUserReviews *userReviewsHash = new LeitorUserReviews(numRegistrosUsrReview);
+    UserReview *dataset4 = userReviewsHash->getDataset();
 
-    //EndSondagemLinear *endSondagemLinear = new EndSondagemLinear(dataset2, numRegistrosUsrReview);
-    //endSondagemLinear->construir();
-    //endSondagemLinear->imprime();
+    EndSondagemLinear *endSondagemLinear = new EndSondagemLinear(dataset4, numRegistrosUsrReview);
+    endSondagemLinear->construir();
+    endSondagemLinear->imprime();
+    cout << "Numero de colisoes: " << endSondagemLinear->getNumColisoes() << endl;
 
-    EndSondagemQuadratica *endSondagemQuadratica = new EndSondagemQuadratica(dataset2, numRegistrosUsrReview);
+    EndSondagemQuadratica *endSondagemQuadratica = new EndSondagemQuadratica(dataset4, numRegistrosUsrReview);
     endSondagemQuadratica->construir();
     endSondagemQuadratica->imprime();
-    
-    
+    cout << "Numero de colisoes (Sondagem Quadratica): " << endSondagemQuadratica->getNumColisoesQuadraticas() << endl;
+    cout << "Numero de colisoes (Sondagem Linear): " << endSondagemQuadratica->getNumColisoesLineares() << endl;
+
+
     return 0;
 }

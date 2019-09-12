@@ -12,18 +12,14 @@
 
 #include <iostream>
 #include "../UserReview.h"
+#include "HashMapItem.h"
 
 using namespace std;
 
-class HashMapItem {
-    public:
-        int hs;
-        UserReview userReview;
-};
-class HashEndAberto
+class EndSondagemLinear
 {
     public:
-        HashEndAberto(UserReview* vetor, int tam){
+        EndSondagemLinear(UserReview* vetor, int tam){
             this->vetor = vetor;
             this->tamanho = tam;
 
@@ -33,11 +29,13 @@ class HashEndAberto
                 hashMap[i] = criaHashMapItem(-1, criaUserReview(-1,"",0));
             }
         };
-        ~HashEndAberto(){
+        ~EndSondagemLinear(){
             delete[] hashMap;
         };
 
-        //metodos da classe
+        /**
+         * Constroi o hashmap para o dataset indicado
+         */ 
         void construir(){
             for(int i=0; i<tamanho; i++){
 
@@ -59,6 +57,7 @@ class HashEndAberto
                         if(hashMap[hs_search].userReview.id == -1){
                             //a colisão foi resolvida
                             hashMap[hs_search] = criaHashMapItem(hs_search, vetor[i]);
+                            numColisoesResolvidasLin++;//contabiliza colisões resolvidas
                             break;
                         }
                         j++;
@@ -73,6 +72,25 @@ class HashEndAberto
             }
         }
 
+        /**
+         * Obtem o vetor do hashmap
+         * @return HashMapItem*
+         */
+        HashMapItem* getHashMap(){
+            return hashMap;
+        }
+
+        /**
+         * Obtem o numero de colisões
+         * @return int
+         */
+        int getNumColisoes(){
+            return numColisoesResolvidasLin;
+        }
+
+        /**
+         * Imprime o hashmap para debug
+         */
         void imprime(){
             cout << endl << "------- Imprime a tabela Hash -------" << endl << endl;
             for(int i=0; i<tamanho; i++){
@@ -86,6 +104,7 @@ class HashEndAberto
         int tamanho;
         UserReview* vetor;
         HashMapItem *hashMap;
+        int numColisoesResolvidasLin=0;
 
         /**
          * Função de hash usada
