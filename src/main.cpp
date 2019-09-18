@@ -32,6 +32,11 @@
 //hashing
 #include "hashing/EndSondagemLinear.h"
 #include "hashing/EndSondagemQuadratica.h"
+//cenarios
+#include "cenarios/Cenario1.h"
+#include "cenarios/Cenario2.h"
+#include "cenarios/Cenario3.h"
+#include "cenarios/Cenario4.h"
 
 using namespace std;
 
@@ -145,6 +150,17 @@ int main(int argc, char *argv[])
     cout << "Numero de colisoes (Sondagem Quadratica): " << endSondagemQuadratica->getNumColisoesQuadraticas() << endl;
     cout << "Numero de colisoes (Sondagem Linear): " << endSondagemQuadratica->getNumColisoesLineares() << endl;
 
+
+    cout << "------ Teste dos cenarios -------" << endl;
+
+
+    Cenario1* c1 = new Cenario1("Cenario1.txt", "cenario1_teste1.txt");
+
+    Cenario2* c2 = new Cenario2("Cenario2.txt", "cenario2_teste1.txt");
+
+    Cenario3* c3 = new Cenario3("Cenario3.txt", "cenario3_teste1.txt");
+
+    Cenario4* c4 = new Cenario4("Cenario4.txt", "cenario4_teste1.txt");
 
     return 0;
 }

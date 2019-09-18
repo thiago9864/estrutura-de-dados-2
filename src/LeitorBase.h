@@ -39,10 +39,27 @@ class LeitorBase
          * @return string
          */
         string getDiretorioPreprocessado(){
-            string caminho_diretorio_main_cpp = "";//preencher se der erro de leitura
-            string path = caminho_diretorio_main_cpp+"datasets"+getDirSep()+"preprocessado"+getDirSep();
+            this->caminho_diretorio_main_cpp = "C:\\Users\\Thiago\\Documents\\Repositorios\\UFJF\\estrutura-de-dados-2\\src\\";//preencher se der erro de leitura
+            string path = this->caminho_diretorio_main_cpp+"datasets"+getDirSep()+"preprocessado"+getDirSep();
             return path;
         }
+
+        /**
+         * Retorna o diretorio do arquivo de saida
+         * @return string
+         */
+        string getDiretorioArquivoDeSaida(){
+            return this->caminho_diretorio_main_cpp+"saidas"+getDirSep();
+        }
+
+        /**
+         * Retorna o diretorio do arquivo de entrada
+         * @return string
+         */
+        string getDiretorioArquivoDeEntrada(){
+            return this->caminho_diretorio_main_cpp+"entradas"+getDirSep();
+        }
+    
 
         /**
          * Quebra a string fornecida em strings menores dado o separador
@@ -83,7 +100,7 @@ class LeitorBase
             return rand() % maxRand;
         }
     private:
-
+        string caminho_diretorio_main_cpp;
         int semente;
 };
 
