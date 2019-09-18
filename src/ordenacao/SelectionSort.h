@@ -23,17 +23,32 @@ class SelectionSort
 
         //metodos da classe
         void ordenar(T* vetor, int tam){
+            num_comparacoes=0;
+            num_trocas=0;
+
             for(int i=0; i<tam-1; i++){
                 int menor=i;
                 for(int j=i+1; j<tam; j++){
+                    num_comparacoes++;
                     if(vetor[j].id < vetor[menor].id){
                         menor = j;
                     }
                 }
                 troca(vetor, i, menor);
+                num_trocas++;
             }
         }
+
+        int getNumComparacoes(){
+            return num_comparacoes;
+        }
+        int getNumTrocas(){
+            return num_trocas;
+        }
     private:
+
+        int num_comparacoes;
+        int num_trocas;
 
         void troca(T* vetor, int p1, int p2){
             T aux = vetor[p1];
