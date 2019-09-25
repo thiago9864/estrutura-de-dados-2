@@ -27,8 +27,8 @@ public:
         {
             int p = particao(vet,inicio,fim);
 
-            ordenar(vet, inicio, p-1);
-            ordenar(vet, p + 1,fim);
+            this->ordenar(vet, inicio, p-1, m);
+            this->ordenar(vet, p + 1,fim, m);
         }
 
     };
