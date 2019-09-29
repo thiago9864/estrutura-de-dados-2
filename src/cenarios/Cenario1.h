@@ -3,7 +3,7 @@
     Cenario1.h
     Propósito: Implementação do primeiro cenário da parte 1 do trabalho.
 
-    @author Thiago Almeida
+    @author Thiago Almeida, Renan Nunes
     @version 1.0 18/09/19
 */
 

@@ -1,7 +1,7 @@
 /**
     Universidade Federal de Juiz de Fora
     LeitorBase.h
-    Propósito: Classe com metodos basicos para a leitura 
+    Propósito: Classe com metodos basicos para a leitura
 
     @version 1.0 19/08/19
 */
@@ -11,6 +11,7 @@
 #include <string>
 #include <vector>
 #include <time.h>
+#include <random>
 
 using namespace std;
 
@@ -19,7 +20,7 @@ class LeitorBase
     public:
 
         LeitorBase(){};
-        ~LeitorBase(){}; 
+        ~LeitorBase(){};
 
         /**
          * Retorna o caractere separador de diretorio do sistema
@@ -59,7 +60,7 @@ class LeitorBase
         string getDiretorioArquivoDeEntrada(){
             return this->caminho_diretorio_main_cpp+"entradas"+getDirSep();
         }
-    
+
 
         /**
          * Quebra a string fornecida em strings menores dado o separador
@@ -71,14 +72,14 @@ class LeitorBase
         {
             string buff{""};
             vector<string> v;
-            
+
             for(auto n:s)
             {
                 if(n != c) buff+=n; else
                 if(n == c && buff != "") { v.push_back(buff); buff = ""; }
             }
             if(buff != "") v.push_back(buff);
-            
+
             return v;
         }
 
@@ -88,20 +89,43 @@ class LeitorBase
          */
         void gerarSemente() {
             semente = time(NULL);
-            srand (semente);
-        } 
+            generator.seed(semente);
+        }
 
         /**
          * Obtem um numero aleatorio de 0 ao valor enviado por parametro
          * @param maxRand
-         * @return float
+         * @return int
          */
-        float getRand(int maxRand){
-            return rand() % maxRand;
+        int getRand(int maxRand){
+            uniform_int_distribution<int> distribuition(0, maxRand);
+            return distribuition(generator);
         }
+
+        /**
+         * Inicia contagem de tempo
+         */
+        void timerStart(){
+            start = std::chrono::system_clock::now();
+        }
+
+        /**
+         * Obtem a diferenca de tempo em segundos
+         * @return double
+         */
+        double timerEnd(){
+            end = std::chrono::system_clock::now();
+            std::chrono::duration<double> elapsed_seconds = end - start;
+            double duracao = elapsed_seconds.count();
+            return duracao;
+        }
+
     private:
         string caminho_diretorio_main_cpp;
+        default_random_engine generator;
         int semente;
+        std::chrono::time_point<std::chrono::system_clock> start, end;
+
 };
 
 #endif // LEITORBASE_H

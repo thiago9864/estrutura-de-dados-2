@@ -3,7 +3,7 @@
     Cenario2.h
     Propósito: Implementação do segundo cenário da parte 1 do trabalho.
 
-    @author Thiago Almeida
+    @author Thiago Almeida, Luan Ciribeli
     @version 1.0 18/09/19
 */
 

@@ -13,6 +13,7 @@
 #include <time.h>
 #include <chrono>
 
+
 //#include "Memoria.h"
 #include "Log.h"
 //classes de entidade
@@ -23,6 +24,7 @@
 #include "LeitorGameInfo.h"
 #include "LeitorUserReviews.h"
 #include "LeitorUsersRated.h"
+#include "GeradorSequencia.h"
 //ordenação
 #include "ordenacao/BubbleSort.h"
 #include "ordenacao/InsertionSort.h"
@@ -49,7 +51,7 @@ uint64_t unix_timestamp()
 int main(int argc, char *argv[])
 {
     cout << "---------- INICIO -----------" << endl;
-
+    /*
     int numRegistros = 5;
     LeitorGameInfo *gameInfo = new LeitorGameInfo(numRegistros);
 
@@ -87,8 +89,10 @@ int main(int argc, char *argv[])
 
     //////////////////
     cout << endl;
+*/
+/*
+    int numRegistros = 50;
 
-    //numRegistros = 50;
     LeitorUsersRated *usersRated = new LeitorUsersRated(numRegistros);
 
     UsersRated *dataset3 = usersRated->getDataset();
@@ -101,20 +105,22 @@ int main(int argc, char *argv[])
     }
 
     uint64_t inicio = unix_timestamp();
-    //BubbleSort<UsersRated> *bubbleSort = new BubbleSort<UsersRated>();
-    //bubbleSort->ordenar(dataset3, numRegistrosUsrRated);
 
-    //InsertionSort<UsersRated> *insertionSort = new InsertionSort<UsersRated>();
-    //insertionSort->ordenar(dataset3, numRegistrosUsrRated);
+    //BubbleSort<UsersRated> *bubbleSort = new BubbleSort<UsersRated>();
+    //bubbleSort->ordenar(dataset3, numRegistros);
+
+    InsertionSort<UsersRated> *insertionSort = new InsertionSort<UsersRated>();
+    insertionSort->ordenar(dataset3, numRegistros);
 
     //SelectionSort<UsersRated> *selectionSort = new SelectionSort<UsersRated>();
-    //selectionSort->ordenar(dataset3, numRegistrosUsrRated);
+    //selectionSort->ordenar(dataset3, numRegistros);
 
     //MergeSort<UsersRated> *mergeSort = new MergeSort<UsersRated>();
-    //mergeSort->ordenar(dataset3, 0, numRegistrosUsrRated-1);
+    //mergeSort->ordenar(dataset3, 0, numRegistros-1);
 
     //QuickSort<UsersRated> *quickSort = new QuickSort<UsersRated>();
-    //quickSort->ordenar(dataset3, 0, numRegistrosUsrRated-1);
+    //quickSort->ordenar(dataset3, 0, numRegistros-1);
+    */
 /*
     //calcula o tempo
     uint64_t fim = unix_timestamp();
@@ -134,33 +140,48 @@ int main(int argc, char *argv[])
 
     cout << endl << "Tempo de execucao: " << tempo << " seg" << endl;
     */
-
+   /*
     int numRegistrosUsrReview = 5;
     LeitorUserReviews *userReviewsHash = new LeitorUserReviews(numRegistrosUsrReview);
     UserReview *dataset4 = userReviewsHash->getDataset();
 
-    EndSondagemLinear *endSondagemLinear = new EndSondagemLinear(dataset4, numRegistrosUsrReview);
-    endSondagemLinear->construir();
+    EndSondagemLinear *endSondagemLinear = new EndSondagemLinear(numRegistrosUsrReview);
+    for(int i=0; i<numRegistrosUsrReview; i++){
+        endSondagemLinear->inserir(dataset4[i]);
+    }
+
     endSondagemLinear->imprime();
     cout << "Numero de colisoes: " << endSondagemLinear->getNumColisoes() << endl;
 
-    EndSondagemQuadratica *endSondagemQuadratica = new EndSondagemQuadratica(dataset4, numRegistrosUsrReview);
-    endSondagemQuadratica->construir();
+    EndSondagemQuadratica *endSondagemQuadratica = new EndSondagemQuadratica(numRegistrosUsrReview);
+    for(int i=0; i<numRegistrosUsrReview; i++){
+        endSondagemQuadratica->inserir(dataset4[i]);
+    }
     endSondagemQuadratica->imprime();
-    cout << "Numero de colisoes (Sondagem Quadratica): " << endSondagemQuadratica->getNumColisoesQuadraticas() << endl;
-    cout << "Numero de colisoes (Sondagem Linear): " << endSondagemQuadratica->getNumColisoesLineares() << endl;
-
+    cout << "Numero de colisoes (Sondagem Quadratica): " << endSondagemQuadratica->getNumColisoes() << endl;
+    cout << "Numero de colisoes (Sondagem Linear): " << endSondagemQuadratica->getNumColisoes() << endl;
+    */
 
     cout << "------ Teste dos cenarios -------" << endl;
 
 
-    Cenario1* c1 = new Cenario1("Cenario1.txt", "cenario1_teste1.txt");
+    //Cenario1* c1 = new Cenario1("Cenario1.txt", "cenario1_teste1.txt");
 
-    Cenario2* c2 = new Cenario2("Cenario2.txt", "cenario2_teste1.txt");
+    //Cenario2* c2 = new Cenario2("Cenario2.txt", "cenario2_teste1.txt");
 
     Cenario3* c3 = new Cenario3("Cenario3.txt", "cenario3_teste1.txt");
+    c3->realizaTeste();
 
-    Cenario4* c4 = new Cenario4("Cenario4.txt", "cenario4_teste1.txt");
+    //Cenario4* c4 = new Cenario4("Cenario4.txt", "cenario4_teste1.txt");
 
     return 0;
 }
+/*
+6
+1000
+5000
+10000
+50000
+100000
+500000
+*/

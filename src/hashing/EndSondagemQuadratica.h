@@ -20,8 +20,7 @@ using namespace std;
 class EndSondagemQuadratica
 {
     public:
-        EndSondagemQuadratica(UserReview* vetor, int tam){
-            this->vetor = vetor;
+        EndSondagemQuadratica(int tam){
             this->tamanho = tam;
 
             //inicializa hashMap
@@ -37,73 +36,96 @@ class EndSondagemQuadratica
         /**
          * Constroi o hashmap para o dataset indicado
          */
-        void construir(){
+        void inserir(UserReview item){
             mudarEstrategia=false;//começa com a estratégia de rodar com a sondagem quadrática
 
-            for(int i=0; i<tamanho; i++){
+            //constroi o k com o valor de id e o nome do usuario
+            int k = item.id + somaAsciiFromString(item.user);
+            int hs = funcaoHash(k, tamanho);
 
-                //constroi o k com o valor de id e o nome do usuario
-                int k = vetor[i].id + somaAsciiFromString(vetor[i].user);
-                int hs = funcaoHash(k, tamanho);
+            //coloca no hashmap
+            if(hashMap[hs].userReview.id == -1){
+                //o espaço está vazio
+                //inclui na posição gerada pela função hash uma referencia para o item do vetor
+                hashMap[hs] = criaHashMapItem(hs, item);
+            } else {
+                //houve uma colisão
+                //procura a próxima posição vazia na heap pelo metodo quadrático
+                numColisoes++;//contabiliza a colisao
+                int j=0;//conta a iteração
+                int ji = -1;//guarda a posição do j ao entrar no quadratico
+                int hs_search = hs;//posição no hash
+                while(j<tamanho){
+                    if(hashMap[hs_search].userReview.id == -1){
+                        //a colisão foi resolvida
+                        hashMap[hs_search] = criaHashMapItem(hs_search, item);
+                        ji = -1;
+                        break;
+                    } else {
+                        numColisoes++;//contabiliza a colisao
+                    }
 
-                //coloca no hashmap
-                if(hashMap[hs].userReview.id == -1){
-                    //o espaço está vazio
-                    //inclui na posição gerada pela função hash uma referencia para o item do vetor
-                    hashMap[hs] = criaHashMapItem(hs, vetor[i]);
-                } else {
-                    //houve uma colisão
-                    //procura a próxima posição vazia na heap pelo metodo quadrático
-                    int j=0;//conta a iteração
-                    int ji = -1;//guarda a posição do j ao entrar no quadratico
-                    int hs_search = hs;//posição no hash
-                    while(j<tamanho){
-                        if(hashMap[hs_search].userReview.id == -1){
-                            //a colisão foi resolvida
-                            hashMap[hs_search] = criaHashMapItem(hs_search, vetor[i]);
+                    if(ji == -1){
+                        ji = j;//salva indice da iteracao
+                    }
 
-                            //contabiliza as colisões resolvidas e o metodo usado
-                            if(mudarEstrategia){
-                                numColisoesResolvidasLin++;
-                            } else {
-                                numColisoesResolvidasQuad++;
-                            }
-                            ji = -1;
-                            break;
-                        }
+                    if(mudarEstrategia){
+                        //estrategia para sondagem linear
+                        hs_search++;
+                    } else {
+                        //estrategia para sondagem quadrática
+                        hs_search = hs + pow(2, j);
+                    }
 
-                        if(ji == -1){
-                            ji = j;//salva indice da iteracao
-                        }
-
+                    j++;
+                    if(hs_search >= tamanho){
                         if(mudarEstrategia){
-                            //estrategia para sondagem linear
-                            hs_search++;
+                            //está na estratégia de sondagem linear
+                            hs_search=0;//volta pro inicio do vetor
                         } else {
-                            //estrategia para sondagem quadrática
-                            hs_search = hs + pow(2, j);
-                        }
-
-                        j++;
-                        if(hs_search >= tamanho){
-                            if(mudarEstrategia){
-                                //está na estratégia de sondagem linear
-                                hs_search=0;//volta pro inicio do vetor
-                            } else {
-                                //está na estrategia de sondagem quadrática
-                                hs_search = hs_search - tamanho;//pega o quanto passou e volta pra origem
-                                if(hs_search >= tamanho){
-                                    //não há mais como cair na lista, mudar de estratégia para endereçamento linear
-                                    mudarEstrategia=true;
-                                    hs_search=hs;//reseta o indice do vetor
-                                    j=ji;//restaura indice da iteração
-                                }
+                            //está na estrategia de sondagem quadrática
+                            hs_search = hs_search - tamanho;//pega o quanto passou e volta pra origem
+                            if(hs_search >= tamanho){
+                                //não há mais como cair na lista, mudar de estratégia para endereçamento linear
+                                mudarEstrategia=true;
+                                hs_search=hs;//reseta o indice do vetor
+                                j=ji;//restaura indice da iteração
                             }
                         }
                     }
-
                 }
             }
+        }
+
+        /**
+         * Verifica se o item está na tabela
+         * @return boolean
+         */
+        bool buscar(UserReview item){
+            //constroi o k com o valor de id e o nome do usuario
+            int k = item.id + somaAsciiFromString(item.user);
+            int hs = funcaoHash(k, tamanho);
+
+            //verifica a tabela pra ver se o item está lá
+            if(hashMap[hs].userReview.id == item.id){
+                return true;
+            }
+
+            int j=0;//conta a iteração
+            int hs_search = hs;//posição do hash
+            while(j<tamanho){
+                if(hashMap[hs_search].userReview.id == item.id){
+                    return true;
+                }
+                j++;
+                hs_search++;
+                if(hs_search >= tamanho){
+                    //chegou no fim do vetor sem resolver, busca do inicio agora
+                    hs_search = 0;
+                }
+            }
+            
+            return false;
         }
 
         /**
@@ -115,20 +137,13 @@ class EndSondagemQuadratica
         }
 
         /**
-         * Obtem o numero de colisões pelo metodo quadratico
+         * Obtem o numero de colisões
          * @return int
          */
-        int getNumColisoesQuadraticas(){
-            return numColisoesResolvidasQuad;
+        int getNumColisoes(){
+            return numColisoes;
         }
 
-        /**
-         * Obtem o numero de colisões pelo metodo linear
-         * @return int
-         */
-        int getNumColisoesLineares(){
-            return numColisoesResolvidasLin;
-        }
 
         /**
          * Imprime o hashmap para debug
@@ -148,8 +163,7 @@ class EndSondagemQuadratica
         UserReview* vetor;
         HashMapItem *hashMap;
         bool mudarEstrategia=false;
-        int numColisoesResolvidasQuad=0;
-        int numColisoesResolvidasLin=0;
+        int numColisoes=0;
 
         /**
          * Função de hash usada

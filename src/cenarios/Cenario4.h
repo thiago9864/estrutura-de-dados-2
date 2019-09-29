@@ -3,7 +3,7 @@
     Cenario4.h
     Propósito: Implementação do quarto cenário da parte 1 do trabalho.
 
-    @author Thiago Almeida
+    @author Thiago Almeida, Lucas Ribeiro
     @version 1.0 18/09/19
 */
 

@@ -19,8 +19,7 @@ using namespace std;
 class EndSondagemLinear
 {
     public:
-        EndSondagemLinear(UserReview* vetor, int tam){
-            this->vetor = vetor;
+        EndSondagemLinear(int tam){
             this->tamanho = tam;
 
             //inicializa hashMap
@@ -34,42 +33,71 @@ class EndSondagemLinear
         };
 
         /**
-         * Constroi o hashmap para o dataset indicado
+         * Inserção do registro na tabela
          */ 
-        void construir(){
-            for(int i=0; i<tamanho; i++){
+        void inserir(UserReview item){
+            //constroi o k com o valor de id e o nome do usuario
+            int k = item.id + somaAsciiFromString(item.user);
+            int hs = funcaoHash(k, tamanho);
 
-                //constroi o k com o valor de id e o nome do usuario
-                int k = vetor[i].id + somaAsciiFromString(vetor[i].user);
-                int hs = funcaoHash(k, tamanho);
-
-                //coloca no hashmap
-                if(hashMap[hs].userReview.id == -1){
-                    //o espaço está vazio
-                    //inclui na posição gerada pela função hash uma referencia para o item do vetor
-                    hashMap[hs] = criaHashMapItem(hs, vetor[i]);
-                } else {
-                    //houve uma colisão
-                    //procura a próxima posição vazia na heap pelo metodo linear
-                    int j=0;//conta a iteração
-                    int hs_search = hs;//posição do hash
-                    while(j<tamanho){
-                        if(hashMap[hs_search].userReview.id == -1){
-                            //a colisão foi resolvida
-                            hashMap[hs_search] = criaHashMapItem(hs_search, vetor[i]);
-                            numColisoesResolvidasLin++;//contabiliza colisões resolvidas
-                            break;
-                        }
-                        j++;
-                        hs_search++;
-                        if(hs_search >= tamanho){
-                            //chegou no fim do vetor sem resolver, busca do inicio agora
-                            hs_search = 0;
-                        }
+            //coloca no hashmap
+            if(hashMap[hs].userReview.id == -1){
+                //o espaço está vazio
+                //inclui na posição gerada pela função hash uma referencia para o item do vetor
+                hashMap[hs] = criaHashMapItem(hs, item);
+            } else {
+                //houve uma colisão
+                //procura a próxima posição vazia na heap pelo metodo linear
+                numColisoes++;//contabiliza a colisão
+                int j=0;//conta a iteração
+                int hs_search = hs;//posição do hash
+                while(j<tamanho){
+                    if(hashMap[hs_search].userReview.id == -1){
+                        //a colisão foi resolvida
+                        hashMap[hs_search] = criaHashMapItem(hs_search, item);
+                        break;
+                    } else {
+                        numColisoes++;//contabiliza a colisão
                     }
-
+                    j++;
+                    hs_search++;
+                    if(hs_search >= tamanho){
+                        //chegou no fim do vetor sem resolver, busca do inicio agora
+                        hs_search = 0;
+                    }
                 }
             }
+        }
+
+        /**
+         * Verifica se o item está na tabela
+         * @return boolean
+         */
+        bool buscar(UserReview item){
+            //constroi o k com o valor de id e o nome do usuario
+            int k = item.id + somaAsciiFromString(item.user);
+            int hs = funcaoHash(k, tamanho);
+
+            //verifica a tabela pra ver se o item está lá
+            if(hashMap[hs].userReview.id == item.id){
+                return true;
+            }
+
+            int j=0;//conta a iteração
+            int hs_search = hs;//posição do hash
+            while(j<tamanho){
+                if(hashMap[hs_search].userReview.id == item.id){
+                    return true;
+                }
+                j++;
+                hs_search++;
+                if(hs_search >= tamanho){
+                    //chegou no fim do vetor sem resolver, busca do inicio agora
+                    hs_search = 0;
+                }
+            }
+            
+            return false;
         }
 
         /**
@@ -85,7 +113,7 @@ class EndSondagemLinear
          * @return int
          */
         int getNumColisoes(){
-            return numColisoesResolvidasLin;
+            return numColisoes;
         }
 
         /**
@@ -104,7 +132,7 @@ class EndSondagemLinear
         int tamanho;
         UserReview* vetor;
         HashMapItem *hashMap;
-        int numColisoesResolvidasLin=0;
+        int numColisoes;
 
         /**
          * Função de hash usada
