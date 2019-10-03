@@ -21,21 +21,16 @@ class BubbleSort
         BubbleSort(){};
         ~BubbleSort(){};
 
-        //metodos da classe
+        /**
+         * Ordenação para os tipos de dados do dataset
+         * @param vetor Vetor de objetos
+         * @param tam Tamanho do vetor
+         */
         void ordenar(T* vetor, int tam){
-            for(int i=0; i<tam-1; i++){
-                for(int j=0; j<tam-1; j++){
-                    if(vetor[j].id > vetor[j+1].id){
-                        troca(vetor, j, j+1);
-                    }
-                }
-            }
-        }
-        void ordenar_melhorado(T* vetor, int tam){
             for(int i=0; i<tam-1; i++){
                 bool trocou=false;
                 for(int j=0; j<tam-1-i; j++){
-                    if(vetor[j].id > vetor[j+1].id){
+                    if(comparador(vetor[j], vetor[j+1])){
                         troca(vetor, j, j+1);
                         trocou=true;
                     }
@@ -45,7 +40,52 @@ class BubbleSort
                 }
             }
         }
+
+        /**
+         * Ordenação para inteiros
+         * @param vetor Vetor de inteiros
+         * @param tam Tamanho do vetor
+         */
+        void ordenarInt(T* vetor, int tam){
+            for(int i=0; i<tam-1; i++){
+                bool trocou=false;
+                for(int j=0; j<tam-1-i; j++){
+                    if(comparadorInt(vetor[j], vetor[j+1])){
+                        troca(vetor, j, j+1);
+                        trocou=true;
+                    }
+                }
+                if(trocou==false){
+                    break;
+                }
+            }
+        }
+
+        void resetContadores(){
+            num_trocas=0;
+            num_comparacoes=0;
+        }
+        long getNumComparacoes(){
+            return num_comparacoes;
+        }
+        long getNumTrocas(){
+            return num_trocas;
+        }
+
     private:
+
+        long num_comparacoes;
+        long num_trocas;
+        int tamanho;
+
+        bool comparador(T a, T b){
+            num_comparacoes++;
+            return a.id > b.id;
+        }
+        bool comparadorInt(int a, int b){
+            num_comparacoes++;
+            return a > b;
+        }
 
         void troca(T* vetor, int p1, int p2){
             T aux = vetor[p1];

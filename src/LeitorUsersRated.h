@@ -21,7 +21,7 @@ class LeitorUsersRated : protected LeitorBase
     public:
 
         LeitorUsersRated(int numRegistros){
-            this->caminhoArquivo = "datasets"+getDirSep()+"preprocessado"+getDirSep()+"2019-05-02.csv";
+            this->caminhoArquivo = this->getDiretorioPreprocessado()+"2019-05-02.csv";
             this->numRegistros = numRegistros;
             lerArquivo();
         };
@@ -52,8 +52,15 @@ class LeitorUsersRated : protected LeitorBase
                 exit(1); // sai do programa se nao conseguir abrir o arquivo
             }
 
+            //gera a semente do processo randomico
+            this->gerarSemente();
+
             headerProcessado=false;
-            gerarSemente();//gera uma nova semente para essa execução
+
+            //calcula pulos de leitura maximos
+            int numPulos = 0;
+            int maxPulo = (16000 - numRegistros) / numRegistros;
+            //int ind=0;
             
             while (getline(arqEntrada, line))
             {
@@ -72,39 +79,46 @@ class LeitorUsersRated : protected LeitorBase
                     ri=0;//aponta pro inicio do dataset
                     rf=numRegistros-1;//aponta pro fim do dataset
                 } else {
+                    if(numPulos == 0){
+                        //calcula o pulo
+                        numPulos = getRand(maxPulo);
+                        //cout << "linha: " << ind << endl;
 
-                    //cria o objeto
-                    UsersRated u;
-                    u.id = stoi(result[0]);
-                    u.usersRated = stoi(result[1]);
+                        //cria o objeto
+                        UsersRated u;
+                        u.id = stoi(result[0]);
+                        u.usersRated = stoi(result[1]);
 
-                    if(getRand(10) > 5){
-                        //se o numero aleatorio for maior que 5
-                        //coloca o numero do final pro inicio
-                        dataset[rf]=u;
-                        rf--;//decrementa o ponteiro do fim
+                        if(getRand(10) > 5){
+                            //se o numero aleatorio for maior que 5
+                            //coloca o numero do final pro inicio
+                            dataset[rf]=u;
+                            rf--;//decrementa o ponteiro do fim
+                        } else {
+                            //se o numero aleatorio for menor ou igual a 5
+                            //coloca o numero do inicio pro fim
+                            dataset[ri]=u;
+                            ri++;//incrementa o ponteiro do inicio
+                        }
+
+                        //id minimo
+                        if(u.id < idMin){
+                            idMin = u.id;
+                        }
+                        //id maximo
+                        if(u.id > idMax){
+                            idMax = u.id;
+                        }
+
+                        if(ri > rf){
+                            //quando os ponteiros de inicio e fim forem iguais
+                            //o vetor foi totalmente preenchido
+                            break;
+                        }   
                     } else {
-                        //se o numero aleatorio for menor ou igual a 5
-                        //coloca o numero do inicio pro fim
-                        dataset[ri]=u;
-                        ri++;//incrementa o ponteiro do inicio
+                        //pula os numeros
+                        numPulos--;
                     }
-
-                    //id minimo
-                    if(u.id < idMin){
-                        idMin = u.id;
-                    }
-                    //id maximo
-                    if(u.id > idMax){
-                        idMax = u.id;
-                    }
-
-                    if(ri > rf){
-                        //quando os ponteiros de inicio e fim forem iguais
-                        //o vetor foi totalmente preenchido
-                        break;
-                    }   
-            
                 }
             }
 

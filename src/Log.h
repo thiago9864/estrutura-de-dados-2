@@ -54,14 +54,16 @@ public:
      */
     void iniciaArquivoSaida(string caminhoArqSaida)
     {
-        cout << caminhoArqSaida << endl;
+        //cout << caminhoArqSaida << endl;
         //abre arquivo para saida
         arqSaida.open(caminhoArqSaida.c_str());
 
         //verifica se o arquivo foi aberto
         if (!arqSaida || !arqSaida.is_open())
         {
-            cout << "Impossivel abrir o arquivo de saida para escrita";
+            cout << "Impossivel abrir o arquivo de saida para escrita" << endl;
+            cout << "Com o arquivo: " << caminhoArqSaida << endl;
+            cout << "O diretorio 'saidas' foi criado no diretorio raiz (o que esta a main.cpp) ?" << endl;
             exit(1); // sai do programa se nao conseguir abrir o arquivo
         }
     }

@@ -3,8 +3,8 @@
     HeapSort.h
     Propósito: Implementação do algoritmo HeapSort.
 
-    @author Luan Reis
-    @version 1.0 21/08/19
+    @author Luan Reis, Renan Nunes
+    @version 2.0 03/10/19
 */
 
 #include <iostream>
@@ -18,50 +18,131 @@ public:
     HeapSort(){};
     ~HeapSort(){};
 
+    /**
+     * Ordenação para os tipos de dados do dataset
+     * @param v Vetor de objetos
+     * @param t Tamanho do vetor
+     */
     void ordenar(T *v, int n)
     {
-
-        constroiHeap(n, v);
-        for (int m = n; m >= 1; --m)
+        constroiHeap(n,v);
+        for (int i = n-1; i > 1; i--)
         {
-            troca2(v, m);
-            peneira(m - 1, v);
+            constroiHeap(i,v);
+            troca2(v,0,i);
         }
-    }
+    };
 
+    /**
+     * Ordenação para inteiros
+     * @param v Vetor de inteiros
+     * @param t Tamanho do vetor
+     */
+    void ordenarInt(T *v, int n)
+    {
+        constroiHeapInt(n,v);
+        for (int i = n-1; i > 1; i--)
+        {
+            constroiHeapInt(i,v);
+            troca2(v,0,i);
+        }
+    };
+
+    void resetContadores(){
+        num_trocas=0;
+        num_comparacoes=0;
+    }
+    long getNumComparacoes(){
+        return num_comparacoes;
+    }
+    long getNumTrocas(){
+        return num_trocas;
+    }
 private:
+    long num_comparacoes;
+    long num_trocas;
+
     void constroiHeap(int m, T *vet)
     {
 
-        for (int i = 0; i <= m; i++)
-        {
+        int tam = m;
+        int p = (int) (tam/2) - 1;
+        bool existe2 = true;
 
-            int f = i + 1;
-            while (f > 0 && vet[f / 2].id < vet[f].id)
+        while(p > -1)
+        {
+            int pai = vet[p];
+            int filho1 = vet[2*p];
+            int filho2 = vet[2*p+1];
+
+            if(2*p+1 >= tam)
             {
-                troca(vet, f);
-                f /= 2;
+                existe2 = false;
             }
+
+            if(comparador(filho1, filho2) && existe2)
+            {
+                if(comparador(pai, filho2))
+                {
+                    troca2(vet,p,2*p+1);
+                }
+            } else
+            {
+                troca2(vet,p,2*p);
+            }
+            p--;
         }
+        /*
         for (int z=0;z<=m;z++){
             cout<<"construindo a arvore"<<vet[z].id<<endl ;
         }
+        */
     }
 
-    void peneira(int m, T *v)
+    void constroiHeapInt(int m, T *vet)
     {
-        int p = 0, f = 1;
-        T x = v[0];
-        while (f <= m)
+
+        int tam = m;
+        int p = (int) (tam/2) - 1;
+        bool existe2 = true;
+
+        while(p > -1)
         {
-            if (f <= m && v[f].id < v[f + 1].id)
-                ++f;
-            if (x.id >= v[f].id)
-                break;
-            v[p] = v[f];
-            p = f, f = 2 * p;
+            int pai = vet[p];
+            int filho1 = vet[2*p];
+            int filho2 = vet[2*p+1];
+
+            if(2*p+1 >= tam)
+            {
+                existe2 = false;
+            }
+
+            if(comparadorInt(filho1, filho2) && existe2)
+            {
+                if(comparadorInt(pai, filho2))
+                {
+                    troca2(vet,p,2*p+1);
+                }
+            } else
+            {
+                troca2(vet,p,2*p);
+            }
+            p--;
         }
-        v[p] = x;
+        /*
+        for (int z=0;z<=m;z++){
+            cout<<"construindo a arvore"<<vet[z]<<endl ;
+        }
+        */
+    }
+
+    bool comparador(T a, T b){
+        num_comparacoes++;
+        return a.id < b.id;
+    }
+    bool comparadorInt(int a, int b){
+        num_comparacoes++;
+        return a < b;
     }
 
     void troca(T *vet, int f)
@@ -70,15 +151,17 @@ private:
         aux = vet[f / 2];
         vet[f / 2] = vet[f];
         vet[f] = aux;
+        num_trocas++;
     }
 
-    void troca2(T *vet, int m)
+    void troca2(T *vet, int i, int j)
     {
 
         T aux;
-        aux = vet[0];
-        vet[0] = vet[m];
-        vet[m] = aux;
+        aux = vet[i];
+        vet[i] = vet[j];
+        vet[j] = aux;
+        num_trocas++;
     }
 
 };

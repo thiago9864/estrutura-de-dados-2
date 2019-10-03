@@ -33,6 +33,7 @@
 			<Add option="-fexceptions" />
 		</Compiler>
 		<Unit filename="GameInfo.h" />
+		<Unit filename="GeradorSequencia.h" />
 		<Unit filename="LeitorBase.h" />
 		<Unit filename="LeitorGameInfo.h" />
 		<Unit filename="LeitorUserReviews.h" />
@@ -40,14 +41,21 @@
 		<Unit filename="Log.h" />
 		<Unit filename="UserReview.h" />
 		<Unit filename="UsersRated.h" />
+		<Unit filename="cenarios/Cenario1.h" />
+		<Unit filename="cenarios/Cenario2.h" />
+		<Unit filename="cenarios/Cenario3.h" />
+		<Unit filename="cenarios/Cenario4.h" />
+		<Unit filename="hashing/EndSondagemLinear.h" />
+		<Unit filename="hashing/EndSondagemQuadratica.h" />
+		<Unit filename="hashing/HashMapItem.h" />
 		<Unit filename="main.cpp" />
 		<Unit filename="ordenacao/BubbleSort.h" />
+		<Unit filename="ordenacao/HeapSort.h" />
 		<Unit filename="ordenacao/InsertionSort.h" />
 		<Unit filename="ordenacao/MergeSort.h" />
 		<Unit filename="ordenacao/QuickSort.h" />
+		<Unit filename="ordenacao/RadixSort.h" />
 		<Unit filename="ordenacao/SelectionSort.h" />
-		<Unit filename="ordenacao/HeapSort.h" />
-		<Unit filename="hashing/HashEndAberto.h" />
 		<Extensions>
 			<code_completion />
 			<envvars />

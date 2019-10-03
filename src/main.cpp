@@ -13,7 +13,6 @@
 #include <time.h>
 #include <chrono>
 
-//#include "Memoria.h"
 #include "Log.h"
 //classes de entidade
 #include "UserReview.h"
@@ -23,6 +22,7 @@
 #include "LeitorGameInfo.h"
 #include "LeitorUserReviews.h"
 #include "LeitorUsersRated.h"
+#include "GeradorSequencia.h"
 //ordenação
 #include "ordenacao/BubbleSort.h"
 #include "ordenacao/InsertionSort.h"

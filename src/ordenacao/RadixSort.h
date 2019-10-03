@@ -14,10 +14,27 @@ public:
     RadixSort(){};
     ~RadixSort(){};
 
+    /**
+     * Ordena��o para os tipos de dados do dataset
+     * @param vet Vetor de objetos
+     * @param n Tamanho do vetor
+     */
     void ordenar(T* vet, int n){
         T m = getMax(vet, n);
         for(int exp = 1; m.id/exp > 0; exp *= 10){
             countSort(vet, n, exp);
+        }
+    };
+
+    /**
+     * Ordena��o para inteiros
+     * @param vet Vetor de inteiros
+     * @param n Tamanho do vetor
+     */
+    void ordenarInt(int* vet, int n){
+        int m = getMaxInt(vet, n);
+        for(int exp = 1; m/exp > 0; exp *= 10){
+            countSortInt(vet, n, exp);
         }
     };
 
@@ -60,6 +77,37 @@ private:
         }
     }
 
+    int getMaxInt(int* vet, int n){
+        int mx = vet[0];
+        for(int i = 1; i < n; i++){
+            if(vet[i] > mx){
+                mx = vet[i];
+            }
+        }
+        return mx;
+    };
+
+    void countSortInt(int* vet, int n, int exp){
+        T output[n];
+        int i, count[10] = {0};
+
+        for(i = 0; i < n; i++){
+            count[(vet[i]/exp)%10]++;
+        }
+
+        for(i = 1; i <10; i++){
+            count[i] += count[i - 1];
+        }
+
+        for(i = n - 1; i >= 0; i--){
+            output[count[(vet[i]/exp)%10] - 1] = vet[i];
+            count[(vet[i]/exp)%10]--;
+        }
+
+        for(i = 0; i < n; i++){
+            vet[i] = output[i];
+        }
+    }
 };
 
 
