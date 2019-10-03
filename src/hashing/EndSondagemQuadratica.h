@@ -44,7 +44,7 @@ class EndSondagemQuadratica
             int hs = funcaoHash(k, tamanho);
 
             //coloca no hashmap
-            if(hashMap[hs].userReview.id == -1){
+            if(posicaoVazia(hs)){
                 //o espaço está vazio
                 //inclui na posição gerada pela função hash uma referencia para o item do vetor
                 hashMap[hs] = criaHashMapItem(hs, item);
@@ -56,7 +56,7 @@ class EndSondagemQuadratica
                 int ji = -1;//guarda a posição do j ao entrar no quadratico
                 int hs_search = hs;//posição no hash
                 while(j<tamanho){
-                    if(hashMap[hs_search].userReview.id == -1){
+                    if(posicaoVazia(hs_search)){
                         //a colisão foi resolvida
                         hashMap[hs_search] = criaHashMapItem(hs_search, item);
                         ji = -1;
@@ -124,7 +124,7 @@ class EndSondagemQuadratica
                     hs_search = 0;
                 }
             }
-            
+
             return false;
         }
 
@@ -144,6 +144,22 @@ class EndSondagemQuadratica
             return numColisoes;
         }
 
+        /**
+         * Obtem o numero de comparações de chaves
+         * @return int
+         */
+        int getNumComparacoes(){
+            return numComparacoes;
+        }
+
+        /**
+         * Zera os contadores de comparação e colisão
+         * @return int
+         */
+        void resetContadores(){
+            numColisoes=0;
+            numComparacoes=0;
+        }
 
         /**
          * Imprime o hashmap para debug
@@ -163,13 +179,24 @@ class EndSondagemQuadratica
         UserReview* vetor;
         HashMapItem *hashMap;
         bool mudarEstrategia=false;
-        int numColisoes=0;
+        int numColisoes;
+        int numComparacoes;
 
         /**
          * Função de hash usada
          */
         int funcaoHash(int k, int m){
             return k % m;
+        }
+
+        /**
+         * Verifica se a posição do hash está vazia
+         * @param hs Indice do vetor que representa o hash
+         * @return bool
+         */
+        bool posicaoVazia(int hs){
+            numComparacoes++;
+            return hashMap[hs].userReview.id == -1;
         }
 
         /**

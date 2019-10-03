@@ -1,6 +1,6 @@
 /**
     Universidade Federal de Juiz de Fora
-    SelectionSort.h
+    InsertionSort.h
     Propósito: Implementação do algoritmo SelectionSort.
 
     @author Thiago Almeida
@@ -21,6 +21,11 @@ class InsertionSort
         InsertionSort(){};
         ~InsertionSort(){};
 
+        /**
+         * Ordenação para os tipos de dados do dataset
+         * @param vetor Vetor de objetos
+         * @param tam Tamanho do vetor
+         */
         void ordenar(T* vetor, int tam){
             for(int i=0; i<tam; i++){
                 T pivo=vetor[i];
@@ -33,6 +38,11 @@ class InsertionSort
             }
         }
 
+        /**
+         * Ordenação para inteiros
+         * @param vetor Vetor de inteiros
+         * @param tam Tamanho do vetor
+         */
         void ordenarInt(T* vetor, int tam){
             tamanho=tam;
             for(int i=0; i<tam; i++){

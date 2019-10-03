@@ -34,14 +34,14 @@ class EndSondagemLinear
 
         /**
          * Inserção do registro na tabela
-         */ 
+         */
         void inserir(UserReview item){
             //constroi o k com o valor de id e o nome do usuario
             int k = item.id + somaAsciiFromString(item.user);
             int hs = funcaoHash(k, tamanho);
 
             //coloca no hashmap
-            if(hashMap[hs].userReview.id == -1){
+            if(posicaoVazia(hs)){
                 //o espaço está vazio
                 //inclui na posição gerada pela função hash uma referencia para o item do vetor
                 hashMap[hs] = criaHashMapItem(hs, item);
@@ -52,7 +52,7 @@ class EndSondagemLinear
                 int j=0;//conta a iteração
                 int hs_search = hs;//posição do hash
                 while(j<tamanho){
-                    if(hashMap[hs_search].userReview.id == -1){
+                    if(posicaoVazia(hs_search)){
                         //a colisão foi resolvida
                         hashMap[hs_search] = criaHashMapItem(hs_search, item);
                         break;
@@ -96,7 +96,7 @@ class EndSondagemLinear
                     hs_search = 0;
                 }
             }
-            
+
             return false;
         }
 
@@ -117,6 +117,23 @@ class EndSondagemLinear
         }
 
         /**
+         * Obtem o numero de comparações de chaves
+         * @return int
+         */
+        int getNumComparacoes(){
+            return numComparacoes;
+        }
+
+        /**
+         * Zera os contadores de comparação e colisão
+         * @return int
+         */
+        void resetContadores(){
+            numColisoes=0;
+            numComparacoes=0;
+        }
+
+        /**
          * Imprime o hashmap para debug
          */
         void imprime(){
@@ -133,12 +150,23 @@ class EndSondagemLinear
         UserReview* vetor;
         HashMapItem *hashMap;
         int numColisoes;
+        int numComparacoes;
 
         /**
          * Função de hash usada
          */
         int funcaoHash(int k, int m){
             return k % m;
+        }
+
+        /**
+         * Verifica se a posição do hash está vazia
+         * @param hs Indice do vetor que representa o hash
+         * @return bool
+         */
+        bool posicaoVazia(int hs){
+            numComparacoes++;
+            return hashMap[hs].userReview.id == -1;
         }
 
         /**

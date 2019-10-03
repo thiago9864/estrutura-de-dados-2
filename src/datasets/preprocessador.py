@@ -6,24 +6,19 @@ Created on Fri Aug 16 12:37:11 2019
 """
 import csv
 
-
 #arquivos
-'''
-arquivo_reviews = os.path.dirname(os.path.abspath(__file__)) + "\\originais\\bgg-13m-reviews.csv"
-arquivo_reviews_pre = os.path.dirname(os.path.abspath(__file__)) + "\\preprocessado\\bgg-13m-reviews.csv"
+raiz = 'C:\\Users\\Thiago\\Documents\\Repositorios\\UFJF\estrutura-de-dados-2\\src\\datasets\\'
 
-arquivo_game_details = os.path.dirname(os.path.abspath(__file__)) + "\\originais\\games_detailed_info.csv"
-arquivo_game_details_pre = os.path.dirname(os.path.abspath(__file__)) + "\\preprocessado\\games_detailed_info.csv"
-'''
+#raiz = ''
 
-arquivo_reviews = "originais\\bgg-13m-reviews.csv"
-arquivo_reviews_pre = "preprocessado\\bgg-13m-reviews.csv"
+arquivo_reviews = raiz + "originais\\bgg-13m-reviews.csv"
+arquivo_reviews_pre = raiz + "preprocessado\\bgg-13m-reviews.csv"
 
-arquivo_game_details = "originais\\games_detailed_info.csv"
-arquivo_game_details_pre = "preprocessado\\games_detailed_info.csv"
+arquivo_game_details = raiz + "originais\\games_detailed_info.csv"
+arquivo_game_details_pre = raiz + "preprocessado\\games_detailed_info.csv"
 
-arquivo_users_rated = "originais\\2019-05-02.csv"
-arquivo_users_rated_pre = "preprocessado\\2019-05-02.csv"
+arquivo_users_rated = raiz + "originais\\2019-05-02.csv"
+arquivo_users_rated_pre = raiz + "preprocessado\\2019-05-02.csv"
 
 
 debug = False
@@ -33,6 +28,7 @@ debug = False
 
 arquivo_pre = open(arquivo_reviews_pre, mode='w', encoding="utf8")
 cont = 0
+id_list = []#lista pra armazenar os ids já escritos
 
 with open(arquivo_reviews, encoding="utf8") as arquivo:
 
@@ -41,15 +37,26 @@ with open(arquivo_reviews, encoding="utf8") as arquivo:
     for row in csv_r:
         if(cont>20 and debug==True):
             break
+        
+        if(debug):
+            print(row)
 
         if(cont==0):
             arquivo_pre.write("id,user,rating\n")
         else:
-            id = row[4]
+            
+            id = row[0]#id registro. O row[4] é o id do jogo
             user = row[1].replace(',','&comma;')
             rating = row[2]
-
+            
+            #só salva chaves unicas no arquivo preprocessado
+            #if(id not in id_list):
+            #    arquivo_pre.write(id + ',' + user + ',' + rating + "\n")
+            #    id_list.append(id)
+            
             arquivo_pre.write(id + ',' + user + ',' + rating + "\n")
+            id_list.append(id)
+            
         cont+=1
         
 arquivo_pre.close()

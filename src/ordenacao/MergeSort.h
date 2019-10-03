@@ -1,6 +1,6 @@
 /**
     Universidade Federal de Juiz de Fora
-    BubbleSort.h
+    MergeSort.h
     Propósito: Implementação do algoritmo MergeSort.
 
     @author Luan Reis
@@ -21,6 +21,12 @@ class MergeSort
         MergeSort(){};
         ~MergeSort(){};
 
+        /**
+         * Ordenação para os tipos de dados do dataset
+         * @param vet Vetor de objetos
+         * @param inicio Posição de inicio do vetor
+         * @param fim Posição final do vetor
+         */
         void ordenar(T *vet, int inicio, int fim)
         {
             int meio;
@@ -33,6 +39,12 @@ class MergeSort
             }
         }
 
+        /**
+         * Ordenação para inteiros
+         * @param vet Vetor de objetos
+         * @param inicio Posição de inicio do vetor
+         * @param fim Posição final do vetor
+         */
         void ordenarInt(int *vet, int inicio, int fim)
         {
             int meio;

@@ -55,17 +55,21 @@ public:
         dataset=NULL;
     };
 
+    /**
+    * Metodo principal do teste
+    */
     void realizaTeste(){
 
         uint64_t inicio;
         string algoritmos[] = {"InsertionSort", "Quicksort    ", "Mergesort    ", "Heapsort     ", "Meusort      "};
         int numAlgoritmos = 5;
 
-        //inicia os vetores de teste
+        //cria os vetores de teste
         temposDeExecucao = new double*[numAlgoritmos];
         numeroDeComparacores = new uint64_t*[numAlgoritmos];
         numeroDeTrocas = new uint64_t*[numAlgoritmos];
 
+        //inicia os vetores de teste com zero
         for(int a=0; a<numAlgoritmos; a++){
             temposDeExecucao[a] = new double[numTestes];
             numeroDeComparacores[a] = new uint64_t[numTestes];
@@ -76,23 +80,26 @@ public:
                 numeroDeTrocas[a][t] = 0;
             }
         }
-        //cout << "0" << endl;
 
+        //Loop entre os testes do arquivo de configuração
         for(int t=0; t<numTestes; t++){
-            //Log::getInstance().line("\nExecutando o teste com " + to_string(testes[t]) + " registros.");
+
             cout << endl << "Executando o teste com " << testes[t] << " registros" << endl;
             tamVetorInt = testes[t];//marca aqui o tamanho do vetor de ints do teste
 
             //obtem dados do teste com a semente atual
-            carregaDadosTeste(t);
+            carregaDadosTeste(tamVetorInt);
 
-            int* copiaLocal;
+            int* copiaLocal;//copia do vetor de testes usada no algoritmo
             double tempo_teste;
 
             ////////// InsertionSort //////////
 
             copiaLocal = copiaLocalVetorInt();
-            //salvaVetor("insertionsort_fonte_"+to_string(tamVetorInt)+".csv", copiaLocal, tamVetorInt);
+
+            //debug - Salvar o vetor fonte
+            //salvaVetor("vetor_fonte_"+to_string(tamVetorInt)+".csv", copiaLocal, tamVetorInt);
+
             cout << "- InsertionSort" << endl;
 
             //inicia o algoritmo de ordenacao
@@ -108,6 +115,7 @@ public:
             numeroDeComparacores[0][t] = insertionSort->getNumComparacoes();
             numeroDeTrocas[0][t] = insertionSort->getNumTrocas();
 
+            //Debug - Salva o vetor ordenado pelo InsertionSort
             //salvaVetor("insertionsort_ordenado_"+to_string(tamVetorInt)+".csv", copiaLocal, tamVetorInt);
 
             //libera memoria desse teste
@@ -120,8 +128,6 @@ public:
 
             copiaLocal = copiaLocalVetorInt();
             cout << "- QuickSort" << endl;
-
-            //salvaVetor("quicksort_fonte_"+to_string(tamVetorInt)+".csv", copiaLocal, tamVetorInt);
 
             //inicia o algoritmo de ordenacao
             QuickSort<int> *quickSort = new QuickSort<int>();
@@ -136,6 +142,7 @@ public:
             numeroDeComparacores[1][t] = quickSort->getNumComparacoes();
             numeroDeTrocas[1][t] = quickSort->getNumTrocas();
 
+            //Debug - Salva o vetor ordenado pelo QuickSort
             //salvaVetor("quicksort_ordenado_"+to_string(tamVetorInt)+".csv", copiaLocal, tamVetorInt);
 
             //libera memoria desse teste
@@ -148,8 +155,6 @@ public:
 
             copiaLocal = copiaLocalVetorInt();
             cout << "- MergeSort" << endl;
-
-            //salvaVetor("mergesort_fonte_"+to_string(tamVetorInt)+".csv", copiaLocal, tamVetorInt);
 
             //inicia o algoritmo de ordenacao
             MergeSort<int> *mergeSort = new MergeSort<int>();
@@ -164,6 +169,7 @@ public:
             numeroDeComparacores[2][t] = mergeSort->getNumComparacoes();
             numeroDeTrocas[2][t] = mergeSort->getNumTrocas();
 
+            //Debug - Salva o vetor ordenado pelo MergeSort
             //salvaVetor("mergesort_ordenado_"+to_string(tamVetorInt)+".csv", copiaLocal, tamVetorInt);
 
             //libera memoria desse teste
@@ -173,7 +179,7 @@ public:
             copiaLocal = NULL;
 
             ////////// HeapSort //////////
-            /*
+
             copiaLocal = copiaLocalVetorInt();
             cout << "- HeapSort" << endl;
 
@@ -190,12 +196,15 @@ public:
             numeroDeComparacores[3][t] = heapSort->getNumComparacoes();
             numeroDeTrocas[3][t] = heapSort->getNumTrocas();
 
+            //Debug - Salva o vetor ordenado pelo HeapSort
+            salvaVetor("heapsort_ordenado_"+to_string(tamVetorInt)+".csv", copiaLocal, tamVetorInt);
+
             //libera memoria desse teste
             delete heapSort;
             delete[] copiaLocal;
             heapSort = NULL;
             copiaLocal = NULL;
-            */
+
             ////////// MeuSort (Radix) //////////
 
             copiaLocal = copiaLocalVetorInt();
@@ -210,9 +219,10 @@ public:
 
             //salva os resultados
             temposDeExecucao[4][t] = tempo_teste;
-            numeroDeComparacores[4][t] = 0;
+            numeroDeComparacores[4][t] = 0;//está zero porque o RadixSort é um algoritmo não comparativo
             numeroDeTrocas[4][t] = 0;
 
+            //Debug - Salva o vetor ordenado pelo RadixSort
             //salvaVetor("radixsort_ordenado_"+to_string(tamVetorInt)+".csv", copiaLocal, tamVetorInt);
 
             //libera memoria desse teste
@@ -241,13 +251,16 @@ private:
     int numTestes;
     int* testes;
     //UserReview *dataset;
-    int *dataset;
-    int* vetorInt;
-    int tamVetorInt;
+    int *dataset = NULL;
+    int* vetorInt = NULL;
+    int tamVetorInt = NULL;
     double** temposDeExecucao;
     uint64_t** numeroDeComparacores;
     uint64_t** numeroDeTrocas;
 
+    /**
+    * Carrega o arquivo de configuração do teste, que está na pasta 'entradas'
+    */
     void carregaConfiguracao(){
         string line;
         ifstream arqEntrada;
@@ -277,20 +290,39 @@ private:
         }
     }
 
-    void carregaDadosTeste(int n){
+    /**
+    * Carrega o vetor do tamanho especificado no arquivo da configuração de teste
+    * @param qtdDadosTeste Tamanho do vetor que vai ser obtido
+    */
+    void carregaDadosTeste(int qtdDadosTeste){
 
-        int qtdDadosTeste = testes[n];
-        //LeitorUserReviews *userReviews = new LeitorUserReviews(qtdDadosTeste);
-        //dataset = userReviews->getDataset();
-        //delete userReviews;//libera memória do leitor
+        LeitorUserReviews *userReviews = new LeitorUserReviews(qtdDadosTeste);
+        UserReview* dts = userReviews->getDataset();
 
-        GeradorSequencia *gs = new GeradorSequencia();
-        gs->gerarSequencia(qtdDadosTeste);
-        dataset = gs->getDataset();
+        if(dataset != NULL){
+            //limpa memoria se tiver alguma coisa nele
+            delete[] dataset;
+        }
+        this->dataset = new int[qtdDadosTeste];
 
-        delete gs;
+        //monta vetor de inteiros
+        for(int i=0; i<qtdDadosTeste; i++){
+            dataset[i] = dts[i].id;//+ somaAsciiFromString(dts[i].user);
+        }
+        delete userReviews;//libera memória do leitor
+
+        //essa parte do codigo gera uma sequencia aleatória de números
+        //GeradorSequencia *gs = new GeradorSequencia();
+        //gs->gerarSequencia(qtdDadosTeste);
+        //dataset = gs->getDataset();
+        //delete gs;
     }
 
+    /**
+    * Faz uma cópia do vetor de inteiros.
+    * Isso é usado porque os algoritmos modificam o vetor
+    * @return *int
+    */
     int* copiaLocalVetorInt(){
         int* copia = new int[tamVetorInt];
         for(int i=0; i<tamVetorInt; i++){
@@ -300,6 +332,24 @@ private:
         return copia;
     }
 
+    /**
+     * Soma os valores da posição do caractere na tabela ascii, dada a string
+     * @param str String pra somar
+     * @return int
+     */
+    int somaAsciiFromString(string str){
+        int ret = 0;
+        for(int i=0; i<str.length(); i++){
+            ret += int(str.at(i));
+        }
+        return ret;
+    }
+
+    /**
+    * Debug: Imprime o vetor de inteiros
+    * @param vetor Vetor de inteiros
+    * @param tam Tamanho do vetor
+    */
     void imprimeVetor(int *vetor, int tam){
         cout << "[";
         for(int i=0; i<tam; i++){
@@ -311,6 +361,12 @@ private:
         cout << "]" << endl;
     }
 
+    /**
+    * Debug: Salva o vetor de inteiros em um arquivo
+    * @param filename Nome do arquivo
+    * @param vetor Vetor de inteiros
+    * @param tam Tamanho do vetor
+    */
     void salvaVetor(string filename, int* vetor, int tam){
         ofstream arqSaida;
         //cout << caminhoArqSaida << endl;

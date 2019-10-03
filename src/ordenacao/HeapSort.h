@@ -18,6 +18,11 @@ public:
     HeapSort(){};
     ~HeapSort(){};
 
+    /**
+     * Ordenação para os tipos de dados do dataset
+     * @param v Vetor de objetos
+     * @param t Tamanho do vetor
+     */
     void ordenar(T *v, int n)
     {
         constroiHeap(n, v);
@@ -28,6 +33,11 @@ public:
         }
     }
 
+    /**
+     * Ordenação para inteiros
+     * @param v Vetor de inteiros
+     * @param t Tamanho do vetor
+     */
     void ordenarInt(int *v, int n)
     {
         constroiHeapInt(n, v);

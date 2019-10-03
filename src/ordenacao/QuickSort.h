@@ -21,6 +21,12 @@ class QuickSort
         QuickSort(){};
         ~QuickSort(){};
 
+        /**
+         * Ordenação para os tipos de dados do dataset
+         * @param vet Vetor de objetos
+         * @param inicio Posição de inicio do vetor
+         * @param fim Posição final do vetor
+         */
         void ordenar(T* vet,int inicio, int fim){
 
             if (inicio < fim)
@@ -33,8 +39,14 @@ class QuickSort
 
         };
 
+        /**
+         * Ordenação para inteiros
+         * @param vet Vetor de inteiros
+         * @param inicio Posição de inicio do vetor
+         * @param fim Posição final do vetor
+         */
         void ordenarInt(int* vet,int inicio, int fim){
-            
+
             if (inicio < fim)
             {
                 int p = particaoInt(vet, inicio, fim);
@@ -63,7 +75,7 @@ class QuickSort
         int particao(T* vet,int inicio, int fim){
 
             int i = inicio - 1;
-            
+
             int pivo = vet[fim];
             for(int j = inicio; j <= fim - 1; j++){
                 if(comparador(vet[j], pivo))
@@ -79,7 +91,7 @@ class QuickSort
         int particaoInt(int* vet,int inicio, int fim){
 
             int i = inicio - 1;
-            
+
             int pivo = vet[fim];
             for(int j = inicio; j <= fim - 1; j++){
                 if(comparadorInt(vet[j], pivo))

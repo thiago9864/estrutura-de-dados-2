@@ -13,8 +13,6 @@
 #include <time.h>
 #include <chrono>
 
-
-//#include "Memoria.h"
 #include "Log.h"
 //classes de entidade
 #include "UserReview.h"
@@ -42,15 +40,22 @@
 
 using namespace std;
 
-uint64_t unix_timestamp()
-{
-    uint64_t now = chrono::duration_cast<std::chrono::milliseconds>(chrono::system_clock::now().time_since_epoch()).count();
-    return now;
+void imprimeVetor(int *vetor, int tam){
+    cout << "[";
+    for(int i=0; i<tam; i++){
+        if(i>0){
+            cout << ", ";
+        }
+        cout << vetor[i];
+    }
+    cout << "]" << endl;
 }
+
 
 int main(int argc, char *argv[])
 {
     cout << "---------- INICIO -----------" << endl;
+
     /*
     int numRegistros = 5;
     LeitorGameInfo *gameInfo = new LeitorGameInfo(numRegistros);
@@ -140,28 +145,33 @@ int main(int argc, char *argv[])
 
     cout << endl << "Tempo de execucao: " << tempo << " seg" << endl;
     */
-   /*
-    int numRegistrosUsrReview = 5;
+/*
+    int numRegistrosUsrReview = 10;
     LeitorUserReviews *userReviewsHash = new LeitorUserReviews(numRegistrosUsrReview);
     UserReview *dataset4 = userReviewsHash->getDataset();
 
     EndSondagemLinear *endSondagemLinear = new EndSondagemLinear(numRegistrosUsrReview);
+    endSondagemLinear->resetContadores();
+
     for(int i=0; i<numRegistrosUsrReview; i++){
         endSondagemLinear->inserir(dataset4[i]);
     }
 
     endSondagemLinear->imprime();
     cout << "Numero de colisoes: " << endSondagemLinear->getNumColisoes() << endl;
+    cout << "Numero de comparacoes: " << endSondagemLinear->getNumComparacoes() << endl;
 
     EndSondagemQuadratica *endSondagemQuadratica = new EndSondagemQuadratica(numRegistrosUsrReview);
+    endSondagemQuadratica->resetContadores();
+
     for(int i=0; i<numRegistrosUsrReview; i++){
         endSondagemQuadratica->inserir(dataset4[i]);
     }
     endSondagemQuadratica->imprime();
-    cout << "Numero de colisoes (Sondagem Quadratica): " << endSondagemQuadratica->getNumColisoes() << endl;
-    cout << "Numero de colisoes (Sondagem Linear): " << endSondagemQuadratica->getNumColisoes() << endl;
-    */
+    cout << "Numero de colisoes: " << endSondagemQuadratica->getNumColisoes() << endl;
+    cout << "Numero de comparacoes: " << endSondagemQuadratica->getNumComparacoes() << endl;
 
+*/
     cout << "------ Teste dos cenarios -------" << endl;
 
 

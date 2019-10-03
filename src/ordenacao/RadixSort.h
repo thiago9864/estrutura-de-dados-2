@@ -14,6 +14,11 @@ public:
     RadixSort(){};
     ~RadixSort(){};
 
+    /**
+     * Ordenação para os tipos de dados do dataset
+     * @param vet Vetor de objetos
+     * @param n Tamanho do vetor
+     */
     void ordenar(T* vet, int n){
         T m = getMax(vet, n);
         for(int exp = 1; m.id/exp > 0; exp *= 10){
@@ -21,6 +26,11 @@ public:
         }
     };
 
+    /**
+     * Ordenação para inteiros
+     * @param vet Vetor de inteiros
+     * @param n Tamanho do vetor
+     */
     void ordenarInt(int* vet, int n){
         int m = getMaxInt(vet, n);
         for(int exp = 1; m/exp > 0; exp *= 10){
