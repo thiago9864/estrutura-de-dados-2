@@ -46,7 +46,7 @@ class HashEndAberto
                 int k = vetor[i].id + somaAsciiFromString(vetor[i].user);
                 int hs = funcaoHash(k, tamanho);
 
-                //coloca no hashmap
+                //coloca no HashingDuplo
                 if(hashMap[hs].userReview.id == -1){
                     //o espaço está vazio
                     hashMap[hs] = criaHashMapItem(hs, vetor[i]);

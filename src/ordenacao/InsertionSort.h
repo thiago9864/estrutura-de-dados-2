@@ -22,11 +22,11 @@ class InsertionSort
         ~InsertionSort(){};
 
         //metodos da classe
-        void ordenar(T* vetor, int tam){
-            for(int i=0; i<tam; i++){
+        void ordenar(T* vetor, int start, int finish){
+            for(int i=start; i<finish; i++){
                 T pivo=vetor[i];
                 int j=i-1;
-                while(j>=0 && vetor[j].id > pivo.id){
+                while(j>=start && vetor[j].id > pivo.id){
                     vetor[j+1] = vetor[j];
                     j-=1;
                 }
