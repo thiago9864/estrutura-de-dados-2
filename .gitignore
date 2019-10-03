@@ -142,3 +142,4 @@ obj/
 src/datasets/originais/
 src/datasets/preprocessado/
 src/saidas/
+src/.idea/workspace.xml

@@ -15,7 +15,7 @@ public:
     ~RadixSort(){};
 
     /**
-     * Ordenação para os tipos de dados do dataset
+     * Ordenaï¿½ï¿½o para os tipos de dados do dataset
      * @param vet Vetor de objetos
      * @param n Tamanho do vetor
      */
@@ -27,7 +27,7 @@ public:
     };
 
     /**
-     * Ordenação para inteiros
+     * Ordenaï¿½ï¿½o para inteiros
      * @param vet Vetor de inteiros
      * @param n Tamanho do vetor
      */
@@ -43,7 +43,6 @@ public:
             cout << vet[i].id << " ";
         }
     }
-
 private:
 
     T getMax(T* vet, int n){

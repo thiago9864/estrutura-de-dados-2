@@ -29,169 +29,283 @@
 #include "ordenacao/SelectionSort.h"
 #include "ordenacao/MergeSort.h"
 #include "ordenacao/QuickSort.h"
-//hashing
-#include "hashing/EndSondagemLinear.h"
-#include "hashing/EndSondagemQuadratica.h"
-//cenarios
-#include "cenarios/Cenario1.h"
-#include "cenarios/Cenario2.h"
-#include "cenarios/Cenario3.h"
-#include "cenarios/Cenario4.h"
+#include "ordenacao/HeapSort.h"
+#include "ordenacao/QuickSortInsertion.h"
+#include "ordenacao/RadixSort.h"
 
 using namespace std;
 
-void imprimeVetor(int *vetor, int tam){
-    cout << "[";
-    for(int i=0; i<tam; i++){
-        if(i>0){
-            cout << ", ";
-        }
-        cout << vetor[i];
-    }
-    cout << "]" << endl;
+void mainMenu();
+void ordenacaoSubMenu();
+void hashingSubMenu();
+void cenariosSubMenu();
+
+
+uint64_t unix_timestamp()
+{
+    uint64_t now = chrono::duration_cast<std::chrono::milliseconds>(chrono::system_clock::now().time_since_epoch()).count();
+    return now;
 }
+
 
 
 int main(int argc, char *argv[])
 {
+
     cout << "---------- INICIO -----------" << endl;
 
+    mainMenu();
+
     /*
-    int numRegistros = 5;
-    LeitorGameInfo *gameInfo = new LeitorGameInfo(numRegistros);
-
-    GameInfo *dataset = gameInfo->getDataset();
-
-    cout << numRegistros << " registros do arquivo de Game Info" << endl;
-
-
-    for(int i=0; i<numRegistros; i++){
-        GameInfo gameInfo = dataset[i];
-        cout << "id: " << gameInfo.id << ", boardgamecategory: ";
-        for(int j=0; j<gameInfo.boardgamecategory.size(); j++){
-            cout << gameInfo.boardgamecategory[j] << ", ";
-        }
-        cout << endl;
-    }
-
-    //////////////////
-    cout << endl;
-
-    LeitorUserReviews *userReviews = new LeitorUserReviews(numRegistros);
-
-    UserReview *dataset2 = userReviews->getDataset();
-
-    cout << numRegistros << " registros do arquivo de User Reviews" << endl;
-
-
-    for(int i=0; i<numRegistros; i++){
-        UserReview userReview = dataset2[i];
-        cout << "id: " << userReview.id << ", ";
-        cout << "user: " << userReview.user << ", ";
-        cout << "rating: " << userReview.rating << endl;
-    }
-
-
-    //////////////////
-    cout << endl;
-*/
-/*
-    int numRegistros = 50;
-
-    LeitorUsersRated *usersRated = new LeitorUsersRated(numRegistros);
-
-    UsersRated *dataset3 = usersRated->getDataset();
-
-    cout << numRegistros << " registros do arquivo de Users Rated" << endl;
-
-    for(int i=0; i<numRegistros; i++){
-        cout << "id: " << dataset3[i].id << ", ";
-        cout << "users rated: " << dataset3[i].usersRated << endl;
-    }
-
-    uint64_t inicio = unix_timestamp();
-
-    //BubbleSort<UsersRated> *bubbleSort = new BubbleSort<UsersRated>();
-    //bubbleSort->ordenar(dataset3, numRegistros);
-
-    InsertionSort<UsersRated> *insertionSort = new InsertionSort<UsersRated>();
-    insertionSort->ordenar(dataset3, numRegistros);
-
-    //SelectionSort<UsersRated> *selectionSort = new SelectionSort<UsersRated>();
-    //selectionSort->ordenar(dataset3, numRegistros);
-
-    //MergeSort<UsersRated> *mergeSort = new MergeSort<UsersRated>();
-    //mergeSort->ordenar(dataset3, 0, numRegistros-1);
-
-    //QuickSort<UsersRated> *quickSort = new QuickSort<UsersRated>();
-    //quickSort->ordenar(dataset3, 0, numRegistros-1);
-    */
-/*
     //calcula o tempo
+    uint64_t inicio = unix_timestamp();
+    //O que deve ser usado fica entre eles
     uint64_t fim = unix_timestamp();
     double tempo = (fim-inicio)/(double)1000;
-
-
-    //imprime o vetor
-
-    cout << "registros do arquivo de Users Rated ordenados" << endl;
-    for(int i=0; i<numRegistrosUsrRated; i++){
-        cout << "id: " << dataset3[i].id << ", ";
-        cout << "users rated: " << dataset3[i].usersRated << endl;
-    }
-
-
-    cout << inicio << ", " << fim << endl;
-
-    cout << endl << "Tempo de execucao: " << tempo << " seg" << endl;
     */
-/*
-    int numRegistrosUsrReview = 10;
-    LeitorUserReviews *userReviewsHash = new LeitorUserReviews(numRegistrosUsrReview);
-    UserReview *dataset4 = userReviewsHash->getDataset();
-
-    EndSondagemLinear *endSondagemLinear = new EndSondagemLinear(numRegistrosUsrReview);
-    endSondagemLinear->resetContadores();
-
-    for(int i=0; i<numRegistrosUsrReview; i++){
-        endSondagemLinear->inserir(dataset4[i]);
-    }
-
-    endSondagemLinear->imprime();
-    cout << "Numero de colisoes: " << endSondagemLinear->getNumColisoes() << endl;
-    cout << "Numero de comparacoes: " << endSondagemLinear->getNumComparacoes() << endl;
-
-    EndSondagemQuadratica *endSondagemQuadratica = new EndSondagemQuadratica(numRegistrosUsrReview);
-    endSondagemQuadratica->resetContadores();
-
-    for(int i=0; i<numRegistrosUsrReview; i++){
-        endSondagemQuadratica->inserir(dataset4[i]);
-    }
-    endSondagemQuadratica->imprime();
-    cout << "Numero de colisoes: " << endSondagemQuadratica->getNumColisoes() << endl;
-    cout << "Numero de comparacoes: " << endSondagemQuadratica->getNumComparacoes() << endl;
-
-*/
-    cout << "------ Teste dos cenarios -------" << endl;
-
-
-    //Cenario1* c1 = new Cenario1("Cenario1.txt", "cenario1_teste1.txt");
-
-    //Cenario2* c2 = new Cenario2("Cenario2.txt", "cenario2_teste1.txt");
-
-    Cenario3* c3 = new Cenario3("Cenario3.txt", "cenario3_teste1.txt");
-    c3->realizaTeste();
-
-    //Cenario4* c4 = new Cenario4("Cenario4.txt", "cenario4_teste1.txt");
 
     return 0;
 }
-/*
-6
-1000
-5000
-10000
-50000
-100000
-500000
-*/
+
+void mainMenu(){
+    string userInput;
+    int numberUserInput;
+    bool exit = false;
+
+    while(!exit){
+        cout << "Qual das partes do trabalho voce quer executar?" << endl;
+        cout << "(1) - Ordenacao" << endl;
+        cout << "(2) - Hashing" << endl;
+        cout << "(3) - Cenarios" << endl;
+        cout << "(0) - Sair" << endl;
+        cout << "Numero desejado: ";
+        cin >> userInput;
+        numberUserInput = stoi(userInput);
+
+        switch (numberUserInput){
+            case 1:{
+                ordenacaoSubMenu();
+                break;
+            }
+            case 2:{
+                hashingSubMenu();
+                break;
+            }
+            case 3:{
+                cenariosSubMenu();
+                break;
+            }
+            case 0:{
+                exit = true;
+                break;
+            }
+            default:{
+                cout << "Valor invalido! Insira outro" << endl;
+            }
+        }
+    }
+}
+
+void ordenacaoSubMenu(){
+    string stringNItemsImportados;
+    cout << "Quantos itens voce quer importar? ";
+    cin >> stringNItemsImportados;
+    int nItemsImportados = stoi(stringNItemsImportados);
+
+    auto *usersRated = new LeitorUsersRated(nItemsImportados);
+    UsersRated *dataset3 = usersRated->getDataset();
+    cout << nItemsImportados << "  Importados com sucesso" << endl << endl;
+
+    string userInput;
+    int numberUserInput;
+    bool exit = false;
+    while(!exit){
+        cout << "Qual das partes de ordenacao voce quer executar?" << endl;
+        cout << "(1) - BubbleSort" << endl;
+        cout << "(2) - HeapSort" << endl;
+        cout << "(3) - InsertionSort" << endl;
+        cout << "(4) - MergeSort" << endl;
+        cout << "(5) - SelectionSort" << endl;
+        cout << "(6) - QuickSort" << endl;
+        cout << "(7) - QuickSort Insertion" << endl;
+        cout << "(8) - RadixSort" << endl;
+        cout << "(9) - Mudar o numero de importacoes" << endl;
+        cout << "(0) - Sair" << endl;
+        cout << "Numero desejado: ";
+        cin >> userInput;
+        numberUserInput = stoi(userInput);
+
+        switch (numberUserInput){
+            case 1:{
+                auto *bubbleSort = new BubbleSort<UsersRated>();
+                bubbleSort->ordenar(dataset3, nItemsImportados);
+                break;
+            }
+            case 2:{
+                auto *heapSort = new HeapSort<UsersRated>();
+                heapSort->ordenar(dataset3, nItemsImportados - 1);
+                break;
+            }
+            case 3:{
+                auto *insertionSort = new InsertionSort<UsersRated>();
+                insertionSort->ordenar(dataset3,0 , nItemsImportados - 1);
+                break;
+            }
+            case 4:{
+                auto *mergeSort = new MergeSort<UsersRated>();
+                mergeSort->ordenar(dataset3, 0, nItemsImportados - 1);
+            }
+            case 5:{
+                auto *selectionSort = new SelectionSort<UsersRated>();
+                selectionSort->ordenar(dataset3, nItemsImportados);
+                break;
+            }
+            case 6:{
+                auto *quickSort = new QuickSort<UsersRated>();
+                quickSort->ordenar(dataset3, 0, nItemsImportados - 1);
+                break;
+            }
+            case 7:{
+                string stringNMaxInsertion;
+                cout << "A qual o tamanho maximo para o insertionSort ser usado? ";
+                cin >> stringNMaxInsertion;
+                int nMaxInsertion = stoi(stringNMaxInsertion);
+                auto *quickSortInsertion = new QuickSortInsertion<UsersRated>();
+                quickSortInsertion->ordenar(dataset3, 0, nItemsImportados - 1, nMaxInsertion);
+                break;
+            }
+            case 8:{
+                auto *radixSort = new RadixSort<UsersRated>();
+                radixSort->ordenar(dataset3, nItemsImportados);
+                break;
+            }
+            case 9:{
+                exit = true;
+                ordenacaoSubMenu();
+                break;
+            }
+            case 0:{
+                exit = true;
+                break;
+            }
+            default: cout << "Valor invalido! Insira outro" << endl;
+        }
+    }
+}
+
+void hashingSubMenu(){
+    string stringNItemsImportados;
+    cout << "Quantos itens voce quer importar? ";
+    cin >> stringNItemsImportados;
+    int nItemsImportados = stoi(stringNItemsImportados);
+
+    auto *userReviews = new LeitorUserReviews(nItemsImportados);
+    UserReview *dataset3 = userReviews->getDataset();
+    cout << nItemsImportados << "  Importados com sucesso" << endl << endl;
+
+    string userInput;
+    int numberUserInput;
+    bool exit = false;
+
+    while(!exit){
+        cout << "Qual das partes de hashing voce quer executar?" << endl;
+        cout << "(1) - Hashing com Endereçamento Linear" << endl;
+        cout << "(2) - Hashing com Endereçamento Quadratico" << endl;
+        cout << "(3) - Hashing com Duplo Hash" << endl;
+        cout << "(4) - Hashing com Encadeamento Separado" << endl;
+        cout << "(5) - Hashing com Encadeamento Coalescido" << endl;
+        cout << "(9) - Mudar o numero de importacoes" << endl;
+        cout << "(0) - Sair" << endl;
+        cout << "Numero desejado: ";
+        cin >> userInput;
+        numberUserInput = stoi(userInput);
+
+        switch (numberUserInput){
+            case 1:{
+                //TODO: Implementar Hashing com Endereçamento Linear
+                cout << "Codigo solicitado não concluido por enquanto" << endl;
+                break;
+            }
+            case 2:{
+                //TODO: Implementar Hashing com Endereçamento Quadratico
+                cout << "Codigo solicitado não concluido por enquanto" << endl;
+                break;
+            }
+            case 3:{
+                //TODO: Implementar Hashing com Duplo Hash
+                cout << "Codigo solicitado não concluido por enquanto" << endl;
+                break;
+            }
+            case 4:{
+                //TODO: Implementar Hashing com Encadeamento Separado
+                cout << "Codigo solicitado não concluido por enquanto" << endl;
+                break;
+            }
+            case 5:{
+                //TODO: Implementar Hashing com Encadeamento Coalescido
+                cout << "Codigo solicitado não concluido por enquanto" << endl;
+                break;
+            }
+            case 9:{
+                exit = true;
+                hashingSubMenu();
+                break;
+            }
+            case 0:{
+                exit = true;
+                break;
+            }
+            default:{
+                cout << "Valor invalido! Insira outro" << endl;
+            }
+        }
+    }
+}
+
+void cenariosSubMenu(){
+    string userInput;
+    int numberUserInput;
+    bool exit = false;
+
+    while(!exit){
+        cout << "Qual dos cenarios voce quer executar?" << endl;
+        cout << "(1) - Cenario 1 - Impacto de diferences estruturas de dados" << endl;
+        cout << "(2) - Cenario 2 - Impacto de variacoes do QuickSort" << endl;
+        cout << "(3) - Cenario 3 - QuickSort X InsertionSort X MergeSort X HeapSort X MeuSort(RadixSort)" << endl;
+        cout << "(4) - Cenario 4 - Tratamento de Colisoes: Enderecamento X Encadeamento" << endl;
+        cout << "(0) - Sair" << endl;
+        cout << "Numero desejado: ";
+        cin >> userInput;
+        numberUserInput = stoi(userInput);
+
+        switch (numberUserInput){
+            case 1:{
+                //TODO: Implementar Cenario 1
+                cout << "Codigo solicitado não concluido por enquanto" << endl;
+                break;
+            }
+            case 2:{
+                //TODO: Implementar Cenario 2
+                cout << "Codigo solicitado não concluido por enquanto" << endl;
+                break;
+            }
+            case 3:{
+                //TODO: Implementar Cenario 3
+                cout << "Codigo solicitado não concluido por enquanto" << endl;
+                break;
+            }
+            case 4:{
+                //TODO: Implementar Cenario 4
+                cout << "Codigo solicitado não concluido por enquanto" << endl;
+                break;
+            }
+            case 0:{
+                exit = true;
+                break;
+            }
+            default:{
+                cout << "Valor invalido! Insira outro" << endl;
+            }
+        }
+    }
+}
