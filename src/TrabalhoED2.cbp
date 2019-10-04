@@ -54,6 +54,7 @@
 		<Unit filename="ordenacao/InsertionSort.h" />
 		<Unit filename="ordenacao/MergeSort.h" />
 		<Unit filename="ordenacao/QuickSort.h" />
+		<Unit filename="ordenacao/QuickSortInsertion.h" />
 		<Unit filename="ordenacao/RadixSort.h" />
 		<Unit filename="ordenacao/SelectionSort.h" />
 		<Extensions>

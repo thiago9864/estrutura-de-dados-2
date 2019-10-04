@@ -6,23 +6,27 @@
     MAC/LINUX:  clear && g++ -std=c++11 main.cpp -o main && ./main
     WINDOWS:    cls & g++ -std=c++11 main.cpp -o main & main.exe
 
-    @author Thiago Almeida
-    @version 1.0 07/08/19
+    @author Lucas Ribeiro, Thiago Almeida
+    @version 2.0 03/10/19
 */
 #include <iostream>
 #include <time.h>
 #include <chrono>
 
 #include "Log.h"
+#include "LeitorBase.h"
+
 //classes de entidade
 #include "UserReview.h"
 #include "GameInfo.h"
 #include "UsersRated.h"
+
 //classes de leitura
 #include "LeitorGameInfo.h"
 #include "LeitorUserReviews.h"
 #include "LeitorUsersRated.h"
 #include "GeradorSequencia.h"
+
 //ordenação
 #include "ordenacao/BubbleSort.h"
 #include "ordenacao/InsertionSort.h"
@@ -33,6 +37,14 @@
 #include "ordenacao/QuickSortInsertion.h"
 #include "ordenacao/RadixSort.h"
 
+//hashing
+#include "hashing/EndSondagemLinear.h"
+#include "hashing/EndSondagemQuadratica.h"
+//#include "hashing/HashingDuplo.h"
+
+//cenarios
+#include "cenarios/Cenario3.h"
+
 using namespace std;
 
 void mainMenu();
@@ -40,14 +52,15 @@ void ordenacaoSubMenu();
 void hashingSubMenu();
 void cenariosSubMenu();
 
-
-uint64_t unix_timestamp()
-{
-    uint64_t now = chrono::duration_cast<std::chrono::milliseconds>(chrono::system_clock::now().time_since_epoch()).count();
-    return now;
+//essa função faz uma copia do dataset, pois os metodos de ordenação modificam o vetor
+template <class T>
+T* copiaDataset(T *vetor, int tam){
+    T *ret = new T[tam];
+    for(int i=0; i<tam; i++){
+        ret[i] = vetor[i];
+    }
+    return ret;
 }
-
-
 
 int main(int argc, char *argv[])
 {
@@ -55,14 +68,6 @@ int main(int argc, char *argv[])
     cout << "---------- INICIO -----------" << endl;
 
     mainMenu();
-
-    /*
-    //calcula o tempo
-    uint64_t inicio = unix_timestamp();
-    //O que deve ser usado fica entre eles
-    uint64_t fim = unix_timestamp();
-    double tempo = (fim-inicio)/(double)1000;
-    */
 
     return 0;
 }
@@ -116,6 +121,9 @@ void ordenacaoSubMenu(){
     UsersRated *dataset3 = usersRated->getDataset();
     cout << nItemsImportados << "  Importados com sucesso" << endl << endl;
 
+    //medição de tempo
+    LeitorBase base;
+
     string userInput;
     int numberUserInput;
     bool exit = false;
@@ -135,34 +143,62 @@ void ordenacaoSubMenu(){
         cin >> userInput;
         numberUserInput = stoi(userInput);
 
+        //faz uma copia do dataset pra ser ordenada
+        UsersRated *aux_dataset = copiaDataset<UsersRated>(dataset3, nItemsImportados);
+
         switch (numberUserInput){
             case 1:{
                 auto *bubbleSort = new BubbleSort<UsersRated>();
-                bubbleSort->ordenar(dataset3, nItemsImportados);
+                base.timerStart();
+                bubbleSort->ordenar(aux_dataset, nItemsImportados);
+                cout << "Concluiu em " << base.timerEnd() << " segundos." << endl << endl;
+                delete bubbleSort;
+                bubbleSort = NULL;
                 break;
             }
             case 2:{
                 auto *heapSort = new HeapSort<UsersRated>();
-                heapSort->ordenar(dataset3, nItemsImportados - 1);
+                base.timerStart();
+                heapSort->ordenar(aux_dataset, nItemsImportados);
+                cout << "Concluiu em " << base.timerEnd() << " segundos." << endl << endl;
+                delete heapSort;
+                heapSort = NULL;
                 break;
             }
             case 3:{
                 auto *insertionSort = new InsertionSort<UsersRated>();
-                insertionSort->ordenar(dataset3,0 , nItemsImportados - 1);
+                base.timerStart();
+                insertionSort->ordenar(aux_dataset, nItemsImportados);
+                cout << "Concluiu em " << base.timerEnd() << " segundos." << endl << endl;
+                delete insertionSort;
+                insertionSort = NULL;
                 break;
             }
             case 4:{
                 auto *mergeSort = new MergeSort<UsersRated>();
-                mergeSort->ordenar(dataset3, 0, nItemsImportados - 1);
+                base.timerStart();
+                mergeSort->ordenar(aux_dataset, 0, nItemsImportados - 1);
+                cout << "Concluiu em " << base.timerEnd() << " segundos." << endl << endl;
+                delete mergeSort;
+                mergeSort = NULL;
+                break;
             }
             case 5:{
                 auto *selectionSort = new SelectionSort<UsersRated>();
-                selectionSort->ordenar(dataset3, nItemsImportados);
+                base.timerStart();
+                selectionSort->ordenar(aux_dataset, nItemsImportados);
+                cout << "Concluiu em " << base.timerEnd() << " segundos." << endl << endl;
+                delete selectionSort;
+                selectionSort = NULL;
                 break;
             }
             case 6:{
                 auto *quickSort = new QuickSort<UsersRated>();
-                quickSort->ordenar(dataset3, 0, nItemsImportados - 1);
+                base.timerStart();
+                quickSort->ordenar(aux_dataset, 0, nItemsImportados - 1);
+                cout << "Concluiu em " << base.timerEnd() << " segundos." << endl << endl;
+                delete quickSort;
+                quickSort = NULL;
                 break;
             }
             case 7:{
@@ -171,16 +207,26 @@ void ordenacaoSubMenu(){
                 cin >> stringNMaxInsertion;
                 int nMaxInsertion = stoi(stringNMaxInsertion);
                 auto *quickSortInsertion = new QuickSortInsertion<UsersRated>();
-                quickSortInsertion->ordenar(dataset3, 0, nItemsImportados - 1, nMaxInsertion);
+                base.timerStart();
+                quickSortInsertion->ordenar(aux_dataset, 0, nItemsImportados - 1, nMaxInsertion);
+                cout << "Concluiu em " << base.timerEnd() << " segundos." << endl << endl;
+                delete quickSortInsertion;
+                quickSortInsertion = NULL;
                 break;
             }
             case 8:{
                 auto *radixSort = new RadixSort<UsersRated>();
-                radixSort->ordenar(dataset3, nItemsImportados);
+                base.timerStart();
+                radixSort->ordenar(aux_dataset, nItemsImportados);
+                cout << "Concluiu em " << base.timerEnd() << " segundos." << endl << endl;
+                delete radixSort;
+                radixSort = NULL;
                 break;
             }
             case 9:{
                 exit = true;
+                delete[] aux_dataset;
+                aux_dataset = NULL;
                 ordenacaoSubMenu();
                 break;
             }
@@ -189,6 +235,10 @@ void ordenacaoSubMenu(){
                 break;
             }
             default: cout << "Valor invalido! Insira outro" << endl;
+        }
+        if(aux_dataset != NULL){
+            delete[] aux_dataset;
+            aux_dataset = NULL;
         }
     }
 }
@@ -202,6 +252,9 @@ void hashingSubMenu(){
     auto *userReviews = new LeitorUserReviews(nItemsImportados);
     UserReview *dataset3 = userReviews->getDataset();
     cout << nItemsImportados << "  Importados com sucesso" << endl << endl;
+
+    //medição de tempo
+    LeitorBase base;
 
     string userInput;
     int numberUserInput;
@@ -222,13 +275,35 @@ void hashingSubMenu(){
 
         switch (numberUserInput){
             case 1:{
-                //TODO: Implementar Hashing com Endereçamento Linear
-                cout << "Codigo solicitado não concluido por enquanto" << endl;
+                auto *endSondagemLinear = new EndSondagemLinear(nItemsImportados);
+                endSondagemLinear->resetContadores();
+                base.timerStart();
+                //faz a inserção dos registros
+                for(int i=0; i<nItemsImportados; i++){
+                    endSondagemLinear->inserir(dataset3[i]);
+                }
+                //resultados
+                cout << "Concluiu em " << base.timerEnd() << " segundos." << endl;
+                cout << "Numero de colisoes: " << endSondagemLinear->getNumColisoes() << endl;
+                cout << "Numero de comparacoes: " << endSondagemLinear->getNumComparacoes() << endl << endl;
+                delete endSondagemLinear;
+                endSondagemLinear = NULL;
                 break;
             }
             case 2:{
-                //TODO: Implementar Hashing com Endereçamento Quadratico
-                cout << "Codigo solicitado não concluido por enquanto" << endl;
+                auto *endSondagemQuadratica = new EndSondagemQuadratica(nItemsImportados);
+                endSondagemQuadratica->resetContadores();
+                base.timerStart();
+                //faz a inserção dos registros
+                for(int i=0; i<nItemsImportados; i++){
+                    endSondagemQuadratica->inserir(dataset3[i]);
+                }
+                //resultados
+                cout << "Concluiu em " << base.timerEnd() << " segundos." << endl;
+                cout << "Numero de colisoes: " << endSondagemQuadratica->getNumColisoes() << endl;
+                cout << "Numero de comparacoes: " << endSondagemQuadratica->getNumComparacoes() << endl << endl;
+                delete endSondagemQuadratica;
+                endSondagemQuadratica = NULL;
                 break;
             }
             case 3:{
@@ -290,8 +365,9 @@ void cenariosSubMenu(){
                 break;
             }
             case 3:{
-                //TODO: Implementar Cenario 3
-                cout << "Codigo solicitado não concluido por enquanto" << endl;
+                auto *cenario3 = new Cenario3("Cenario3.txt", "cenario3.txt");
+                cenario3->realizaTeste();
+                delete cenario3;
                 break;
             }
             case 4:{

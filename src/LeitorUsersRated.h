@@ -1,7 +1,7 @@
 /**
     Universidade Federal de Juiz de Fora
     LeitorUsersRated.h
-    Propósito: Leitor do arquivo pre processado '2019-05-02.csv' 
+    Propósito: Leitor do arquivo pre processado '2019-05-02.csv'
 
     @version 1.0 21/08/19
 */
@@ -25,7 +25,7 @@ class LeitorUsersRated : protected LeitorBase
             this->numRegistros = numRegistros;
             lerArquivo();
         };
-        ~LeitorUsersRated(){}; 
+        ~LeitorUsersRated(){};
 
         UsersRated* getDataset(){
             return dataset;
@@ -48,7 +48,8 @@ class LeitorUsersRated : protected LeitorBase
             //verifica se o arquivo foi aberto
             if (!arqEntrada || !arqEntrada.is_open())
             {
-                cout << "Impossivel abrir o arquivo para leitura";
+                cout << "Impossivel abrir o arquivo '2019-05-02.csv' para leitura";
+                cout << "Verifique a pasta 'datasets' pela pasta 'preprocessado'. Nela deve estar o arquivo" << endl;
                 exit(1); // sai do programa se nao conseguir abrir o arquivo
             }
 
@@ -61,7 +62,7 @@ class LeitorUsersRated : protected LeitorBase
             int numPulos = 0;
             int maxPulo = (16000 - numRegistros) / numRegistros;
             //int ind=0;
-            
+
             while (getline(arqEntrada, line))
             {
                 vector<string> result = explode(line, ',');
@@ -114,7 +115,7 @@ class LeitorUsersRated : protected LeitorBase
                             //quando os ponteiros de inicio e fim forem iguais
                             //o vetor foi totalmente preenchido
                             break;
-                        }   
+                        }
                     } else {
                         //pula os numeros
                         numPulos--;

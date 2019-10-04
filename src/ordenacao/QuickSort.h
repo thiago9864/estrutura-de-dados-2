@@ -76,7 +76,7 @@ class QuickSort
 
             int i = inicio - 1;
 
-            int pivo = vet[fim];
+            T pivo = vet[fim];
             for(int j = inicio; j <= fim - 1; j++){
                 if(comparador(vet[j], pivo))
                 {

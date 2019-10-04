@@ -16,12 +16,14 @@ public:
     QuickSortInsertion(){
         this->inSorter = new InsertionSort<T>();
     };
-    ~QuickSortInsertion();
+    ~QuickSortInsertion(){
+        delete this->inSorter;
+    }
 
     void ordenar(T* vet,int inicio, int fim, int m){
 
         if(inicio - fim <= m){
-        inSorter.ordenar(vet, inicio, fim);
+            inSorter->ordenarQuick(vet, inicio, fim);
         }
         if (inicio < fim)
         {
@@ -35,7 +37,8 @@ public:
 
 private:
 
-    InsertionSort<T> inSorter;
+    InsertionSort<T> *inSorter;
+
     int particao(T* vet,int inicio, int fim){
 
         int i = inicio - 1;

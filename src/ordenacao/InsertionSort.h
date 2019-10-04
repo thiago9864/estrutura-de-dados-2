@@ -39,6 +39,24 @@ class InsertionSort
         }
 
         /**
+         * Ordenação para os tipos de dados do dataset otimizado para o QuickSortInsertion
+         * @param vetor Vetor de objetos
+         * @param start Posicao inicial do vetor
+         * @param finish Posição final do vetor
+         */
+        void ordenarQuick(T* vetor, int start, int finish){
+            for(int i=start; i<finish; i++){
+                T pivo=vetor[i];
+                int j=i-1;
+                while(j>=start && comparador(vetor[j], pivo)){
+                    vetor[j+1] = vetor[j];
+                    j-=1;
+                }
+                vetor[j+1] = pivo;
+            }
+        }
+
+        /**
          * Ordenação para inteiros
          * @param vetor Vetor de inteiros
          * @param tam Tamanho do vetor
@@ -50,6 +68,24 @@ class InsertionSort
                 int j=i-1;
                 while(j>=0 && comparadorInt(vetor[j], pivo)){
                     troca(vetor, j+1, j);
+                    j-=1;
+                }
+                vetor[j+1] = pivo;
+            }
+        }
+
+        /**
+         * Ordenação para os tipos de dados do dataset otimizado para o QuickSortInsertion
+         * @param vetor Vetor de objetos
+         * @param start Posicao inicial do vetor
+         * @param finish Posição final do vetor
+         */
+        void ordenarIntQuick(T* vetor, int start, int finish){
+            for(int i=start; i<finish; i++){
+                T pivo=vetor[i];
+                int j=i-1;
+                while(j>=start && comparadorInt(vetor[j], pivo)){
+                    vetor[j+1] = vetor[j];
                     j-=1;
                 }
                 vetor[j+1] = pivo;

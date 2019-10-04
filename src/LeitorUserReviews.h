@@ -49,7 +49,8 @@ class LeitorUserReviews : protected LeitorBase
             //verifica se o arquivo foi aberto
             if (!arqEntrada || !arqEntrada.is_open())
             {
-                cout << "Impossivel abrir o arquivo para leitura";
+                cout << "Impossivel abrir o arquivo 'bgg-13m-reviews.csv' para leitura";
+                cout << "Verifique a pasta 'datasets' pela pasta 'preprocessado'. Nela deve estar o arquivo" << endl;
                 exit(1); // sai do programa se nao conseguir abrir o arquivo
             }
 

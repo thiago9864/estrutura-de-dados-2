@@ -1,7 +1,7 @@
 /**
     Universidade Federal de Juiz de Fora
     LeitorGameInfo.h
-    Propósito: Leitor do arquivo pre processado'games_detailed_info.csv' 
+    Propósito: Leitor do arquivo pre processado'games_detailed_info.csv'
 
     @version 1.0 19/08/19
 */
@@ -24,9 +24,9 @@ class LeitorGameInfo : protected LeitorBase
         LeitorGameInfo(int numRegistros){
             this->caminhoArquivo = this->getDiretorioPreprocessado()+"games_detailed_info.csv";
             this->numRegistros = numRegistros;
-            lerArquivo();            
+            lerArquivo();
         };
-        ~LeitorGameInfo(){}; 
+        ~LeitorGameInfo(){};
 
         GameInfo* getDataset(){
             return dataset;
@@ -51,10 +51,11 @@ class LeitorGameInfo : protected LeitorBase
             //verifica se o arquivo foi aberto
             if (!arqEntrada || !arqEntrada.is_open())
             {
-                cout << "Impossivel abrir o arquivo para leitura";
+                cout << "Impossivel abrir o arquivo 'games_detailed_info.csv' para leitura";
+                cout << "Verifique a pasta 'datasets' pela pasta 'preprocessado'. Nela deve estar o arquivo" << endl;
                 exit(1); // sai do programa se nao conseguir abrir o arquivo
             }
-            
+
             //gera a semente do processo randomico
             this->gerarSemente();
 
@@ -121,7 +122,7 @@ class LeitorGameInfo : protected LeitorBase
                     } else {
                         //pula os numeros
                         numPulos--;
-                    } 
+                    }
                 }
             }
 

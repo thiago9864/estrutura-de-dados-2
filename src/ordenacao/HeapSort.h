@@ -7,6 +7,9 @@
     @version 2.0 03/10/19
 */
 
+#ifndef HEAPSORT_H
+#define HEAPSORT_H
+
 #include <iostream>
 
 using namespace std;
@@ -71,9 +74,9 @@ private:
 
         while(p > -1)
         {
-            int pai = vet[p];
-            int filho1 = vet[2*p];
-            int filho2 = vet[2*p+1];
+            T pai = vet[p];
+            T filho1 = vet[2*p];
+            T filho2 = vet[2*p+1];
 
             if(2*p+1 >= tam)
             {
@@ -165,3 +168,5 @@ private:
     }
 
 };
+
+#endif // HEAPSORT_H
