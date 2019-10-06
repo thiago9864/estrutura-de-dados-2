@@ -28,7 +28,10 @@ class QuickSort
          * @param fim Posição final do vetor
          */
         void ordenar(T* vet,int inicio, int fim){
-
+            num_recursoes++;
+            if(num_recursoes % 100 == 0){
+                cout << "recursao >>>: " << num_recursoes << endl;
+            }
             if (inicio < fim)
             {
                 int p = particao(vet,inicio,fim);
@@ -36,6 +39,10 @@ class QuickSort
                 ordenar(vet, inicio, p-1);
                 ordenar(vet, p + 1,fim);
             }
+            if(num_recursoes % 100 == 0){
+                cout << "<<< recursao: " << num_recursoes << endl;
+            }
+            num_recursoes--;
 
         };
 
@@ -60,6 +67,7 @@ class QuickSort
         void resetContadores(){
             num_trocas=0;
             num_comparacoes=0;
+            num_recursoes=0;
         }
         long getNumComparacoes(){
             return num_comparacoes;
@@ -71,12 +79,15 @@ class QuickSort
     private:
         long num_comparacoes;
         long num_trocas;
+        long num_recursoes;
 
         int particao(T* vet,int inicio, int fim){
-
+            //cout << "chama particao " << inicio << " de " << fim;
             int i = inicio - 1;
 
             T pivo = vet[fim];
+
+            //cout << " com pivo " << pivo.id << endl;
             for(int j = inicio; j <= fim - 1; j++){
                 if(comparador(vet[j], pivo))
                 {

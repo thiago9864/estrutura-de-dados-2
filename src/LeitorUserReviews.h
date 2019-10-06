@@ -39,7 +39,7 @@ class LeitorUserReviews : protected LeitorBase
         string line;
         ifstream arqEntrada;
         bool headerProcessado;
-        int ri, rf;
+        int ri, rf, rli, rlf;
         int idMin, idMax;
 
         void lerArquivo(){
@@ -61,7 +61,7 @@ class LeitorUserReviews : protected LeitorBase
 
             //calcula pulos de leitura maximos
             int numPulos = 0;
-            int maxPulo = (10000000 - numRegistros) / numRegistros;
+            int maxPulo = (5000000 - numRegistros) / numRegistros;
             //int ind=0;
 
             while (getline(arqEntrada, line))
@@ -76,10 +76,12 @@ class LeitorUserReviews : protected LeitorBase
                     dataset = new UserReview[numRegistros];
 
                     //guarda o id minimo e máximo do dataset
-                    idMin=99999999;
-                    idMax=-99999999;
-                    ri=0;//aponta pro inicio do dataset
-                    rf=numRegistros-1;//aponta pro fim do dataset
+                    idMin=999999999;
+                    idMax=-999999999;
+                    rli=numRegistros/2;//marca o tamanho maximo da partição inicial [0,meio-1]
+                    rlf=numRegistros-rli;//marca o tamanho maximo da partição final [meio, fim)-1]
+                    ri=0;//aponta pro inicio da partição inicial
+                    rf=0;//aponta pro inicio da partição final
                 } else {
                     if(numPulos == 0){
                         //calcula o pulo
@@ -93,16 +95,16 @@ class LeitorUserReviews : protected LeitorBase
                         u.rating = stof(result[2]);
                         float rnd = getRand(10);
                         //cout << rnd << endl;
-                        if(rnd > 5){
+                        if(rnd > 5 && ri<rli){
                             //se o numero aleatorio for maior que 5
-                            //coloca o numero do final pro inicio
-                            dataset[rf]=u;
-                            rf--;//decrementa o ponteiro do fim
-                        } else {
-                            //se o numero aleatorio for menor ou igual a 5
-                            //coloca o numero do inicio pro fim
+                            //coloca o numero na partição inicial
                             dataset[ri]=u;
-                            ri++;//incrementa o ponteiro do inicio
+                            ri++;//incrementa o indice da partição
+                        } else if((rf+rli) < numRegistros) {
+                            //se o numero aleatorio for menor ou igual a 5
+                            //coloca o numero na partição final
+                            dataset[rf+rli]=u;
+                            rf++;//incrementa o indice da partição
                         }
 
                         //id minimo
@@ -113,8 +115,8 @@ class LeitorUserReviews : protected LeitorBase
                         if(u.id > idMax){
                             idMax = u.id;
                         }
-
-                        if(ri > rf){
+                        //cout << (ri + rf) << endl;
+                        if((ri + rf) >= numRegistros){
                             //quando os ponteiros de inicio e fim forem iguais
                             //o vetor foi totalmente preenchido
                             break;

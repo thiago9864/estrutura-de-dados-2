@@ -35,7 +35,35 @@ public:
 
     };
 
+    void ordenarInt(T* vet,int inicio, int fim, int m){
+
+        if(inicio - fim <= m){
+            inSorter->ordenarIntQuick(vet, inicio, fim);
+        }
+        if (inicio < fim)
+        {
+            int p = particaoInt(vet,inicio,fim);
+
+            this->ordenarInt(vet, inicio, p-1, m);
+            this->ordenarInt(vet, p + 1,fim, m);
+        }
+
+    };
+
+    void resetContadores(){
+        num_trocas=0;
+        num_comparacoes=0;
+    }
+    long getNumComparacoes(){
+        return num_comparacoes;
+    }
+    long getNumTrocas(){
+        return num_trocas;
+    }
+
 private:
+    long num_comparacoes;
+    long num_trocas;
 
     InsertionSort<T> *inSorter;
 
@@ -43,9 +71,9 @@ private:
 
         int i = inicio - 1;
 
-        int pivo = vet[fim].id;
+        T pivo = vet[fim];
         for(int j = inicio; j <= fim - 1; j++){
-            if(vet[j].id <= pivo)
+            if(comparador(vet[j],pivo))
             {
                 i++;
                 troca(vet,i,j);
@@ -55,10 +83,35 @@ private:
         return (i+1);
     };
 
+    int particaoInt(T* vet,int inicio, int fim){
+
+        int i = inicio - 1;
+
+        int pivo = vet[fim];
+        for(int j = inicio; j <= fim - 1; j++){
+            if(comparadorInt(vet[j],pivo))
+            {
+                i++;
+                troca(vet,i,j);
+            }
+        }
+        troca(vet,i+1,fim);
+        return (i+1);
+    };
+
+    bool comparador(T a, T b){
+        num_comparacoes++;
+        return a.id <= b.id;
+    }
+    bool comparadorInt(int a, int b){
+        num_comparacoes++;
+        return a <= b;
+    }
     void troca(T* vet,int i,int j){
         T aux = vet[i];
         vet[i] = vet[j];
         vet[j] = aux;
+        num_trocas++;
     };
 
 };

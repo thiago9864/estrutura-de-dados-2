@@ -100,11 +100,13 @@ class MergeSort
             for (int i = inicioVetor1; i <= meio; i++)
             {
                 auxiliar[posicaoLivre] = vet[i];
+                num_trocas++;
                 posicaoLivre++;
             }
             for (int i = inicioVetor2; i <= fim; i++)
             {
                 auxiliar[posicaoLivre] = vet[i];
+                num_trocas++;
                 posicaoLivre++;
             }
 

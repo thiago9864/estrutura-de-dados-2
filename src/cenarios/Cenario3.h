@@ -37,7 +37,7 @@ public:
 
         Log::getInstance().fechaArquivoDeSaida();
         Log::getInstance().iniciaArquivoSaida(this->getDiretorioArquivoDeSaida()+nomeArquivoSaida);
-        Log::getInstance().line("---- Iniciando Cenario 3 ----");
+        /*Log::getInstance().line("---- Iniciando Cenario 3 ----");
         Log::getInstance().line("Com N="+to_string(this->numTestes));
         Log::getInstance().semEndl("Sendo: [");
         for(int i=0; i<this->numTestes; i++){
@@ -47,8 +47,9 @@ public:
             Log::getInstance().semEndl(to_string(testes[i]));
         }
         Log::getInstance().semEndl("]");
-        Log::getInstance().breakLine();
+        Log::getInstance().breakLine();*/
     };
+
     ~Cenario3(){
         testes=NULL;
         delete[] dataset;
@@ -61,8 +62,15 @@ public:
     void realizaTeste(){
 
         uint64_t inicio;
-        string algoritmos[] = {"InsertionSort", "Quicksort    ", "Mergesort    ", "Heapsort     ", "Meusort      "};
-        int numAlgoritmos = 5;
+
+        numAlgoritmos = 5;
+        algoritmos = new string[numAlgoritmos];
+        algoritmos[0] = "InsertionSort";
+        algoritmos[1] = "Quicksort";
+        algoritmos[2] = "Mergesort";
+        algoritmos[3] = "Heapsort";
+        algoritmos[4] = "Meusort (Radix)";
+
 
         //cria os vetores de teste
         temposDeExecucao = new double*[numAlgoritmos];
@@ -80,6 +88,9 @@ public:
                 numeroDeTrocas[a][t] = 0;
             }
         }
+
+        //preenche header do csv
+        Log::getInstance().lineArquivo("Teste,Número de Testes,Algoritmo,Tempo de Execução,Número de Comparações,Número de Trocas");
 
         //Loop entre os testes do arquivo de configuração
         for(int t=0; t<numTestes; t++){
@@ -114,6 +125,7 @@ public:
             temposDeExecucao[0][t] = tempo_teste;
             numeroDeComparacores[0][t] = insertionSort->getNumComparacoes();
             numeroDeTrocas[0][t] = insertionSort->getNumTrocas();
+            salvaLinhaResultado(0, t);
 
             //Debug - Salva o vetor ordenado pelo InsertionSort
             //salvaVetor("insertionsort_ordenado_"+to_string(tamVetorInt)+".csv", copiaLocal, tamVetorInt);
@@ -141,6 +153,7 @@ public:
             temposDeExecucao[1][t] = tempo_teste;
             numeroDeComparacores[1][t] = quickSort->getNumComparacoes();
             numeroDeTrocas[1][t] = quickSort->getNumTrocas();
+            salvaLinhaResultado(1, t);
 
             //Debug - Salva o vetor ordenado pelo QuickSort
             //salvaVetor("quicksort_ordenado_"+to_string(tamVetorInt)+".csv", copiaLocal, tamVetorInt);
@@ -168,6 +181,7 @@ public:
             temposDeExecucao[2][t] = tempo_teste;
             numeroDeComparacores[2][t] = mergeSort->getNumComparacoes();
             numeroDeTrocas[2][t] = mergeSort->getNumTrocas();
+            salvaLinhaResultado(2, t);
 
             //Debug - Salva o vetor ordenado pelo MergeSort
             //salvaVetor("mergesort_ordenado_"+to_string(tamVetorInt)+".csv", copiaLocal, tamVetorInt);
@@ -195,9 +209,10 @@ public:
             temposDeExecucao[3][t] = tempo_teste;
             numeroDeComparacores[3][t] = heapSort->getNumComparacoes();
             numeroDeTrocas[3][t] = heapSort->getNumTrocas();
+            salvaLinhaResultado(3, t);
 
             //Debug - Salva o vetor ordenado pelo HeapSort
-            salvaVetor("heapsort_ordenado_"+to_string(tamVetorInt)+".csv", copiaLocal, tamVetorInt);
+            //salvaVetor("heapsort_ordenado_"+to_string(tamVetorInt)+".csv", copiaLocal, tamVetorInt);
 
             //libera memoria desse teste
             delete heapSort;
@@ -221,6 +236,7 @@ public:
             temposDeExecucao[4][t] = tempo_teste;
             numeroDeComparacores[4][t] = 0;//está zero porque o RadixSort é um algoritmo não comparativo
             numeroDeTrocas[4][t] = 0;
+            salvaLinhaResultado(4, t);
 
             //Debug - Salva o vetor ordenado pelo RadixSort
             //salvaVetor("radixsort_ordenado_"+to_string(tamVetorInt)+".csv", copiaLocal, tamVetorInt);
@@ -231,19 +247,15 @@ public:
             radixSort = NULL;
             copiaLocal = NULL;
         }
-
+/*
         Log::getInstance().line("\n---- Resultados ----");
 
         for(int t=0; t<numTestes; t++){
             Log::getInstance().line("\nTeste com " + to_string(testes[t]) + " registros.\n");
             for(int a=0; a<numAlgoritmos; a++){
-                Log::getInstance().semEndl(algoritmos[a] + ": ");
-                Log::getInstance().semEndl("Tempo de Execucao: " + to_string(temposDeExecucao[a][t])+", ");
-                Log::getInstance().semEndl("Comparacoes: " + to_string(numeroDeComparacores[a][t])+", ");
-                Log::getInstance().semEndl("Trocas: " + to_string(numeroDeTrocas[a][t]));
-                Log::getInstance().breakLine();
+                salvaResultado(a, t);
             }
-        }
+        }*/
     }
 
 private:
@@ -252,11 +264,26 @@ private:
     int* testes;
     //UserReview *dataset;
     int *dataset = NULL;
-    int* vetorInt = NULL;
+    int *vetorInt = NULL;
     int tamVetorInt = NULL;
     double** temposDeExecucao;
     uint64_t** numeroDeComparacores;
     uint64_t** numeroDeTrocas;
+    string *algoritmos;
+    int numAlgoritmos;
+
+    void salvaLinhaResultado(int indice_algoritmo, int indice_teste){
+        string linha = "";
+
+        linha += to_string(indice_teste) + ",";
+        linha += to_string(testes[indice_teste]) + ",";
+        linha += algoritmos[indice_algoritmo] + ",";
+        linha += to_string(temposDeExecucao[indice_algoritmo][indice_teste]) + ",";
+        linha += to_string(numeroDeComparacores[indice_algoritmo][indice_teste]) + ",";
+        linha += to_string(numeroDeTrocas[indice_algoritmo][indice_teste]);
+
+        Log::getInstance().lineArquivo(linha);
+    }
 
     /**
     * Carrega o arquivo de configuração do teste, que está na pasta 'entradas'
@@ -371,7 +398,7 @@ private:
         ofstream arqSaida;
         //cout << caminhoArqSaida << endl;
         //abre arquivo para saida
-        arqSaida.open("saidas"+getDirSep()+filename.c_str());
+        arqSaida.open("saidas"+getDirSep()+filename.c_str(), fstream::in | fstream::out | fstream::trunc);
 
         //verifica se o arquivo foi aberto
         if (!arqSaida || !arqSaida.is_open())

@@ -13,6 +13,7 @@
 #include <time.h>
 #include <random>
 
+#include "UserReview.h"
 using namespace std;
 
 class LeitorBase
@@ -118,6 +119,54 @@ class LeitorBase
             std::chrono::duration<double> elapsed_seconds = end - start;
             double duracao = elapsed_seconds.count();
             return duracao;
+        }
+
+        /**
+        * Retorna a data atual como string no formato dd-mm-yyyy hh:mm:ss
+        * @return string
+        */
+        string getCurrentDateAsString(){
+            time_t rawtime;
+            struct tm * timeinfo;
+            char buffer[80];
+
+            time (&rawtime);
+            timeinfo = localtime(&rawtime);
+
+            strftime(buffer,sizeof(buffer),"%d_%m_%Y_%H_%M_%S",timeinfo);
+            string str(buffer);
+
+            return str;
+        }
+
+        /**
+        * Debug: Salva o vetor de inteiros em um arquivo
+        * @param filename Nome do arquivo
+        * @param vetor Vetor de inteiros
+        * @param tam Tamanho do vetor
+        */
+        void salvaVetor(string filename, UserReview* vetor, int tam){
+            ofstream arqSaida;
+            //cout << caminhoArqSaida << endl;
+            //abre arquivo para saida
+            arqSaida.open("saidas"+getDirSep()+filename.c_str());
+
+            //verifica se o arquivo foi aberto
+            if (!arqSaida || !arqSaida.is_open())
+            {
+                cout << "Impossivel abrir o arquivo de saida para escrita" << endl;
+                cout << "Com o arquivo: " << filename << endl;
+                cout << "O diretorio 'saidas' foi criado no diretorio raiz (o que esta a main.cpp) ?" << endl;
+                exit(1); // sai do programa se nao conseguir abrir o arquivo
+            }
+
+            for(int i=0; i<tam; i++){
+                arqSaida << vetor[i].id << endl;
+            }
+
+            if(arqSaida.is_open()){
+                arqSaida.close();
+            }
         }
 
     private:

@@ -56,7 +56,7 @@ public:
     {
         //cout << caminhoArqSaida << endl;
         //abre arquivo para saida
-        arqSaida.open(caminhoArqSaida.c_str());
+        arqSaida.open(caminhoArqSaida.c_str(), fstream::in | fstream::out | fstream::trunc);
 
         //verifica se o arquivo foi aberto
         if (!arqSaida || !arqSaida.is_open())

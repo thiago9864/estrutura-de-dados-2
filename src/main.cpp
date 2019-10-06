@@ -43,7 +43,10 @@
 //#include "hashing/HashingDuplo.h"
 
 //cenarios
+#include "cenarios/Cenario1.h"
+#include "cenarios/Cenario2.h"
 #include "cenarios/Cenario3.h"
+#include "cenarios/Cenario4.h"
 
 using namespace std;
 
@@ -112,17 +115,19 @@ void mainMenu(){
 }
 
 void ordenacaoSubMenu(){
+    //medição de tempo
+    LeitorBase base;
+
     string stringNItemsImportados;
     cout << "Quantos itens voce quer importar? ";
     cin >> stringNItemsImportados;
     int nItemsImportados = stoi(stringNItemsImportados);
 
-    auto *usersRated = new LeitorUsersRated(nItemsImportados);
-    UsersRated *dataset3 = usersRated->getDataset();
+    auto *usersReviews = new LeitorUserReviews(nItemsImportados);
+    UserReview *dataset3 = usersReviews->getDataset();
     cout << nItemsImportados << "  Importados com sucesso" << endl << endl;
+    base.salvaVetor("vetor_dataset.csv", dataset3, nItemsImportados);
 
-    //medição de tempo
-    LeitorBase base;
 
     string userInput;
     int numberUserInput;
@@ -136,20 +141,24 @@ void ordenacaoSubMenu(){
         cout << "(5) - SelectionSort" << endl;
         cout << "(6) - QuickSort" << endl;
         cout << "(7) - QuickSort Insertion" << endl;
-        cout << "(8) - RadixSort" << endl;
-        cout << "(9) - Mudar o numero de importacoes" << endl;
+        cout << "(8) - QuickSort Mediana" << endl;
+        cout << "(9) - RadixSort" << endl;
+        cout << "(10) - Mudar o numero de importacoes" << endl;
         cout << "(0) - Sair" << endl;
         cout << "Numero desejado: ";
         cin >> userInput;
         numberUserInput = stoi(userInput);
 
         //faz uma copia do dataset pra ser ordenada
-        UsersRated *aux_dataset = copiaDataset<UsersRated>(dataset3, nItemsImportados);
+        UserReview *aux_dataset = copiaDataset<UserReview>(dataset3, nItemsImportados);
+
+        //base.salvaVetor("vetor_dataset_copia.csv", aux_dataset, nItemsImportados);
 
         switch (numberUserInput){
             case 1:{
-                auto *bubbleSort = new BubbleSort<UsersRated>();
+                auto *bubbleSort = new BubbleSort<UserReview>();
                 base.timerStart();
+                bubbleSort->resetContadores();
                 bubbleSort->ordenar(aux_dataset, nItemsImportados);
                 cout << "Concluiu em " << base.timerEnd() << " segundos." << endl << endl;
                 delete bubbleSort;
@@ -157,8 +166,9 @@ void ordenacaoSubMenu(){
                 break;
             }
             case 2:{
-                auto *heapSort = new HeapSort<UsersRated>();
+                auto *heapSort = new HeapSort<UserReview>();
                 base.timerStart();
+                heapSort->resetContadores();
                 heapSort->ordenar(aux_dataset, nItemsImportados);
                 cout << "Concluiu em " << base.timerEnd() << " segundos." << endl << endl;
                 delete heapSort;
@@ -166,8 +176,9 @@ void ordenacaoSubMenu(){
                 break;
             }
             case 3:{
-                auto *insertionSort = new InsertionSort<UsersRated>();
+                auto *insertionSort = new InsertionSort<UserReview>();
                 base.timerStart();
+                insertionSort->resetContadores();
                 insertionSort->ordenar(aux_dataset, nItemsImportados);
                 cout << "Concluiu em " << base.timerEnd() << " segundos." << endl << endl;
                 delete insertionSort;
@@ -175,8 +186,9 @@ void ordenacaoSubMenu(){
                 break;
             }
             case 4:{
-                auto *mergeSort = new MergeSort<UsersRated>();
+                auto *mergeSort = new MergeSort<UserReview>();
                 base.timerStart();
+                mergeSort->resetContadores();
                 mergeSort->ordenar(aux_dataset, 0, nItemsImportados - 1);
                 cout << "Concluiu em " << base.timerEnd() << " segundos." << endl << endl;
                 delete mergeSort;
@@ -184,8 +196,9 @@ void ordenacaoSubMenu(){
                 break;
             }
             case 5:{
-                auto *selectionSort = new SelectionSort<UsersRated>();
+                auto *selectionSort = new SelectionSort<UserReview>();
                 base.timerStart();
+                selectionSort->resetContadores();
                 selectionSort->ordenar(aux_dataset, nItemsImportados);
                 cout << "Concluiu em " << base.timerEnd() << " segundos." << endl << endl;
                 delete selectionSort;
@@ -193,8 +206,9 @@ void ordenacaoSubMenu(){
                 break;
             }
             case 6:{
-                auto *quickSort = new QuickSort<UsersRated>();
+                auto *quickSort = new QuickSort<UserReview>();
                 base.timerStart();
+                quickSort->resetContadores();
                 quickSort->ordenar(aux_dataset, 0, nItemsImportados - 1);
                 cout << "Concluiu em " << base.timerEnd() << " segundos." << endl << endl;
                 delete quickSort;
@@ -202,12 +216,13 @@ void ordenacaoSubMenu(){
                 break;
             }
             case 7:{
-                string stringNMaxInsertion;
-                cout << "A qual o tamanho maximo para o insertionSort ser usado? ";
-                cin >> stringNMaxInsertion;
-                int nMaxInsertion = stoi(stringNMaxInsertion);
-                auto *quickSortInsertion = new QuickSortInsertion<UsersRated>();
+                //string stringNMaxInsertion;
+                //cout << "A qual o tamanho maximo para o insertionSort ser usado? ";
+                //cin >> stringNMaxInsertion;
+                int nMaxInsertion = 10;//stoi(stringNMaxInsertion);
+                auto *quickSortInsertion = new QuickSortInsertion<UserReview>();
                 base.timerStart();
+                quickSortInsertion->resetContadores();
                 quickSortInsertion->ordenar(aux_dataset, 0, nItemsImportados - 1, nMaxInsertion);
                 cout << "Concluiu em " << base.timerEnd() << " segundos." << endl << endl;
                 delete quickSortInsertion;
@@ -215,7 +230,17 @@ void ordenacaoSubMenu(){
                 break;
             }
             case 8:{
-                auto *radixSort = new RadixSort<UsersRated>();
+                auto *quickSortMediana = new QuickSortMediana<UserReview>();
+                base.timerStart();
+                quickSortMediana->resetContadores();
+                quickSortMediana->ordenar(aux_dataset, 0, nItemsImportados - 1);
+                cout << "Concluiu em " << base.timerEnd() << " segundos." << endl << endl;
+                delete quickSortMediana;
+                quickSortMediana = NULL;
+                break;
+            }
+            case 9:{
+                auto *radixSort = new RadixSort<UserReview>();
                 base.timerStart();
                 radixSort->ordenar(aux_dataset, nItemsImportados);
                 cout << "Concluiu em " << base.timerEnd() << " segundos." << endl << endl;
@@ -223,7 +248,7 @@ void ordenacaoSubMenu(){
                 radixSort = NULL;
                 break;
             }
-            case 9:{
+            case 10:{
                 exit = true;
                 delete[] aux_dataset;
                 aux_dataset = NULL;
@@ -341,6 +366,8 @@ void cenariosSubMenu(){
     string userInput;
     int numberUserInput;
     bool exit = false;
+    //medição de tempo
+    LeitorBase base;
 
     while(!exit){
         cout << "Qual dos cenarios voce quer executar?" << endl;
@@ -355,24 +382,27 @@ void cenariosSubMenu(){
 
         switch (numberUserInput){
             case 1:{
-                //TODO: Implementar Cenario 1
-                cout << "Codigo solicitado não concluido por enquanto" << endl;
+                auto *cenario1 = new Cenario1("Cenario1.txt", "cenario1 "+base.getCurrentDateAsString()+".csv");
+                cenario1->realizaTeste();
+                delete cenario1;
                 break;
             }
             case 2:{
-                //TODO: Implementar Cenario 2
-                cout << "Codigo solicitado não concluido por enquanto" << endl;
+                auto *cenario2 = new Cenario2("Cenario2.txt", "cenario2 "+base.getCurrentDateAsString()+".csv");
+                cenario2->realizaTeste();
+                delete cenario2;
                 break;
             }
             case 3:{
-                auto *cenario3 = new Cenario3("Cenario3.txt", "cenario3.txt");
+                auto *cenario3 = new Cenario3("Cenario3.txt", "cenario3 "+base.getCurrentDateAsString()+".csv");
                 cenario3->realizaTeste();
                 delete cenario3;
                 break;
             }
             case 4:{
-                //TODO: Implementar Cenario 4
-                cout << "Codigo solicitado não concluido por enquanto" << endl;
+                auto *cenario4 = new Cenario4("Cenario4.txt", "cenario4 "+base.getCurrentDateAsString()+".csv");
+                cenario4->realizaTeste();
+                delete cenario4;
                 break;
             }
             case 0:{
