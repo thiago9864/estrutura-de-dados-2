@@ -1,7 +1,7 @@
 /**
     Universidade Federal de Juiz de Fora
     Cenario2.h
-    Propósito: Implementação do terceiro cenário da parte 1 do trabalho.
+    Propósito: Implementação do Segundo cenário da parte 1 do trabalho.
 
     @author Thiago Almeida, Luan Ciribeli
     @version 1.1 06/10/19
