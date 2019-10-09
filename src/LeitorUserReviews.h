@@ -39,8 +39,6 @@ class LeitorUserReviews : protected LeitorBase
         string line;
         ifstream arqEntrada;
         bool headerProcessado;
-        int ri, rf, rli, rlf;
-        int idMin, idMax;
 
         void lerArquivo(){
             //abre o arquivo
@@ -58,11 +56,8 @@ class LeitorUserReviews : protected LeitorBase
             this->gerarSemente();
 
             headerProcessado=false;
-
-            //calcula pulos de leitura maximos
-            int numPulos = 0;
-            int maxPulo = (5000000 - numRegistros) / numRegistros;
-            //int ind=0;
+            int linhas_inseridas=0;
+            bool insuficiente=true;
 
             while (getline(arqEntrada, line))
             {
@@ -72,61 +67,40 @@ class LeitorUserReviews : protected LeitorBase
                 if(headerProcessado==false){
                     headerProcessado=true;
 
-                    //inicia o vetor de objetos do dataset
+                    //inicia o vetor de objetos do dataset com ids=-1
                     dataset = new UserReview[numRegistros];
+                    for(int i=0; i<numRegistros; i++){
+                        dataset[i].id=-1;
+                    }
 
-                    //guarda o id minimo e máximo do dataset
-                    idMin=999999999;
-                    idMax=-999999999;
-                    rli=numRegistros/2;//marca o tamanho maximo da partição inicial [0,meio-1]
-                    rlf=numRegistros-rli;//marca o tamanho maximo da partição final [meio, fim)-1]
-                    ri=0;//aponta pro inicio da partição inicial
-                    rf=0;//aponta pro inicio da partição final
                 } else {
-                    if(numPulos == 0){
-                        //calcula o pulo
-                        numPulos = getRand(maxPulo);
-                        //cout << "linha: " << ind << endl;
+                    //gera posicao aleatoria
+                    unsigned int pos = 0;
+                    while(dataset[pos].id!=-1){
+                        pos=getRand(numRegistros);
+                    }
 
-                        //cria o objeto
-                        UserReview u;
-                        u.id = stoi(result[0]);
-                        u.user = result[1];
-                        u.rating = stof(result[2]);
-                        float rnd = getRand(10);
-                        //cout << rnd << endl;
-                        if(rnd > 5 && ri<rli){
-                            //se o numero aleatorio for maior que 5
-                            //coloca o numero na partição inicial
-                            dataset[ri]=u;
-                            ri++;//incrementa o indice da partição
-                        } else if((rf+rli) < numRegistros) {
-                            //se o numero aleatorio for menor ou igual a 5
-                            //coloca o numero na partição final
-                            dataset[rf+rli]=u;
-                            rf++;//incrementa o indice da partição
-                        }
+                    //cria objeto na posicao
+                    UserReview u;
+                    u.id = stoi(result[0]);
+                    u.user = result[1];
+                    u.rating = stof(result[2]);
+                    dataset[pos] = u;
 
-                        //id minimo
-                        if(u.id < idMin){
-                            idMin = u.id;
-                        }
-                        //id maximo
-                        if(u.id > idMax){
-                            idMax = u.id;
-                        }
-                        //cout << (ri + rf) << endl;
-                        if((ri + rf) >= numRegistros){
-                            //quando os ponteiros de inicio e fim forem iguais
-                            //o vetor foi totalmente preenchido
-                            break;
-                        }
-                    } else {
-                        //pula os numeros
-                        numPulos--;
+                    //conta linhas inseridas
+                    linhas_inseridas++;
+
+                    //para inserção quando completo
+                    if(linhas_inseridas>=numRegistros){
+                        insuficiente=false;
+                        break;
                     }
                 }
-                //ind++;
+            }
+
+            if(insuficiente){
+                cout << "O numero de registros solicitado e maior que o numero de registros do dataset" << endl;
+                exit(1);
             }
 
             if(arqEntrada.is_open()){

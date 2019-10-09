@@ -48,6 +48,7 @@
 		<Unit filename="hashing/EndSondagemLinear.h" />
 		<Unit filename="hashing/EndSondagemQuadratica.h" />
 		<Unit filename="hashing/HashMapItem.h" />
+		<Unit filename="hashing/HashingDuplo.h" />
 		<Unit filename="main.cpp" />
 		<Unit filename="ordenacao/BubbleSort.h" />
 		<Unit filename="ordenacao/HeapSort.h" />
