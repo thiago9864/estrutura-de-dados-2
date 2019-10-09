@@ -38,8 +38,6 @@ class LeitorUsersRated : protected LeitorBase
         string line;
         ifstream arqEntrada;
         bool headerProcessado;
-        int ri, rf;
-        int idMin, idMax;
 
         void lerArquivo(){
             //abre o arquivo
@@ -57,11 +55,8 @@ class LeitorUsersRated : protected LeitorBase
             this->gerarSemente();
 
             headerProcessado=false;
-
-            //calcula pulos de leitura maximos
-            int numPulos = 0;
-            int maxPulo = (16000 - numRegistros) / numRegistros;
-            //int ind=0;
+            int linhas_inseridas=0;
+            bool insuficiente=true;
 
             while (getline(arqEntrada, line))
             {
@@ -71,56 +66,41 @@ class LeitorUsersRated : protected LeitorBase
                 if(headerProcessado==false){
                     headerProcessado=true;
 
-                    //inicia o vetor de objetos do dataset
+                    //inicia o vetor de objetos do dataset com ids=-1
                     dataset = new UsersRated[numRegistros];
-
-                    //guarda o id minimo e máximo do dataset
-                    idMin=99999999;
-                    idMax=-99999999;
-                    ri=0;//aponta pro inicio do dataset
-                    rf=numRegistros-1;//aponta pro fim do dataset
-                } else {
-                    if(numPulos == 0){
-                        //calcula o pulo
-                        numPulos = getRand(maxPulo);
-                        //cout << "linha: " << ind << endl;
-
-                        //cria o objeto
-                        UsersRated u;
-                        u.id = stoi(result[0]);
-                        u.usersRated = stoi(result[1]);
-
-                        if(getRand(10) > 5){
-                            //se o numero aleatorio for maior que 5
-                            //coloca o numero do final pro inicio
-                            dataset[rf]=u;
-                            rf--;//decrementa o ponteiro do fim
-                        } else {
-                            //se o numero aleatorio for menor ou igual a 5
-                            //coloca o numero do inicio pro fim
-                            dataset[ri]=u;
-                            ri++;//incrementa o ponteiro do inicio
-                        }
-
-                        //id minimo
-                        if(u.id < idMin){
-                            idMin = u.id;
-                        }
-                        //id maximo
-                        if(u.id > idMax){
-                            idMax = u.id;
-                        }
-
-                        if(ri > rf){
-                            //quando os ponteiros de inicio e fim forem iguais
-                            //o vetor foi totalmente preenchido
-                            break;
-                        }
-                    } else {
-                        //pula os numeros
-                        numPulos--;
+                    for(int i=0; i<numRegistros; i++){
+                        dataset[i].id=-1;
                     }
+
+                } else {
+
+                    //gera posicao aleatoria
+                    unsigned int pos = 0;
+                    while(dataset[pos].id!=-1){
+                        pos=getRand(numRegistros);
+                    }
+
+                    //cria o objeto
+                    UsersRated u;
+                    u.id = stoi(result[0]);
+                    u.usersRated = stoi(result[1]);
+                    dataset[pos] = u;
+
+                    //conta linhas inseridas
+                    linhas_inseridas++;
+
+                    //para inserção quando completo
+                    if(linhas_inseridas>=numRegistros){
+                        insuficiente=false;
+                        break;
+                    }
+
                 }
+            }
+
+            if(insuficiente){
+                cout << "O numero de registros solicitado e maior que o numero de registros do dataset" << endl;
+                exit(1);
             }
 
             if(arqEntrada.is_open()){

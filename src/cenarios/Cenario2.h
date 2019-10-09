@@ -98,7 +98,7 @@ public:
 
             timerStart();//marca o tempo inicial
             quickSort->resetContadores();
-            quickSort->ordenarInt(copiaLocal, 0, tamVetorInt-1);
+            quickSort->ordenarInt(copiaLocal, 0, tamVetorInt);
             tempo_teste = timerEnd();//marca o tempo final
 
             //salva os resultados

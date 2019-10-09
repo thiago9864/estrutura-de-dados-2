@@ -41,8 +41,6 @@ class LeitorGameInfo : protected LeitorBase
         ifstream arqEntrada;
         bool headerProcessado;
         int linePos;
-        int ri, rf;
-        int idMin, idMax;
 
         void lerArquivo(){
             //abre o arquivo
@@ -60,11 +58,8 @@ class LeitorGameInfo : protected LeitorBase
             this->gerarSemente();
 
             headerProcessado=false;
-
-            //calcula pulos de leitura maximos
-            int numPulos = 0;
-            int maxPulo = (16000 - numRegistros) / numRegistros;
-            //int ind=0;
+            int linhas_inseridas=0;
+            bool insuficiente=true;
 
             while (getline(arqEntrada, line))
             {
@@ -74,56 +69,39 @@ class LeitorGameInfo : protected LeitorBase
                 if(headerProcessado==false){
                     headerProcessado=true;
 
-                    //inicia o vetor de objetos do dataset
+                    //inicia o vetor de objetos do dataset com ids=-1
                     dataset = new GameInfo[numRegistros];
+                    for(int i=0; i<numRegistros; i++){
+                        dataset[i].id=-1;
+                    }
 
-                    //guarda o id minimo e máximo do dataset
-                    idMin=99999999;
-                    idMax=-99999999;
-                    ri=0;//aponta pro inicio do dataset
-                    rf=numRegistros-1;//aponta pro fim do dataset
                 } else {
-                    if(numPulos == 0){
-                        //calcula o pulo
-                        numPulos = getRand(maxPulo);
-                        //cout << "linha: " << ind << endl;
+                    //gera posicao aleatoria
+                    unsigned int pos = 0;
+                    while(dataset[pos].id!=-1){
+                        pos=getRand(numRegistros);
+                    }
 
-                        //cria o objeto
-                        GameInfo g;
-                        g.id = stoi(result[0]);
-                        g.boardgamecategory = explode(result[1], '|');
+                    //cria o objeto
+                    GameInfo g;
+                    g.id = stoi(result[0]);
+                    g.boardgamecategory = explode(result[1], '|');
+                    dataset[pos] = g;
 
-                        if(getRand(10) > 5){
-                            //se o numero aleatorio for maior que 5
-                            //coloca o numero do final pro inicio
-                            dataset[rf]=g;
-                            rf--;//decrementa o ponteiro do fim
-                        } else {
-                            //se o numero aleatorio for menor ou igual a 5
-                            //coloca o numero do inicio pro fim
-                            dataset[ri]=g;
-                            ri++;//incrementa o ponteiro do inicio
-                        }
+                    //conta linhas inseridas
+                    linhas_inseridas++;
 
-                        //id minimo
-                        if(g.id < idMin){
-                            idMin = g.id;
-                        }
-                        //id maximo
-                        if(g.id > idMax){
-                            idMax = g.id;
-                        }
-
-                        if(ri > rf){
-                            //quando os ponteiros de inicio e fim forem iguais
-                            //o vetor foi totalmente preenchido
-                            break;
-                        }
-                    } else {
-                        //pula os numeros
-                        numPulos--;
+                    //para inserção quando completo
+                    if(linhas_inseridas>=numRegistros){
+                        insuficiente=false;
+                        break;
                     }
                 }
+            }
+
+            if(insuficiente){
+                cout << "O numero de registros solicitado e maior que o numero de registros do dataset" << endl;
+                exit(1);
             }
 
             if(arqEntrada.is_open()){

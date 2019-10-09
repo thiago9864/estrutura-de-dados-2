@@ -96,15 +96,15 @@ class InsertionSort
             num_trocas=0;
             num_comparacoes=0;
         }
-        long getNumComparacoes(){
+        long long int getNumComparacoes(){
             return num_comparacoes;
         }
-        long getNumTrocas(){
+        long long int getNumTrocas(){
             return num_trocas;
         }
     private:
-        long num_comparacoes;
-        long num_trocas;
+        long long int num_comparacoes;
+        long long int num_trocas;
         int tamanho;
 
         bool comparador(T a, T b){

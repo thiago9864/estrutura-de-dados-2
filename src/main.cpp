@@ -209,17 +209,14 @@ void ordenacaoSubMenu(){
                 auto *quickSort = new QuickSort<UserReview>();
                 base.timerStart();
                 quickSort->resetContadores();
-                quickSort->ordenar(aux_dataset, 0, nItemsImportados - 1);
+                quickSort->ordenar(aux_dataset, 0, nItemsImportados-1);
                 cout << "Concluiu em " << base.timerEnd() << " segundos." << endl << endl;
                 delete quickSort;
                 quickSort = NULL;
                 break;
             }
             case 7:{
-                //string stringNMaxInsertion;
-                //cout << "A qual o tamanho maximo para o insertionSort ser usado? ";
-                //cin >> stringNMaxInsertion;
-                int nMaxInsertion = 10;//stoi(stringNMaxInsertion);
+                int nMaxInsertion = 10;//o valor otimo pela literatura é 10
                 auto *quickSortInsertion = new QuickSortInsertion<UserReview>();
                 base.timerStart();
                 quickSortInsertion->resetContadores();

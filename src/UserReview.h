@@ -5,7 +5,7 @@
 using namespace std;
 class UserReview {
     public:
-        int id;
+        long long int id;
         string user;
         float rating;
 };
