@@ -92,9 +92,10 @@ public:
             //salvaVetor("vetor_fonte_"+to_string(tamVetorInt)+".csv", copiaLocal, tamVetorInt);
 
             //debug - nome do algoritmo
-            cout << "- Algoritmo 1" << endl;
+            cout << "QuickSort Recursivo" << endl;
 
             //inicialização do algoritmo
+            QuickSort<UserReview> *quickSort = new QuickSort<UserReview>();
 
             timerStart();//marca o tempo inicial
 
@@ -109,12 +110,42 @@ public:
             salvaLinhaResultado(0, t);
 
             //libera memoria desse teste
-            //delete algoritmo; // colocar variavel do algoritmo aqui
+            delete quickSort; // colocar variavel do algoritmo aqui
             delete[] copiaLocal;
-            //algoritmo = NULL; // colocar variavel do algoritmo aqui
+            quickSort = NULL; // colocar variavel do algoritmo aqui
             copiaLocal = NULL;
 
             ////////// Quicksort (Inteiros) //////////
+
+            //rodar isso sempre antes de qualquer ordenação
+            copiaLocal = copiaLocalVetorInt();
+
+            //debug - Salvar o vetor fonte
+            //salvaVetor("vetor_fonte_"+to_string(tamVetorInt)+".csv", copiaLocal, tamVetorInt);
+
+            //debug - nome do algoritmo
+            cout << "QuickSort Recursivo" << endl;
+
+            //inicialização do algoritmo
+            QuickSort<int> *quickSort = new QuickSort<int>();
+
+            timerStart();//marca o tempo inicial
+
+            // aqui roda o algoritmo
+
+            tempo_teste = timerEnd();//marca o tempo final
+
+            //salva os resultados
+            temposDeExecucao[0][t] = tempo_teste;
+            numeroDeComparacores[0][t] = 0;//pegar do algoritmo
+            numeroDeTrocas[0][t] = 0;//pegar do algoritmo
+            salvaLinhaResultado(0, t);
+
+            //libera memoria desse teste
+            delete quickSort; // colocar variavel do algoritmo aqui
+            delete[] copiaLocal;
+            quickSort = NULL; // colocar variavel do algoritmo aqui
+            copiaLocal = NULL;
 
         }
     }
