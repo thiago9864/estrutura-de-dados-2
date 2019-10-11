@@ -11,6 +11,13 @@ using namespace std;
 
 class HashItemSeparado {
 public:
+    HashItemSeparado();
+    HashItemSeparado(string name, long idRating){
+        this->name = name;
+        this->idRating = idRating;
+        this->prox = nullptr;
+    }
+
     string name;
     long idRating; // É o id do rating
     HashItemSeparado* prox;

@@ -32,7 +32,6 @@ public:
 
     void inserir(UserReview item){
         int hs = HashFunctions::divisao(item.id, item.user, this->tamanho, this->primo);
-        HashItemBasic newItem = this->criaHashItem(item);
         if(this->isPosicaoVazia(hs)){
             // não houve colisão - insere na tabela
             hashMap[hs] = criaHashItem(item);
@@ -135,8 +134,8 @@ private:
     };
 
     void resetContadores(){
-        numColisoes=0;
-        numComparacoes=0;
+        numColisoes = 0;
+        numComparacoes = 0;
     };
 
 };

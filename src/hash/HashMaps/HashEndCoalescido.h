@@ -31,7 +31,6 @@ public:
 
     void inserir(UserReview item){
         int hs = HashFunctions::divisao(item.id, item.user, this->tamanho, this->primo);
-        HashItemCoalescido newItem = this->criaHashItem(item);
         if(this->isPosicaoVazia(hs)){
             hashMap[hs] = criaHashItem(item);
         } else {
@@ -56,8 +55,7 @@ public:
         while(hashMap[hs].idRating!=item.id || hashMap[hs].idNext == -1){
             hs = hashMap[hs].idNext;
         }
-        if(hashMap[hs].idRating == item.id) return true;
-        else return false;
+        return hashMap[hs].idRating == item.id;
     }
 
     int getTamanho() const {
@@ -105,8 +103,8 @@ private:
     };
 
     void resetContadores(){
-        numColisoes=0;
-        numComparacoes=0;
+        numColisoes = 0;
+        numComparacoes = 0;
     };
 
 };

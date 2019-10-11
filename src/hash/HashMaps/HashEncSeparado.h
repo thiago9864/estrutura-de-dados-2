@@ -27,16 +27,44 @@ public:
     };
 
     ~HashEncSeparado(){
+        for(int i = 0; i<this->tamanho; i++){
+            if(hashMap[i].prox != nullptr){
+                deleteRecursivo(hashMap[i].prox);
+            }
+        }
         delete[] hashMap;
     };
 
     void inserir(UserReview item){
         int hs = HashFunctions::divisao(item.id, item.user, this->tamanho, this->primo);
-        HashItemSeparado newItem = this->criaHashItem(item);
         if(this->isPosicaoVazia(hs)){
-            // TODO: Realizar inserção
+            hashMap[hs] = criaHashItem(item);
+        } else {
+            HashItemSeparado* currentPointer = hashMap[hs].prox;
+            if(currentPointer != nullptr){
+                while(currentPointer->prox != nullptr){
+                    currentPointer = currentPointer->prox;
+                }
+            }
+            else {
+                hashMap[hs].prox = new HashItemSeparado(item.user, item.id);
+                return;
+            }
+            currentPointer->prox = new HashItemSeparado(item.user, item.id);
         }
     };
+
+    bool buscar(UserReview item){
+        int hs = HashFunctions::divisao(item.id, item.user, this->tamanho, this->primo);
+        if(hashMap[hs].idRating == item.id) return true;
+        HashItemSeparado* currentPointer = hashMap[hs].prox;
+        if(currentPointer == nullptr) return false;
+        while(currentPointer->prox != nullptr){
+            if(currentPointer->idRating == item.id) return true;
+            currentPointer = currentPointer->prox;
+        }
+        return currentPointer->idRating == item.id;
+    }
 
     int getTamanho() const {
         return tamanho;
@@ -84,9 +112,16 @@ private:
     };
 
     void resetContadores(){
-        numColisoes=0;
-        numComparacoes=0;
+        numColisoes = 0;
+        numComparacoes = 0;
     };
+
+    void deleteRecursivo(HashItemSeparado* deletado){
+        if(deletado->prox != nullptr){
+            this->deleteRecursivo(deletado->prox);
+        }
+        delete deletado;
+    }
 };
 
 
