@@ -12,7 +12,7 @@ using namespace std;
 class HashItemSeparado {
 public:
     int hs;
-    String name;
+    string name;
     long rating;
     HashItemSeparado* prox;
 
