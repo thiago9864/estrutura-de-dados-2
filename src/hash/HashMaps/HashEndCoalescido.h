@@ -14,8 +14,10 @@ using namespace std;
 
 class HashEndCoalescido {
 public:
+
     HashItemCoalescido(int tam){
         this->tamanho = tam;
+        this->primo = HashFunctions::encontraPrimo(tam);
 
         // Inicializa hashMap
         this->hashMap = new HashItemCoalescido[tam];
@@ -29,7 +31,7 @@ public:
     };
 
     void inserir(UserReview item){
-        int hs = HashFunctions::divisao(item.id, item.user, this->tamanho);
+        int hs = HashFunctions::divisao(item.id, item.user, this->tamanho, this->primo);
         HashItemCoalescido newItem = this->criaHashItem(hs, item);
         if(this->isPosicaoVazia(hs)){
             // TODO: Realizar inserção
@@ -57,6 +59,7 @@ private:
     HashItemCoalescido* hashMap;
     int numColisoes;
     int numComparacoes;
+    int primo;
 
     HashItemCoalescido criaHashItem(int hs, UserReview ur){
         HashItemCoalescido h;
