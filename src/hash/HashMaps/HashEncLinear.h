@@ -17,6 +17,7 @@ public:
 
     HashEncLinear(int tam){
         this->tamanho = tam;
+        this->primo = HashFunctions::encontraPrimo(tam);
 
         // Inicializa hashMap
         this->hashMap = new HashItemBasic[tam];
@@ -30,7 +31,7 @@ public:
     };
 
     void inserir(UserReview item){
-        int hs = HashFunctions::divisao(item.id, item.user, this->tamanho);
+        int hs = HashFunctions::divisao(item.id, item.user, this->tamanho, this->primo);
         HashItemBasic newItem = this->criaHashItem(hs, item);
         if(this->isPosicaoVazia(hs)){
             // não houve colisão - insere na tabela
@@ -112,6 +113,7 @@ private:
     HashItemBasic* hashMap;
     int numColisoes;
     int numComparacoes;
+    int primo;
 
     HashItemBasic criaHashItem(int hs, UserReview ur){
         HashItemBasic h;

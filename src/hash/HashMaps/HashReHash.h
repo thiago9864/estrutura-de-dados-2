@@ -17,6 +17,7 @@ class HashReHash {
 public:
     HashReHash(int tam){
         this->tamanho = tam;
+        this->primo = HashFunctions::encontraPrimo(tam);
 
         // Inicializa hashMap
         this->hashMap = new HashItemBasic[tam];
@@ -30,10 +31,22 @@ public:
     };
 
     void inserir(UserReview item){
-        int hs = HashFunctions::divisao(item.id, item.user, this->tamanho);
+        int hs = HashFunctions::divisao(item.id, item.user, this->tamanho, this->primo);
+        int initialHS = hs;
         HashItemBasic newItem = this->criaHashItem(hs, item);
         if(this->isPosicaoVazia(hs)){
-            // TODO: Realizar inserção
+            hashMap[hs] = criaHashItem(hs, item);
+        } else {
+            int hs2 = HashFunctions::multiplicacao(item.id, item.user, this->tamanho);
+            this->numColisoes++;
+            hs = (hs + hs2) % this->tamanho;
+
+            while(!this->isPosicaoVazia(hs)){
+                this->numColisoes++;
+                hs = (hs + hs2) % this->tamanho;
+            }
+            hashMap[hs] = criaHashItem(initialHS, item);
+
         }
     };
 
@@ -58,6 +71,7 @@ private:
     HashItemBasic* hashMap;
     int numColisoes;
     int numComparacoes;
+    int primo;
 
     HashItemBasic criaHashItem(int hs, UserReview ur){
         HashItemBasic h;
