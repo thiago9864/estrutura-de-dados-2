@@ -29,21 +29,29 @@ public:
         delete[] hashMap;
     };
 
+    void inserir(UserReview item){
+        int hs = HashFunctions::divisao(item.id, item.user, this->tamanho);
+        HashItemBasic newItem = this->criaHashItem(hs, item);
+        if(this->isPosicaoVazia(hs)){
+            // TODO: Realizar inserção
+        }
+    };
+
     int getTamanho() const {
         return tamanho;
-    }
+    };
 
     HashItemBasic *getHashMap() const {
         return hashMap;
-    }
+    };
 
     int getNumColisoes() const {
         return numColisoes;
-    }
+    };
 
     int getNumComparacoes() const {
         return numComparacoes;
-    }
+    };
 
 private:
     int tamanho;
@@ -66,6 +74,11 @@ private:
         h.rating = 0;
         return h;
     }
+
+    bool isPosicaoVazia(int pos){
+        numComparacoes++;
+        return hashMap[pos].hs == -1;
+    };
 
 };
 
