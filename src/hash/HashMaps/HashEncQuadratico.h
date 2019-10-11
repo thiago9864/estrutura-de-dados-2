@@ -33,10 +33,10 @@ public:
 
     void inserir(UserReview item){
         int hs = HashFunctions::divisao(item.id, item.user, this->tamanho, this->primo);
-        HashItemBasic newItem = this->criaHashItem(hs, item);
+        HashItemBasic newItem = this->criaHashItem(item);
         if(this->isPosicaoVazia(hs)){
             // não houve colisão - insere na tabela
-            hashMap[hs] = criaHashItem(hs, item);
+            hashMap[hs] = criaHashItem(item);
         } else {
             // houve uma colisão - resolver
             // procura a próxima posição vazia na heap pelo metodo linear
@@ -60,7 +60,7 @@ public:
 
                 if(isPosicaoVazia(hs_search)){
                     //a colisão foi resolvida
-                    hashMap[hs] = criaHashItem(hs, item);
+                    hashMap[hs] = criaHashItem(item);
                     break;
                 } else {
                     if(resolvendoComHashQuadratico){
@@ -116,25 +116,28 @@ private:
     bool resolvendoComHashQuadratico;
     int primo;
 
-    HashItemBasic criaHashItem(int hs, UserReview ur){
+    HashItemBasic criaHashItem(UserReview ur){
         HashItemBasic h;
-        h.hs = hs;
-        h.rating = ur.rating;
+        h.idRating = ur.id;
         h.name = ur.user;
         return h;
     };
 
     HashItemBasic criaHashItemVazio(){
         HashItemBasic h;
-        h.hs = -1;
         h.name = "";
-        h.rating = 0;
+        h.idRating = -1;
         return h;
     }
 
     bool isPosicaoVazia(int pos){
         numComparacoes++;
-        return hashMap[pos].hs == -1;
+        return hashMap[pos].idRating == -1;
+    };
+
+    void resetContadores(){
+        numColisoes=0;
+        numComparacoes=0;
     };
 
 };

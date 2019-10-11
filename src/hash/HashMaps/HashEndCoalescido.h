@@ -14,8 +14,7 @@ using namespace std;
 
 class HashEndCoalescido {
 public:
-
-    HashItemCoalescido(int tam){
+    HashEndCoalescido(int tam){
         this->tamanho = tam;
         this->primo = HashFunctions::encontraPrimo(tam);
 
@@ -32,11 +31,34 @@ public:
 
     void inserir(UserReview item){
         int hs = HashFunctions::divisao(item.id, item.user, this->tamanho, this->primo);
-        HashItemCoalescido newItem = this->criaHashItem(hs, item);
+        HashItemCoalescido newItem = this->criaHashItem(item);
         if(this->isPosicaoVazia(hs)){
-            // TODO: Realizar inserção
+            hashMap[hs] = criaHashItem(item);
+        } else {
+            numColisoes++;
+            for(int i = this->tamanho - 1; i >= 0; i--){
+                if(this->isPosicaoVazia(i)) {
+                    int pointerID = hs;
+                    while(pointerID!=-1){
+                        pointerID = hashMap[pointerID].idNext;
+                    }
+                    hashMap[pointerID].idNext = i;
+                    hashMap[i] = this->criaHashItem(item);
+                } else {
+                    numColisoes++;
+                }
+            }
         }
     };
+
+    bool buscar(UserReview item){
+        int hs = HashFunctions::divisao(item.id, item.user, this->tamanho, this->primo);
+        while(hashMap[hs].idRating!=item.id || hashMap[hs].idNext == -1){
+            hs = hashMap[hs].idNext;
+        }
+        if(hashMap[hs].idRating == item.id) return true;
+        else return false;
+    }
 
     int getTamanho() const {
         return tamanho;
@@ -61,29 +83,30 @@ private:
     int numComparacoes;
     int primo;
 
-    HashItemCoalescido criaHashItem(int hs, UserReview ur){
+    HashItemCoalescido criaHashItem(UserReview ur){
         HashItemCoalescido h;
-        h.hs = hs;
-        h.rating = ur.rating;
+        h.idRating = ur.id;
         h.name = ur.user;
         h.idNext = -1;
-
         return h;
     };
 
     HashItemCoalescido criaHashItemVazio(){
         HashItemCoalescido h;
-        h.hs = -1;
         h.name = "";
-        h.rating = 0;
+        h.idRating = -1;
         h.idNext = -2;
-
         return h;
-    };
+    }
 
     bool isPosicaoVazia(int pos){
         numComparacoes++;
-        return hashMap[pos].hs == -1;
+        return hashMap[pos].idRating == -1;
+    };
+
+    void resetContadores(){
+        numColisoes=0;
+        numComparacoes=0;
     };
 
 };

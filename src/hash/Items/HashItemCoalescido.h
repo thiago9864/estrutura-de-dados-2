@@ -11,9 +11,8 @@ using namespace std;
 
 class HashItemCoalescido {
 public:
-    int hs;
     string name;
-    long rating; // É o id do rating
+    long idRating; // É o id do rating
     int idNext; // Eh o id que o proximo item foi redirecionado em caso de colisao
 };
 

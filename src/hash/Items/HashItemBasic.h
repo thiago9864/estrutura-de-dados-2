@@ -11,9 +11,8 @@ using namespace std;
 
 class HashItemBasic {
 public:
-    int hs;
     string name;
-    long rating; // É o id do rating
+    long idRating; // É o id do rating
 };
 
 

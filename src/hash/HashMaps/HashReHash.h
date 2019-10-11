@@ -32,10 +32,9 @@ public:
 
     void inserir(UserReview item){
         int hs = HashFunctions::divisao(item.id, item.user, this->tamanho, this->primo);
-        int initialHS = hs;
-        HashItemBasic newItem = this->criaHashItem(hs, item);
+        HashItemBasic newItem = this->criaHashItem(item);
         if(this->isPosicaoVazia(hs)){
-            hashMap[hs] = criaHashItem(hs, item);
+            hashMap[hs] = criaHashItem(item);
         } else {
             int hs2 = HashFunctions::multiplicacao(item.id, item.user, this->tamanho);
             this->numColisoes++;
@@ -45,10 +44,30 @@ public:
                 this->numColisoes++;
                 hs = (hs + hs2) % this->tamanho;
             }
-            hashMap[hs] = criaHashItem(initialHS, item);
+            hashMap[hs] = criaHashItem(item);
 
         }
     };
+
+    bool buscar(UserReview item){
+        int hs = HashFunctions:: divisao(item.id, item.user, this->tamanho, this->primo);
+        int checkCounter = 0;
+        if(hashMap[hs].idRating == item.id){
+            return true;
+        }
+        checkCounter++;
+        int hs2 = HashFunctions::multiplicacao(item.id, item.user, this->tamanho);
+        hs = hs + hs2;
+        while(checkCounter <= this->tamanho){
+            if(hashMap[hs].idRating == item.id){
+                return true;
+            }
+            else{
+                hs = hs + hs2;
+            }
+            checkCounter++;
+        }
+    }
 
     int getTamanho() const {
         return tamanho;
@@ -73,25 +92,28 @@ private:
     int numComparacoes;
     int primo;
 
-    HashItemBasic criaHashItem(int hs, UserReview ur){
+    HashItemBasic criaHashItem(UserReview ur){
         HashItemBasic h;
-        h.hs = hs;
-        h.rating = ur.rating;
+        h.idRating = ur.id;
         h.name = ur.user;
         return h;
     };
 
     HashItemBasic criaHashItemVazio(){
         HashItemBasic h;
-        h.hs = -1;
         h.name = "";
-        h.rating = 0;
+        h.idRating = -1;
         return h;
     }
 
     bool isPosicaoVazia(int pos){
         numComparacoes++;
-        return hashMap[pos].hs == -1;
+        return hashMap[pos].idRating == -1;
+    };
+
+    void resetContadores(){
+        numColisoes=0;
+        numComparacoes=0;
     };
 
 };

@@ -15,7 +15,7 @@
 #include "../LeitorUserReviews.h"
 #include "../Log.h"
 #include "../LeitorBase.h"
-#include "../hashing/HashEndCoalescido.h"
+#include "hashing/HashEndCoalescidoRenan.h"
 #include "../hashing/EndSondagemLinear.h"
 #include "../hashing/EndSondagemQuadratica.h"
 #include "../hashing/HashingDuplo.h"
