@@ -6,6 +6,7 @@
 #define SRC_HASHENCQUADRATICO_H
 
 #include <iostream>
+#include <cmath>
 #include "../../UserReview.h"
 #include "../Items/HashItemBasic.h"
 #include "../HashFunctions.h"
@@ -33,7 +34,53 @@ public:
         int hs = HashFunctions::divisao(item.id, item.user, this->tamanho);
         HashItemBasic newItem = this->criaHashItem(hs, item);
         if(this->isPosicaoVazia(hs)){
-            // TODO: Realizar inserção
+            // não houve colisão - insere na tabela
+            hashMap[hs] = criaHashItem(hs, item);
+        } else {
+            // houve uma colisão - resolver
+            // procura a próxima posição vazia na heap pelo metodo linear
+            numColisoesQuad++;
+            int j=1;// conta a iteração
+            int hs_search = hs+1;//auxiliar para percorrer linearmente a tabela
+            resolvendoComHashQuadratico=true;//inicia com hash quadratico
+
+            while(j<tamanho){
+                if(hs_search >= tamanho){
+                    //fim do vetor, tenta pegar do inicio com a diferença restante
+                    hs_search -= tamanho;
+
+                    if(hs_search >= tamanho){
+                        //se ainda for maior que o tamanho da tabela, muda de estratégia
+                        resolvendoComHashQuadratico=false;
+                        numMudancasEstrategia++;
+                        hs_search=hs+1;//vai resetar a posição do hash pra tentar o linear
+                    }
+                }
+
+                if(isPosicaoVazia(hs_search)){
+                    //a colisão foi resolvida
+                    hashMap[hs] = criaHashItem(hs, item);
+                    break;
+                } else {
+                    if(resolvendoComHashQuadratico){
+                        numColisoesQuad++;//contabiliza a colisão quadratica
+                    } else {
+                        numColisoesLin++;
+                    }
+                }
+
+                //calcula o proximo salto
+                if(resolvendoComHashQuadratico){
+                    //estrategia para sondagem quadrática
+                    hs_search = hs + pow(2, j);
+                } else {
+                    //estrategia para sondagem linear
+                    hs_search++;
+                }
+
+                j++;
+                hs_search++;
+            }
         }
     };
 
@@ -45,19 +92,27 @@ public:
         return hashMap;
     };
 
-    int getNumColisoes() const {
-        return numColisoes;
+    int getNumColisoesQuadraticas() const {
+        return numColisoesQuad;
+    };
+    int getNumColisoesLineares() const {
+        return numColisoesLin;
     };
 
     int getNumComparacoes() const {
         return numComparacoes;
     };
 
+    //TODO: Fazer um metodo de reset
+
 private:
     int tamanho;
     HashItemBasic* hashMap;
-    int numColisoes;
+    int numColisoesQuad;
+    int numColisoesLin;
+    int numMudancasEstrategia;
     int numComparacoes;
+    bool resolvendoComHashQuadratico;
 
     HashItemBasic criaHashItem(int hs, UserReview ur){
         HashItemBasic h;

@@ -33,9 +33,63 @@ public:
         int hs = HashFunctions::divisao(item.id, item.user, this->tamanho);
         HashItemBasic newItem = this->criaHashItem(hs, item);
         if(this->isPosicaoVazia(hs)){
-            // TODO: Realizar inserção
+            // não houve colisão - insere na tabela
+            hashMap[hs] = criaHashItem(hs, item);
+        } else {
+            // houve uma colisão - resolver
+            // procura a próxima posição vazia na heap pelo metodo linear
+            numColisoes++;
+            int j=0;// conta a iteração
+            int hs_search = hs+1;//auxiliar para percorrer linearmente a tabela
+            while(j<tamanho){
+                if(hs_search >= tamanho){
+                    //chegou no fim do vetor sem resolver, busca do inicio agora
+                    hs_search = 0;
+                }
+                if(isPosicaoVazia(hs_search)){
+                    //a colisão foi resolvida
+                    hashMap[hs] = criaHashItem(hs, item);
+                    break;
+                } else {
+                    numColisoes++;//contabiliza a colisão
+                }
+                j++;
+                hs_search++;
+            }
         }
     };
+
+    /**
+     * Verifica se o item está na tabela
+     * @return boolean
+     */
+    bool buscar(UserReview item){
+        //constroi o k com o valor de id e o nome do usuario
+        int hs = HashFunctions::divisao(item.id, item.user, this->tamanho);
+
+        //verifica a tabela pra ver se o item está lá
+        if(hashMap[hs].rating == item.id){
+            return true;
+        }
+
+        int j=0;//conta a iteração
+        int hs_search = hs;//posição do hash
+        while(j<tamanho){
+            if(hashMap[hs_search].rating == item.id){
+                return true;
+            }
+            j++;
+            hs_search++;
+            if(hs_search >= tamanho){
+                //chegou no fim do vetor sem resolver, busca do inicio agora
+                hs_search = 0;
+            }
+        }
+
+        return false;
+    }
+
+
 
     int getTamanho() const {
         return tamanho;

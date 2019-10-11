@@ -12,7 +12,7 @@ using namespace std;
 class HashItemBasic {
 public:
     int hs;
-    String name;
+    string name;
     long rating;
 };
 

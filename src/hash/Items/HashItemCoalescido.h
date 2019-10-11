@@ -12,7 +12,7 @@ using namespace std;
 class HashItemCoalescido {
 public:
     int hs;
-    String name;
+    string name;
     long rating;
     int idNext; // Eh o id que o proximo item foi redirecionado em caso de colisao
 };
