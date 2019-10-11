@@ -13,7 +13,7 @@ class HashItemSeparado {
 public:
     int hs;
     string name;
-    long rating;
+    long rating; // É o id do rating
     HashItemSeparado* prox;
 
 };

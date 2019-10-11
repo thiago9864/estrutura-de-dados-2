@@ -32,9 +32,21 @@ public:
 
     void inserir(UserReview item){
         int hs = HashFunctions::divisao(item.id, item.user, this->tamanho, this->primo);
+        int initialHS = hs;
         HashItemBasic newItem = this->criaHashItem(hs, item);
         if(this->isPosicaoVazia(hs)){
-            // TODO: Realizar inserção
+            hashMap[hs] = criaHashItem(hs, item);
+        } else {
+            int hs2 = HashFunctions::multiplicacao(item.id, item.user, this->tamanho);
+            this->numColisoes++;
+            hs = (hs + hs2) % this->tamanho;
+
+            while(!this->isPosicaoVazia(hs)){
+                this->numColisoes++;
+                hs = (hs + hs2) % this->tamanho;
+            }
+            hashMap[hs] = criaHashItem(initialHS, item);
+
         }
     };
 
