@@ -21,7 +21,7 @@ class HashMapItem {
         UserReview userReview;
 };
 
-class HashEndCoalescido {
+class HashEndCoalescidoRenan {
 
     private:
         int tamanho; //Tamanho Original dos dados
@@ -32,7 +32,7 @@ class HashEndCoalescido {
         HashMapItem *hashMap;
 
     public:
-        HashEndCoalescido(UserReview* vetor, int tam)
+        HashEndCoalescidoRenan(UserReview* vetor, int tam)
         {
             this->vetor = vetor;
             this->tamanho = tam;
@@ -121,7 +121,7 @@ class HashEndCoalescido {
             return hashMap[hs].userReview.id == -2;
         }
 
-        ~HashEndCoalescido()
+        ~HashEndCoalescidoRenan()
         {
             delete [] vetor;
             delete [] hashMap;

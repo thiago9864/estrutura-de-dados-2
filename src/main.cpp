@@ -38,15 +38,15 @@
 #include "ordenacao/RadixSort.h"
 
 //hashing
-#include "hashing/EndSondagemLinear.h"
-#include "hashing/EndSondagemQuadratica.h"
-//#include "hashing/HashingDuplo.h"
+#include "hash/HashMaps/HashEncLinear.h"
+#include "hash/HashMaps/HashEncQuadratico.h"
+
 
 //cenarios
 #include "cenarios/Cenario1.h"
 #include "cenarios/Cenario2.h"
 #include "cenarios/Cenario3.h"
-#include "cenarios/Cenario4.h"
+//#include "cenarios/Cenario4.h"
 
 using namespace std;
 
@@ -297,8 +297,8 @@ void hashingSubMenu(){
 
         switch (numberUserInput){
             case 1:{
-                auto *endSondagemLinear = new EndSondagemLinear(nItemsImportados);
-                endSondagemLinear->resetContadores();
+                auto *endSondagemLinear = new HashEncLinear(nItemsImportados);
+                //endSondagemLinear->resetContadores();
                 base.timerStart();
                 //faz a inserção dos registros
                 for(int i=0; i<nItemsImportados; i++){
@@ -313,8 +313,8 @@ void hashingSubMenu(){
                 break;
             }
             case 2:{
-                auto *endSondagemQuadratica = new EndSondagemQuadratica(nItemsImportados);
-                endSondagemQuadratica->resetContadores();
+                auto *endSondagemQuadratica = new HashEncQuadratico(nItemsImportados);
+                //endSondagemQuadratica->resetContadores();
                 base.timerStart();
                 //faz a inserção dos registros
                 for(int i=0; i<nItemsImportados; i++){
@@ -322,7 +322,9 @@ void hashingSubMenu(){
                 }
                 //resultados
                 cout << "Concluiu em " << base.timerEnd() << " segundos." << endl;
-                cout << "Numero de colisoes: " << endSondagemQuadratica->getNumColisoes() << endl;
+                cout << "Numero de colisoes lineares: " << endSondagemQuadratica->getNumColisoesLineares() << endl;
+                cout << "Numero de colisoes quadraticas: " << endSondagemQuadratica->getNumColisoesQuadraticas() << endl;
+                //cout << "Numero de colisoes: " << endSondagemQuadratica->get() << endl;
                 cout << "Numero de comparacoes: " << endSondagemQuadratica->getNumComparacoes() << endl << endl;
                 delete endSondagemQuadratica;
                 endSondagemQuadratica = NULL;
@@ -397,9 +399,9 @@ void cenariosSubMenu(){
                 break;
             }
             case 4:{
-                auto *cenario4 = new Cenario4("Cenario4.txt", "cenario4 "+base.getCurrentDateAsString()+".csv");
+                /*auto *cenario4 = new Cenario4("Cenario4.txt", "cenario4 "+base.getCurrentDateAsString()+".csv");
                 cenario4->realizaTeste();
-                delete cenario4;
+                delete cenario4;*/
                 break;
             }
             case 0:{
