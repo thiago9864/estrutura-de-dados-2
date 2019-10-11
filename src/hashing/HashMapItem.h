@@ -10,12 +10,16 @@
 #ifndef HASHMAPITEM_H
 #define HASHMAPITEM_H
 
+
+
 #include "../UserReview.h"
+#include "ListaEncadeada.h"
 
 class HashMapItem {
     public:
         int hs;
-        UserReview userReview;
+        float rating;
+        string user;
 };
 
 #endif // HASHMAPITEM_H
