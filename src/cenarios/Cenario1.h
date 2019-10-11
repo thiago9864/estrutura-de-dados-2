@@ -95,7 +95,7 @@ public:
             cout << "QuickSort Recursivo" << endl;
 
             //inicialização do algoritmo
-            QuickSort<UserReview> *quickSort = new QuickSort<UserReview>();
+            QuickSort<UserReview> *quickSortObjetos = new QuickSort<UserReview>();
 
             timerStart();//marca o tempo inicial
 
@@ -110,9 +110,9 @@ public:
             salvaLinhaResultado(0, t);
 
             //libera memoria desse teste
-            delete quickSort; // colocar variavel do algoritmo aqui
+            delete quickSortObjetos; // colocar variavel do algoritmo aqui
             delete[] copiaLocal;
-            quickSort = NULL; // colocar variavel do algoritmo aqui
+            quickSortObjetos = NULL; // colocar variavel do algoritmo aqui
             copiaLocal = NULL;
 
             ////////// Quicksort (Inteiros) //////////
@@ -127,7 +127,7 @@ public:
             cout << "QuickSort Recursivo" << endl;
 
             //inicialização do algoritmo
-            QuickSort<int> *quickSort = new QuickSort<int>();
+            QuickSort<int> *quickSortInt = new QuickSort<int>();
 
             timerStart();//marca o tempo inicial
 
@@ -142,9 +142,9 @@ public:
             salvaLinhaResultado(0, t);
 
             //libera memoria desse teste
-            delete quickSort; // colocar variavel do algoritmo aqui
+            delete quickSortInt; // colocar variavel do algoritmo aqui
             delete[] copiaLocal;
-            quickSort = NULL; // colocar variavel do algoritmo aqui
+            quickSortInt = NULL; // colocar variavel do algoritmo aqui
             copiaLocal = NULL;
 
         }

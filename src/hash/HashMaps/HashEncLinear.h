@@ -66,7 +66,7 @@ public:
      */
     bool buscar(UserReview item){
         //constroi o k com o valor de id e o nome do usuario
-        int hs = HashFunctions::divisao(item.id, item.user, this->tamanho);
+        int hs = HashFunctions::divisao(item.id, item.user, this->tamanho, primo);
 
         //verifica a tabela pra ver se o item está lá
         if(hashMap[hs].rating == item.id){
