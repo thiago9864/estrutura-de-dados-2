@@ -84,6 +84,23 @@ public:
         return numComparacoes;
     };
 
+    void resetContadores(){
+        numColisoes = 0;
+        numComparacoes = 0;
+    };
+
+    /**
+     * Imprime o hashmap para debug
+     */
+    void imprime(){
+        cout << endl << "------- Imprime a tabela Hash -------" << endl << endl;
+        for(int i=0; i<tamanho; i++){
+            cout << "#" << i << ": ";
+            cout << "id: " << hashMap[i].idRating << ", ";
+            cout << "user: " << hashMap[i].name << endl;
+        }
+    }
+
 private:
     int tamanho;
     HashItemBasic* hashMap;
@@ -108,11 +125,6 @@ private:
     bool isPosicaoVazia(int pos){
         numComparacoes++;
         return hashMap[pos].idRating == -1;
-    };
-
-    void resetContadores(){
-        numColisoes = 0;
-        numComparacoes = 0;
     };
 
 };

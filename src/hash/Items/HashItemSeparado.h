@@ -11,7 +11,7 @@ using namespace std;
 
 class HashItemSeparado {
 public:
-    HashItemSeparado();
+    HashItemSeparado(){}
     HashItemSeparado(string name, long idRating){
         this->name = name;
         this->idRating = idRating;

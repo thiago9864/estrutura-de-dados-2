@@ -48,7 +48,7 @@ public:
                 }
                 if(isPosicaoVazia(hs_search)){
                     //a colisão foi resolvida
-                    hashMap[hs] = criaHashItem(item);
+                    hashMap[hs_search] = criaHashItem(item);
                     break;
                 } else {
                     numColisoes++;//contabiliza a colisão
@@ -72,8 +72,8 @@ public:
             return true;
         }
 
-        int j=0;//conta a iteração
-        int hs_search = hs;//posição do hash
+        int j=1;//conta a iteração
+        int hs_search = hs+1;//posição do hash
         while(j<tamanho){
             if(hashMap[hs_search].idRating == item.id){
                 return true;
@@ -107,6 +107,26 @@ public:
         return numComparacoes;
     };
 
+    /**
+     * Zera os contadores de comparação e colisão
+     * @return int
+     */
+    void resetContadores(){
+        numColisoes=0;
+        numComparacoes=0;
+    }
+
+    /**
+     * Imprime o hashmap para debug
+     */
+    void imprime(){
+        cout << endl << "------- Imprime a tabela Hash -------" << endl << endl;
+        for(int i=0; i<tamanho; i++){
+            cout << "#" << i << ": ";
+            cout << "id: " << hashMap[i].idRating << ", ";
+            cout << "user: " << hashMap[i].name << endl;
+        }
+    }
 private:
     int tamanho;
     HashItemBasic* hashMap;
@@ -131,11 +151,6 @@ private:
     bool isPosicaoVazia(int pos){
         numComparacoes++;
         return hashMap[pos].idRating == -1;
-    };
-
-    void resetContadores(){
-        numColisoes = 0;
-        numComparacoes = 0;
     };
 
 };
