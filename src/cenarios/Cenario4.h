@@ -66,11 +66,11 @@ public:
         for(int a=0; a<numAlgoritmos; a++){
             temposDeExecucao[a] = new double[numTestes];
             numeroDeComparacores[a] = new uint64_t[numTestes];
-            numeroDeTrocas[a] = new uint64_t[numTestes];
+            gastoDeMemoria[a] = new uint64_t[numTestes];
             for(int t=0; t<numTestes; t++){
                 temposDeExecucao[a][t] = 0;
                 numeroDeComparacores[a][t] = 0;
-                numeroDeTrocas[a][t] = 0;
+                gastoDeMemoria[a][t] = 0;
             }
         }
 
@@ -81,38 +81,33 @@ public:
         for(int t=0; t<numTestes; t++){
 
             cout << endl << "Executando o teste com " << testes[t] << " registros" << endl;
-            tamVetorInt = testes[t];//marca aqui o tamanho do vetor de ints do teste
+            sizeDataset = testes[t];//marca aqui o tamanho do vetor de ints do teste
 
             //obtem dados do teste com a semente atual
-            carregaDadosTeste(tamVetorInt);
+            carregaDadosTeste(sizeDataset);
 
             int* copiaLocal;//copia do vetor de testes usada no algoritmo
             double tempo_teste;
 
             ////////// Enderecamento por Sondagem Linear //////////
-
-            //rodar isso sempre antes de qualquer ordenação
-            copiaLocal = copiaLocalVetorInt();
-
-            //debug - Salvar o vetor fonte
-            //salvaVetor("vetor_fonte_"+to_string(tamVetorInt)+".csv", copiaLocal, tamVetorInt);
+]
 
             //debug - nome do algoritmo
             cout << "- Enderecamento por Sondagem Linear" << endl;
 
             //inicialização do algoritmo
-            auto *endSondagemLinear = new EndSondagemLinear(tamVetorInt);
-            for(int i = 0; i<tamVetorInt; i++){
-                endSondagemLinear->inserir()
+            auto* encLinear = new HashEncLinear(sizeDataset);
+
+
+            // Iniciando as inserções
+            for(int i = 0; i<sizeDataset; i++){
+                encLinear->inserir(dataset[i]);
             }
-
-            // aqui roda o algoritmo
-
 
             //salva os resultados
             temposDeExecucao[0][t] = tempo_teste;
             numeroDeComparacores[0][t] = 0;//pegar do algoritmo
-            numeroDeTrocas[0][t] = 0;//pegar do algoritmo
+            gastoDeMemoria[0][t] = 0;//pegar do algoritmo
             salvaLinhaResultado(0, t);
 
             //libera memoria desse teste
@@ -252,12 +247,10 @@ private:
     string nomeArquivoEntrada;
     int numTestes;
     int* testes;
-    int *dataset = NULL;//vetor de objetos do dataset
-    int *vetorInt = NULL;//vetor de inteiros dos ids do dataset
-    int tamVetorInt = NULL;
+    UserReview *dataset = NULL;//vetor de objetos do dataset
+    int sizeDataset = NULL;
     double** temposDeExecucao;
     uint64_t** numeroDeComparacores;
-    uint64_t** numeroDeTrocas;
     uint64_t** gastoDeMemoria;
     string *algoritmos;
     int numAlgoritmos;
@@ -270,10 +263,42 @@ private:
         linha += algoritmos[indice_algoritmo] + ",";
         linha += to_string(temposDeExecucao[indice_algoritmo][indice_teste]) + ",";
         linha += to_string(numeroDeComparacores[indice_algoritmo][indice_teste]) + ",";
-        linha += to_string(numeroDeTrocas[indice_algoritmo][indice_teste]);
+        linha += to_string(gastoDeMemoria[indice_algoritmo][indice_teste]);
 
         Log::getInstance().lineArquivo(linha);
     }
+
+    void carregaDadosTeste(int qtdDadosTeste){
+
+        LeitorUserReviews *userReviews = new LeitorUserReviews(qtdDadosTeste);
+        UserReview* dts = userReviews->getDataset();
+
+        if(dataset != NULL){
+            //limpa memoria se tiver alguma coisa nele
+            delete[] dataset;
+        }
+        if(vetorInt != NULL){
+            //limpa memoria se tiver alguma coisa nele
+            delete[] vetorInt;
+        }
+
+        this->dataset = new UserReview[qtdDadosTeste];
+        this->vetorInt = new int[qtdDadosTeste];
+
+        //monta vetor de inteiros
+        for(int i=0; i<qtdDadosTeste; i++){
+            dataset[i] = dts[i];
+            vetorInt[i] = dts[i].id;
+        }
+
+        //debug - Salvar o vetor fonte
+        //salvaVetor("vetor_fonte_"+to_string(tamVetorInt)+".csv", copiaLocal, tamVetorInt);
+
+
+        delete userReviews;//libera memória do leitor
+    }
+
+
 
     /**
     * Carrega o arquivo de configuração do teste, que está na pasta 'entradas'
@@ -335,8 +360,8 @@ private:
     * @return *int
     */
     int* copiaLocalVetorInt(){
-        int* copia = new int[tamVetorInt];
-        for(int i=0; i<tamVetorInt; i++){
+        int* copia = new int[sizeDataset];
+        for(int i=0; i<sizeDataset; i++){
             //copia[i] = dataset[i].id;
             copia[i] = dataset[i];
         }
