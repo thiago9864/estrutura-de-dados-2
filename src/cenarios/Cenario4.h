@@ -15,10 +15,11 @@
 #include "../LeitorUserReviews.h"
 #include "../Log.h"
 #include "../LeitorBase.h"
-#include "hashing/HashEndCoalescidoRenan.h"
-#include "../hashing/EndSondagemLinear.h"
-#include "../hashing/EndSondagemQuadratica.h"
-#include "../hashing/HashingDuplo.h"
+#include "../hash/HashMaps/HashEncLinear.h"
+#include "../hash/HashMaps/HashEncQuadratico.h"
+#include "../hash/HashMaps/HashEncSeparado.h"
+#include "../hash/HashMaps/HashEndCoalescido.h"
+#include "../hash/HashMaps/HashReHash.h"
 
 using namespace std;
 
@@ -101,7 +102,7 @@ public:
 
             //inicialização do algoritmo
             auto *endSondagemLinear = new EndSondagemLinear(tamVetorInt);
-            for(int i = 0, i<tamVetorInt, i++){
+            for(int i = 0; i<tamVetorInt; i++){
                 endSondagemLinear->inserir()
             }
 
@@ -257,6 +258,7 @@ private:
     double** temposDeExecucao;
     uint64_t** numeroDeComparacores;
     uint64_t** numeroDeTrocas;
+    uint64_t** gastoDeMemoria;
     string *algoritmos;
     int numAlgoritmos;
 
