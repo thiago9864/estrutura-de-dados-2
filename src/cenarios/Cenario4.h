@@ -57,9 +57,9 @@ public:
         algoritmos = new string[numAlgoritmos];
         algoritmos[0] = "Enderecamento por Sondagem Linear";
         algoritmos[1] = "Enderecamento por Sondagem Quadratica";
-        algoritmos[2] = "Enderecamento por Duplo Hash";
-        algoritmos[3] = "Encadeamento Separado";
-        algoritmos[4] = "Encadeamento Coalescido";
+        algoritmos[2] = "Encadeamento Separado";
+        algoritmos[3] = "Encadeamento Coalescido";
+        algoritmos[4] = "Enderecamento por Duplo Hash";
 
         //cria os vetores de teste
         temposDeExecucao = new double*[numAlgoritmos];
