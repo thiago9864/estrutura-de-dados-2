@@ -49,7 +49,7 @@
 #include "cenarios/Cenario1.h"
 #include "cenarios/Cenario2.h"
 #include "cenarios/Cenario3.h"
-//#include "cenarios/Cenario4.h"
+#include "cenarios/Cenario4.h"
 
 using namespace std;
 
@@ -473,9 +473,9 @@ void cenariosSubMenu(){
                 break;
             }
             case 4:{
-                /*auto *cenario4 = new Cenario4("Cenario4.txt", "cenario4 "+base.getCurrentDateAsString()+".csv");
+                auto *cenario4 = new Cenario4("Cenario4.txt", "cenario4 "+base.getCurrentDateAsString()+".csv");
                 cenario4->realizaTeste();
-                delete cenario4;*/
+                delete cenario4;
                 break;
             }
             case 0:{

@@ -261,18 +261,12 @@ private:
             //limpa memoria se tiver alguma coisa nele
             delete[] dataset;
         }
-        if(vetorInt != NULL){
-            //limpa memoria se tiver alguma coisa nele
-            delete[] vetorInt;
-        }
 
         this->dataset = new UserReview[qtdDadosTeste];
-        this->vetorInt = new int[qtdDadosTeste];
 
         //monta vetor de inteiros
         for(int i=0; i<qtdDadosTeste; i++){
             dataset[i] = dts[i];
-            vetorInt[i] = dts[i].id;
         }
 
         //debug - Salvar o vetor fonte
@@ -322,36 +316,15 @@ private:
     */
     void carregaDadosTeste(int qtdDadosTeste){
 
-        LeitorUserReviews *userReviews = new LeitorUserReviews(qtdDadosTeste);
-        UserReview* dts = userReviews->getDataset();
+        auto *userReviews = new LeitorUserReviews(qtdDadosTeste);
+        this->dataset = userReviews->getDataset();
 
-        if(dataset != NULL){
+        if(dataset != nullptr){
             //limpa memoria se tiver alguma coisa nele
             delete[] dataset;
         }
-        this->dataset = new int[qtdDadosTeste];
-
-        //monta vetor de inteiros
-        for(int i=0; i<qtdDadosTeste; i++){
-            dataset[i] = dts[i].id;
-        }
         delete userReviews;//libera memória do leitor
     }
-
-    /**
-    * Faz uma cópia do vetor de inteiros.
-    * Isso é usado porque os algoritmos modificam o vetor
-    * @return *int
-    */
-    int* copiaLocalVetorInt(){
-        int* copia = new int[sizeDataset];
-        for(int i=0; i<sizeDataset; i++){
-            //copia[i] = dataset[i].id;
-            copia[i] = dataset[i];
-        }
-        return copia;
-    }
-
 
     /**
     * Debug: Imprime o vetor de inteiros
