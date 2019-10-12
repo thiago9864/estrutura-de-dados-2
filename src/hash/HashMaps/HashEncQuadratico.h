@@ -103,7 +103,9 @@ public:
         return numComparacoes;
     };
 
-    //TODO: Fazer um metodo de reset
+    int getNumMudancasEstrategia() const {
+        return numMudancasEstrategia;
+    }
 
 private:
     int tamanho;

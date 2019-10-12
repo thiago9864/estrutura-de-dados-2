@@ -40,6 +40,9 @@
 //hashing
 #include "hash/HashMaps/HashEncLinear.h"
 #include "hash/HashMaps/HashEncQuadratico.h"
+#include "hash/HashMaps/HashEncSeparado.h"
+#include "hash/HashMaps/HashEndCoalescido.h"
+#include "hash/HashMaps/HashReHash.h"
 
 
 //cenarios
@@ -309,7 +312,6 @@ void hashingSubMenu(){
                 cout << "Numero de colisoes: " << endSondagemLinear->getNumColisoes() << endl;
                 cout << "Numero de comparacoes: " << endSondagemLinear->getNumComparacoes() << endl << endl;
                 delete endSondagemLinear;
-                endSondagemLinear = NULL;
                 break;
             }
             case 2:{
@@ -327,22 +329,51 @@ void hashingSubMenu(){
                 //cout << "Numero de colisoes: " << endSondagemQuadratica->get() << endl;
                 cout << "Numero de comparacoes: " << endSondagemQuadratica->getNumComparacoes() << endl << endl;
                 delete endSondagemQuadratica;
-                endSondagemQuadratica = NULL;
                 break;
             }
             case 3:{
-                //TODO: Implementar Hashing com Duplo Hash
-                cout << "Codigo solicitado não concluido por enquanto" << endl;
+                auto *reHash = new HashReHash(nItemsImportados);
+                //reHash->resetContadores();
+                base.timerStart();
+                //faz a inserção dos registros
+                for(int i=0; i<nItemsImportados; i++){
+                    reHash->inserir(dataset3[i]);
+                }
+                //resultados
+                cout << "Concluiu em " << base.timerEnd() << " segundos." << endl;
+                cout << "Numero de colisoes: " << reHash->getNumColisoes() << endl;
+                cout << "Numero de comparacoes: " << reHash->getNumComparacoes() << endl << endl;
+                delete reHash;
                 break;
             }
             case 4:{
-                //TODO: Implementar Hashing com Encadeamento Separado
-                cout << "Codigo solicitado não concluido por enquanto" << endl;
+                auto *encSeparado = new HashEncSeparado(nItemsImportados);
+                //encSeparado->resetContadores();
+                base.timerStart();
+                //faz a inserção dos registros
+                for(int i=0; i<nItemsImportados; i++){
+                    encSeparado->inserir(dataset3[i]);
+                }
+                //resultados
+                cout << "Concluiu em " << base.timerEnd() << " segundos." << endl;
+                cout << "Numero de colisoes: " << encSeparado->getNumColisoes() << endl;
+                cout << "Numero de comparacoes: " << encSeparado->getNumComparacoes() << endl << endl;
+                delete encSeparado;
                 break;
             }
             case 5:{
-                //TODO: Implementar Hashing com Encadeamento Coalescido
-                cout << "Codigo solicitado não concluido por enquanto" << endl;
+                auto *encCoalescido = new HashEndCoalescido(nItemsImportados);
+                //encSeparado->resetContadores();
+                base.timerStart();
+                //faz a inserção dos registros
+                for(int i=0; i<nItemsImportados; i++){
+                    encCoalescido->inserir(dataset3[i]);
+                }
+                //resultados
+                cout << "Concluiu em " << base.timerEnd() << " segundos." << endl;
+                cout << "Numero de colisoes: " << encCoalescido->getNumColisoes() << endl;
+                cout << "Numero de comparacoes: " << encCoalescido->getNumComparacoes() << endl << endl;
+                delete encCoalescido;
                 break;
             }
             case 9:{
