@@ -49,11 +49,13 @@ public:
 
         uint64_t inicio;
 
-        numAlgoritmos = 3;
+        numAlgoritmos = 4;
         algoritmos = new string[numAlgoritmos];
         algoritmos[0] = "Quicksort";
-        algoritmos[1] = "Quicksort Mediana";
-        algoritmos[2] = "Quicksort Insertion";
+        algoritmos[1] = "Quicksort Insertion";
+        algoritmos[2] = "Quicksort Mediana (k=3)";
+        algoritmos[3] = "Quicksort Mediana (k=5)";
+
 
 
         //cria os vetores de teste
@@ -144,10 +146,10 @@ public:
             quickSortInsertion = NULL;
             copiaLocal = NULL;
 
-            ////////// QuickSortMediana //////////
+            ////////// QuickSortMediana k=3 //////////
 
             copiaLocal = copiaLocalVetorInt();
-            cout << "- QuickSortMediana" << endl;
+            cout << "- QuickSortMediana (k=3)" << endl;
 
             //inicia o algoritmo de ordenacao
             QuickSortMediana<int> *quickSortMediana = new QuickSortMediana<int>();
@@ -171,6 +173,35 @@ public:
             delete[] copiaLocal;
             quickSortMediana = NULL;
             copiaLocal = NULL;
+
+            ////////// QuickSortMediana k=5 //////////
+
+            copiaLocal = copiaLocalVetorInt();
+            cout << "- QuickSortMediana (k=5)" << endl;
+
+            //inicia o algoritmo de ordenacao
+            QuickSortMediana<int> *quickSortMediana_k5 = new QuickSortMediana<int>();
+
+            timerStart();//marca o tempo inicial
+            quickSortMediana_k5->resetContadores();
+            quickSortMediana_k5->ordenarInt(copiaLocal, 5, 0, tamVetorInt-1);
+            tempo_teste = timerEnd();//marca o tempo final
+
+            //salva os resultados
+            temposDeExecucao[3][t] = tempo_teste;
+            numeroDeComparacores[3][t] = quickSortMediana_k5->getNumComparacoes();
+            numeroDeTrocas[3][t] = quickSortMediana_k5->getNumTrocas();
+            salvaLinhaResultado(3, t);
+
+            //Debug - Salva o vetor ordenado pelo QuickSort
+            //salvaVetor("quicksort_ordenado_"+to_string(tamVetorInt)+".csv", copiaLocal, tamVetorInt);
+
+            //libera memoria desse teste
+            delete quickSortMediana_k5;
+            delete[] copiaLocal;
+            quickSortMediana_k5 = NULL;
+            copiaLocal = NULL;
+
         }
     }
 
