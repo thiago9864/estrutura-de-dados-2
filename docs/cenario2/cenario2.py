@@ -65,16 +65,78 @@ for g_name in grupo.groups:
     
 #print(dicionario)
 
+#cria o dataframe das medias
 df_media = pd.DataFrame(dicionario)
 
+#agrupa por algoritmo
 group_by_algo = df_media.groupby('Algoritmo')
 
-df_quicksort = group_by_algo.get_group('Quicksort')
-df_quicksort_insertion = group_by_algo.get_group('Quicksort Insertion')
-df_quicksort_mediana = group_by_algo.get_group('Quicksort Mediana')
+#extrai o nome dos algoritmos
+algo_names = dataframe_concat[colunas[2]].unique()
+algo_dfs = []
 
-plt.plot(df_quicksort[colunas[3]], label=u"Quicksort Recursivo")
-#plt.plot(df_quicksort_insertion[colunas[3]], label=u"Quicksort Insertion")
-plt.plot(df_quicksort_mediana[colunas[3]], label=u"Quicksort Mediana (k=3)")
+#separa os dataframes de cada algoritmo
+for name in algo_names:
+    algo_dfs.append(group_by_algo.get_group(name))
+
+#pega os valores do eixo x (os numeros de teste)
+eixo_x = dataframe_concat[colunas[1]].unique()
+
+cores = ['r', 'g', 'b', 'm', 'c', 'y']
+
+#plota os resultados do tempo (linear)
+for i in range(len(algo_dfs)):
+    plt.plot(eixo_x, algo_dfs[i][colunas[3]], cores[i], label=algo_names[i])
+
+#plt.xticks(eixo_x)
+plt.xlabel(u"Número de elementos")
+plt.ylabel(u"Tempo (segundos)")
+plt.title(u"Tempo de Execução")
+plt.legend()
+plt.show()
+
+#plota os resultados do tempo (log)
+for i in range(len(algo_dfs)):
+    plt.plot(eixo_x, algo_dfs[i][colunas[3]], cores[i], label=algo_names[i])
+
+#plt.xticks(eixo_x)
+plt.xlabel(u"Número de elementos")
+plt.ylabel(u"Tempo (segundos)")
+plt.title(u"Tempo de Execução")
+plt.legend()
+plt.yscale('log')
+plt.show()
+
+#plota os resultados do numero de comparações (linear)
+for i in range(len(algo_dfs)):
+    plt.plot(eixo_x, algo_dfs[i][colunas[4]], cores[i], label=algo_names[i])
+
+#plt.xticks(eixo_x)
+plt.xlabel(u"Número de elementos")
+plt.ylabel(u"Comparações")
+plt.title(u"Número de Comparações")
+plt.legend()
+plt.show()
+
+#plota os resultados do numero de comparações (log)
+for i in range(len(algo_dfs)):
+    plt.plot(eixo_x, algo_dfs[i][colunas[4]], cores[i], label=algo_names[i])
+
+#plt.xticks(eixo_x)
+plt.xlabel(u"Número de elementos")
+plt.ylabel(u"Comparações")
+plt.title(u"Número de Comparações")
+plt.legend()
+plt.yscale('log')
+plt.show()
+
+#plota os resultados do numero de comparações (linear)
+for i in range(len(algo_dfs)):
+    plt.plot(eixo_x, algo_dfs[i][colunas[5]], cores[i], label=algo_names[i])
+
+#plt.xticks(eixo_x)
+plt.xlabel(u"Número de elementos")
+plt.ylabel(u"Trocas")
+plt.title(u"Número de Trocas")
 plt.legend()
 plt.show()
