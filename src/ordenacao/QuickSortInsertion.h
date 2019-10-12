@@ -107,6 +107,13 @@ private:
         num_comparacoes++;
         return a <= b;
     }
+
+    /**
+     * Inverte a posição de 2 itens no vetor
+     * @param vet vetor que está tendo seus itens invertidos
+     * @param i posição do item 1 no vetor
+     * @param j posição do item 2 no vetor
+     */
     void troca(T* vet,int i,int j){
         T aux = vet[i];
         vet[i] = vet[j];

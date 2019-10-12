@@ -157,9 +157,13 @@ private:
         num_trocas++;
     }
 
-    void troca2(T *vet, int i, int j)
-    {
-
+    /**
+     * Inverte a posição de 2 itens no vetor e atualiza do contador de trocas
+     * @param vet vetor que está tendo seus itens invertidos
+     * @param i posição do item 1 no vetor
+     * @param j posição do item 2 no vetor
+     */
+    void troca2(T *vet, int i, int j){
         T aux;
         aux = vet[i];
         vet[i] = vet[j];
