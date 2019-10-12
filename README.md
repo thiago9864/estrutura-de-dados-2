@@ -3,4 +3,4 @@ Repositório do trabalho da disciplina de Estrutura de Dados 2 da UFJF, no perí
 
 Membros: 
 
-Lucas Ribeiro, Luan Ciribeli, Renan Nunes, Thiago Almeida
+Lucas Ribeiro, Luan Ciribelli, Renan Nunes, Thiago Almeida
