@@ -43,21 +43,20 @@ public:
     /**
      * LEGACY - Função utilizada para gerar um múmero primo ou com poucos divisores
      * para ser usado no hashing de divisão
-     * (Ele causava erros quando usado em hashes maiores, por isso foi desabilitado)
      * @param x tamanho do hash
      * @return numero primo ou com poucos divisores
      */
     static int encontraPrimo(int x){
-        return x;/*
-        int nNew = ((x * 2 + 3) - 2)/ 2;
+
+        long long int nNew = ((x * 2 + 3) - 2)/ 2;
         bool* colore = new bool[nNew + 1];
-        for(int k = 0; k < nNew + 1; k++){
+        for(long long int k = 0; k < nNew + 1; k++){
             colore[k] = false;
         }
         int primo = x;
 
         for(int i = 1; i <= nNew; i++){
-            for(int j = i;(i + j + 2* i * j) <= nNew; j++){
+            for(long long int j = i;(i + j + 2* i * j) <= nNew; j++){
                 try{
                     colore[i + j + 2 * i * j] = true;
                 } catch(exception e){
@@ -65,7 +64,7 @@ public:
                 }
             }
 
-            for(int k = x/2; k < nNew + 1; k++){
+            for(long long int k = x/2; k < nNew + 1; k++){
                 if(!colore[k] && (k * 2 + 1) > x){
                     primo = k * 2 + 1;
                     break;
@@ -73,7 +72,7 @@ public:
             }
         }
 
-        return primo;*/
+        return primo;
     };
 
 private:
