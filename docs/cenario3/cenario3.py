@@ -82,7 +82,28 @@ for name in algo_names:
 #pega os valores do eixo x (os numeros de teste)
 eixo_x = dataframe_concat[colunas[1]].unique()
 
-cores = ['r', 'g', 'b', 'm', 'c', 'y']
+cores = ['r', 'g--', 'b', 'm', 'c^-', 'y']
+
+
+#%% Gera a tabela
+    
+#imprime uma tabela com os dados
+    
+for i in range(len(algo_dfs)):#algoritmos
+    print('\n---',algo_names[i],'---')
+    print(str(colunas[1])+'&\t'+str(colunas[3])+'&\t'+str(colunas[4])+'&\t'+str(colunas[5]))
+    for j in range(len(eixo_x)):#testes
+        testes = str(list(algo_dfs[i][colunas[1]])[j])
+        tempo = str(list(algo_dfs[i][colunas[3]])[j])
+        comp = str(list(algo_dfs[i][colunas[4]])[j])
+        trocas = str(list(algo_dfs[i][colunas[5]])[j])
+        print(testes+'&\t'+tempo+'&\t'+comp+'&\t'+trocas)
+    
+
+
+
+#%% Plota gráficos
+    
 
 #plota os resultados do tempo (linear)
 for i in range(len(algo_dfs)):
@@ -110,7 +131,7 @@ plt.savefig("tempoDeExecucao_log.png")
 plt.show()
 
 #plota os resultados do numero de comparações (linear)
-for i in range(len(algo_dfs)):
+for i in range(len(algo_dfs)-1):
     plt.plot(eixo_x, algo_dfs[i][colunas[4]], cores[i], label=algo_names[i])
 
 #plt.xticks(eixo_x)
@@ -122,7 +143,7 @@ plt.savefig("numeroDeComparacoes.png")
 plt.show()
 
 #plota os resultados do numero de comparações (log)
-for i in range(len(algo_dfs)):
+for i in range(len(algo_dfs)-1):
     plt.plot(eixo_x, algo_dfs[i][colunas[4]], cores[i], label=algo_names[i])
 
 #plt.xticks(eixo_x)
@@ -135,7 +156,7 @@ plt.savefig("numeroDeComparacoes_log.png")
 plt.show()
 
 #plota os resultados do numero de comparações (linear)
-for i in range(len(algo_dfs)):
+for i in range(len(algo_dfs)-1):
     plt.plot(eixo_x, algo_dfs[i][colunas[5]], cores[i], label=algo_names[i])
 
 #plt.xticks(eixo_x)
@@ -144,4 +165,17 @@ plt.ylabel(u"Trocas")
 plt.title(u"Número de Trocas")
 plt.legend()
 plt.savefig("numeroDeTrocas.png")
+plt.show()
+
+#plota os resultados do numero de comparações (linear)
+for i in range(len(algo_dfs)-1):
+    plt.plot(eixo_x, algo_dfs[i][colunas[5]], cores[i], label=algo_names[i])
+
+#plt.xticks(eixo_x)
+plt.xlabel(u"Número de elementos")
+plt.ylabel(u"Trocas")
+plt.title(u"Número de Trocas")
+plt.legend()
+plt.yscale('log')
+plt.savefig("numeroDeTrocas_log.png")
 plt.show()
