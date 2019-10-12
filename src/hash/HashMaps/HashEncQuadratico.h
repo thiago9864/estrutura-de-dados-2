@@ -177,8 +177,6 @@ public:
         }
     }
 
-    //TODO: Fazer um metodo de reset
-
 private:
     int tamanho;
     HashItemBasic* hashMap;

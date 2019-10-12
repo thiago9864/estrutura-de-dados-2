@@ -18,7 +18,6 @@ using namespace std;
 class HashingDuplo {
 
 public:
-    //TODO: Clean debug couts
     HashingDuplo(UserReview* vetor, int tam) {
         this->tamanho = tam;
         this->hasherModule = 13;
