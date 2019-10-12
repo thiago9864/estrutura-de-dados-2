@@ -12,9 +12,16 @@
 
 using namespace std;
 
+/**
+ * Hash que resolve suas colisões pelo metodo do encadeamento linear
+ */
 class HashEncLinear {
 public:
 
+    /**
+     * Construtor do hash
+     * @param tam tamanho da lista que vai guardar o hash
+     */
     HashEncLinear(int tam){
         this->tamanho = tam;
         this->primo = HashFunctions::encontraPrimo(tam);
@@ -26,10 +33,17 @@ public:
         }
     };
 
+    /**
+     * Destrutor do hash
+     */
     ~HashEncLinear(){
         delete[] hashMap;
     };
 
+    /**
+     * Insere o item no hash, usando seu metodo respectivo de lidar com as colisões
+     * @param item item a ser inserido no hash
+     */
     void inserir(UserReview item){
         int hs = HashFunctions::divisao(item.id, item.user, this->tamanho, this->primo);
         if(this->isPosicaoVazia(hs)){
@@ -60,8 +74,9 @@ public:
     };
 
     /**
-     * Verifica se o item está na tabela
-     * @return boolean
+     * Verifica se um item está inserido no hash
+     * @param item item à ser verificado
+     * @return booleano indicando se o item existe no hash
      */
     bool buscar(UserReview item){
         //constroi o k com o valor de id e o nome do usuario
@@ -89,27 +104,42 @@ public:
         return false;
     }
 
-
-
+    /**
+     * Retorna o tamanho da lista por trás do hash
+     * @return tamanho do hash (ocupado + desocupado)
+     */
     int getTamanho() const {
         return tamanho;
     };
 
+    /**
+     * Retorna a lista de items que tem por trás do hash
+     * @return lista por trás do hash
+     */
     HashItemBasic *getHashMap() const {
         return hashMap;
     };
 
+    /**
+     * Retorna o número de colisões que ocorreram na inserção desde o ultimo resetContadores ou da criação do hash
+     * (Caso resetContadores nunca tenha sido usado)
+     * @return número de colisões que ocorreram na inserção desde quando a contagem começou pela ultima vez
+     */
     int getNumColisoes() const {
         return numColisoes;
     };
 
+    /**
+     * Retorna o número de comparações que ocorreram na inserção desde o ultimo resetContadores ou da criação do hash
+     * (Caso resetContadores nunca tenha sido usado)
+     * @return número de comparações que ocorreram na inserção desde quando a contagem começou pela ultima vez
+     */
     int getNumComparacoes() const {
         return numComparacoes;
     };
 
     /**
-     * Zera os contadores de comparação e colisão
-     * @return int
+     * Reseta os contadores de volta para seu valor inicial (0)
      */
     void resetContadores(){
         numColisoes=0;
@@ -128,12 +158,17 @@ public:
         }
     }
 private:
-    int tamanho;
-    HashItemBasic* hashMap;
-    int numColisoes;
-    int numComparacoes;
-    int primo;
+    int tamanho; // Tamanho do da lista que está sendo utilizado para guardar os items do hash
+    HashItemBasic* hashMap; // Lista de hashItems sendo usado para guardar os itens inseridos
+    int numColisoes; // Contador de colisões
+    int numComparacoes; // Contador de comparações
+    int primo; // Numero primo sendo utilizado no hash de divisão
 
+    /**
+     * Cria um novo item para o hash
+     * @param ur Review à ser transformado em um item do hash
+     * @return item para ser inserido no hash
+     */
     HashItemBasic criaHashItem(UserReview ur){
         HashItemBasic h;
         h.idRating = ur.id;
@@ -141,6 +176,10 @@ private:
         return h;
     };
 
+    /**
+     * Cria um item vazio para inicializar o hash
+     * @return item vazio para o hash
+     */
     HashItemBasic criaHashItemVazio(){
         HashItemBasic h;
         h.name = "";
@@ -148,6 +187,11 @@ private:
         return h;
     }
 
+    /**
+     * Testa se a posição inserida está vazia
+     * @param pos posição à ser testada
+     * @return booleano indicando se a posição da lista está ocupada ou não
+     */
     bool isPosicaoVazia(int pos){
         numComparacoes++;
         return hashMap[pos].idRating == -1;
