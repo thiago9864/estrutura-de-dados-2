@@ -40,6 +40,10 @@
 //hashing
 #include "hash/HashMaps/HashEncLinear.h"
 #include "hash/HashMaps/HashEncQuadratico.h"
+#include "hash/HashMaps/HashReHash.h"
+#include "hash/HashMaps/HashEncSeparado.h"
+#include "hash/HashMaps/HashEndCoalescido.h"
+
 
 
 //cenarios
@@ -284,8 +288,8 @@ void hashingSubMenu(){
 
     while(!exit){
         cout << "Qual das partes de hashing voce quer executar?" << endl;
-        cout << "(1) - Hashing com Endereçamento Linear" << endl;
-        cout << "(2) - Hashing com Endereçamento Quadratico" << endl;
+        cout << "(1) - Hashing com Enderecamento Linear" << endl;
+        cout << "(2) - Hashing com Enderecamento Quadratico" << endl;
         cout << "(3) - Hashing com Duplo Hash" << endl;
         cout << "(4) - Hashing com Encadeamento Separado" << endl;
         cout << "(5) - Hashing com Encadeamento Coalescido" << endl;
@@ -298,51 +302,124 @@ void hashingSubMenu(){
         switch (numberUserInput){
             case 1:{
                 auto *endSondagemLinear = new HashEncLinear(nItemsImportados);
-                //endSondagemLinear->resetContadores();
+                endSondagemLinear->resetContadores();
                 base.timerStart();
                 //faz a inserção dos registros
                 for(int i=0; i<nItemsImportados; i++){
                     endSondagemLinear->inserir(dataset3[i]);
                 }
+                endSondagemLinear->imprime();
                 //resultados
-                cout << "Concluiu em " << base.timerEnd() << " segundos." << endl;
+                cout << endl << "Concluiu em " << base.timerEnd() << " segundos." << endl;
                 cout << "Numero de colisoes: " << endSondagemLinear->getNumColisoes() << endl;
                 cout << "Numero de comparacoes: " << endSondagemLinear->getNumComparacoes() << endl << endl;
+                bool existe = endSondagemLinear->buscar(dataset3[15]);
+                cout << "Buscando o elemento {" << dataset3[15].id << ", " << dataset3[15].user << "}: ";
+                if(existe){
+                    cout << "Encontrado." << endl << endl;
+                } else {
+                    cout << "Não Encontrado" << endl << endl;
+                }
                 delete endSondagemLinear;
                 endSondagemLinear = NULL;
                 break;
             }
             case 2:{
                 auto *endSondagemQuadratica = new HashEncQuadratico(nItemsImportados);
-                //endSondagemQuadratica->resetContadores();
+                endSondagemQuadratica->resetContadores();
                 base.timerStart();
                 //faz a inserção dos registros
                 for(int i=0; i<nItemsImportados; i++){
                     endSondagemQuadratica->inserir(dataset3[i]);
                 }
+                endSondagemQuadratica->imprime();
                 //resultados
-                cout << "Concluiu em " << base.timerEnd() << " segundos." << endl;
+                cout << endl << "Concluiu em " << base.timerEnd() << " segundos." << endl;
                 cout << "Numero de colisoes lineares: " << endSondagemQuadratica->getNumColisoesLineares() << endl;
                 cout << "Numero de colisoes quadraticas: " << endSondagemQuadratica->getNumColisoesQuadraticas() << endl;
-                //cout << "Numero de colisoes: " << endSondagemQuadratica->get() << endl;
+                cout << "Numero de mudanças de estrategia: " << endSondagemQuadratica->getNumMudancasDeEstrategia() << endl;
                 cout << "Numero de comparacoes: " << endSondagemQuadratica->getNumComparacoes() << endl << endl;
+                bool existe = endSondagemQuadratica->buscar(dataset3[15]);
+                cout << "Buscando o elemento {" << dataset3[15].id << ", " << dataset3[15].user << "}: ";
+                if(existe){
+                    cout << "Encontrado." << endl << endl;
+                } else {
+                    cout << "Nao Encontrado" << endl << endl;
+                }
                 delete endSondagemQuadratica;
                 endSondagemQuadratica = NULL;
                 break;
             }
             case 3:{
-                //TODO: Implementar Hashing com Duplo Hash
-                cout << "Codigo solicitado não concluido por enquanto" << endl;
+                auto *duploHash = new HashReHash(nItemsImportados);
+                duploHash->resetContadores();
+                base.timerStart();
+                //faz a inserção dos registros
+                for(int i=0; i<nItemsImportados; i++){
+                    duploHash->inserir(dataset3[i]);
+                }
+                duploHash->imprime();
+                //resultados
+                cout << endl << "Concluiu em " << base.timerEnd() << " segundos." << endl;
+                cout << "Numero de colisoes: " << duploHash->getNumColisoes() << endl;
+                cout << "Numero de comparacoes: " << duploHash->getNumComparacoes() << endl << endl;
+                bool existe = duploHash->buscar(dataset3[15]);
+                cout << "Buscando o elemento {" << dataset3[15].id << ", " << dataset3[15].user << "}: ";
+                if(existe){
+                    cout << "Encontrado." << endl << endl;
+                } else {
+                    cout << "Não Encontrado" << endl << endl;
+                }
+                delete duploHash;
+                duploHash = NULL;
                 break;
             }
             case 4:{
-                //TODO: Implementar Hashing com Encadeamento Separado
-                cout << "Codigo solicitado não concluido por enquanto" << endl;
+                auto *encSeparado = new HashEncSeparado(nItemsImportados);
+                encSeparado->resetContadores();
+                base.timerStart();
+                //faz a inserção dos registros
+                for(int i=0; i<nItemsImportados; i++){
+                    encSeparado->inserir(dataset3[i]);
+                }
+                encSeparado->imprime();
+                //resultados
+                cout << endl << "Concluiu em " << base.timerEnd() << " segundos." << endl;
+                cout << "Numero de colisoes: " << encSeparado->getNumColisoes() << endl;
+                cout << "Numero de comparacoes: " << encSeparado->getNumComparacoes() << endl << endl;
+                bool existe = encSeparado->buscar(dataset3[15]);
+                cout << "Buscando o elemento {" << dataset3[15].id << ", " << dataset3[15].user << "}: ";
+                if(existe){
+                    cout << "Encontrado." << endl << endl;
+                } else {
+                    cout << "Não Encontrado" << endl << endl;
+                }
+                delete encSeparado;
+                encSeparado = NULL;
                 break;
             }
             case 5:{
-                //TODO: Implementar Hashing com Encadeamento Coalescido
-                cout << "Codigo solicitado não concluido por enquanto" << endl;
+                auto *endCoalescido = new HashEndCoalescido(nItemsImportados);
+                endCoalescido->resetContadores();
+                base.timerStart();
+                //faz a inserção dos registros
+                for(int i=0; i<nItemsImportados; i++){
+                    endCoalescido->inserir(dataset3[i]);
+                }
+                endCoalescido->imprime();
+                //resultados
+                cout << endl << "Concluiu em " << base.timerEnd() << " segundos." << endl;
+                cout << "Numero de colisoes: " << endCoalescido->getNumColisoes() << endl;
+                cout << "Numero de comparacoes: " << endCoalescido->getNumComparacoes() << endl << endl;
+                bool existe = endCoalescido->buscar(dataset3[15]);
+                cout << "Buscando o elemento {" << dataset3[15].id << ", " << dataset3[15].user << "}: ";
+                if(existe){
+                    cout << "Encontrado." << endl << endl;
+                } else {
+                    cout << "Não Encontrado" << endl << endl;
+                }
+                delete endCoalescido;
+                endCoalescido = NULL;
                 break;
             }
             case 9:{

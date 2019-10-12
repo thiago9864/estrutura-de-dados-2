@@ -13,7 +13,7 @@ class HashItemCoalescido {
 public:
     string name;
     long idRating; // É o id do rating
-    int idNext; // Eh o id que o proximo item foi redirecionado em caso de colisao
+    long idNext; // Eh o id que o proximo item foi redirecionado em caso de colisao
 };
 
 

@@ -54,12 +54,13 @@ public:
                         resolvendoComHashQuadratico=false;
                         numMudancasEstrategia++;
                         hs_search=hs+1;//vai resetar a posição do hash pra tentar o linear
+                        j=1;
                     }
                 }
 
                 if(isPosicaoVazia(hs_search)){
                     //a colisão foi resolvida
-                    hashMap[hs] = criaHashItem(item);
+                    hashMap[hs_search] = criaHashItem(item);
                     break;
                 } else {
                     if(resolvendoComHashQuadratico){
@@ -77,12 +78,60 @@ public:
                     //estrategia para sondagem linear
                     hs_search++;
                 }
-
                 j++;
-                hs_search++;
             }
         }
     };
+
+    /**
+     * Verifica se o item está na tabela
+     * @return boolean
+     */
+    bool buscar(UserReview item){
+        //constroi o k com o valor de id e o nome do usuario
+        int hs = HashFunctions::divisao(item.id, item.user, this->tamanho, this->primo);
+
+        //verifica a tabela pra ver se o item está lá
+        if(hashMap[hs].idRating == item.id){
+            return true;
+        }
+
+        resolvendoComHashQuadratico=true;
+
+        int j=1;//conta a iteração
+        int hs_search = hs+1;//posição do hash
+        while(j<tamanho){
+            if(hs_search >= tamanho){
+                //fim do vetor, tenta pegar do inicio com a diferença restante
+                hs_search -= tamanho;
+
+                if(hs_search >= tamanho){
+                    //se ainda for maior que o tamanho da tabela, muda de estratégia
+                    resolvendoComHashQuadratico=false;
+                    hs_search=hs+1;//vai resetar a posição do hash pra tentar o linear
+                    j=1;
+                }
+            }
+
+            //compara pra ver se encontrou
+            if(hashMap[hs_search].idRating == item.id){
+                return true;
+            }
+
+            //calcula o proximo salto
+            if(resolvendoComHashQuadratico){
+                //estrategia para sondagem quadrática
+                hs_search = hs + pow(2, j);
+            } else {
+                //estrategia para sondagem linear
+                hs_search++;
+            }
+
+            j++;
+        }
+
+        return false;
+    }
 
     int getTamanho() const {
         return tamanho;
@@ -98,10 +147,35 @@ public:
     int getNumColisoesLineares() const {
         return numColisoesLin;
     };
-
+    int getNumMudancasDeEstrategia() const {
+        return numMudancasEstrategia;
+    };
     int getNumComparacoes() const {
         return numComparacoes;
     };
+
+    /**
+     * Zera os contadores de comparação e colisão
+     * @return int
+     */
+    void resetContadores(){
+        numMudancasEstrategia=0;
+        numColisoesLin=0;
+        numColisoesQuad=0;
+        numComparacoes=0;
+    }
+
+    /**
+     * Imprime o hashmap para debug
+     */
+    void imprime(){
+        cout << endl << "------- Imprime a tabela Hash -------" << endl << endl;
+        for(int i=0; i<tamanho; i++){
+            cout << "#" << i << ": ";
+            cout << "id: " << hashMap[i].idRating << ", ";
+            cout << "user: " << hashMap[i].name << endl;
+        }
+    }
 
     //TODO: Fazer um metodo de reset
 
@@ -132,13 +206,6 @@ private:
     bool isPosicaoVazia(int pos){
         numComparacoes++;
         return hashMap[pos].idRating == -1;
-    };
-
-    void resetContadores(){
-        numColisoesLin = 0;
-        numColisoesQuad = 0;
-        numComparacoes = 0;
-        numMudancasEstrategia = 0;
     };
 
 };

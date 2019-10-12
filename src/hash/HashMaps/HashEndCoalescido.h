@@ -74,6 +74,24 @@ public:
         return numComparacoes;
     };
 
+    void resetContadores(){
+        numColisoes = 0;
+        numComparacoes = 0;
+    };
+
+    /**
+     * Imprime o hashmap para debug
+     */
+    void imprime(){
+        cout << endl << "------- Imprime a tabela Hash -------" << endl << endl;
+        for(int i=0; i<tamanho; i++){
+            cout << "#" << i << ": ";
+            cout << "id: " << hashMap[i].idRating << ", ";
+            cout << "user: " << hashMap[i].name << ", ";
+            cout << "proximo: " << hashMap[i].idNext << endl;
+        }
+    }
+
 private:
     int tamanho;
     HashItemCoalescido* hashMap;
@@ -102,10 +120,6 @@ private:
         return hashMap[pos].idRating == -1;
     };
 
-    void resetContadores(){
-        numColisoes = 0;
-        numComparacoes = 0;
-    };
 
 };
 
