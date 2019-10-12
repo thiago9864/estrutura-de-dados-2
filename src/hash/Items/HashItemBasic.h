@@ -9,10 +9,14 @@
 
 using namespace std;
 
+/**
+ * Item para a lista de alguns hashes, esse é utilizado no Hash com Encadeamento Linear,
+ * no Hash com Encadeamento Quadratico e no Hash com Rehashing
+ */
 class HashItemBasic {
 public:
     string name;
-    long idRating; // É o id do rating
+    long idRating;
 };
 
 
