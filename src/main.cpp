@@ -230,7 +230,7 @@ void ordenacaoSubMenu(){
                 auto *quickSortMediana = new QuickSortMediana<UserReview>();
                 base.timerStart();
                 quickSortMediana->resetContadores();
-                quickSortMediana->ordenar(aux_dataset, 0, nItemsImportados - 1);
+                quickSortMediana->ordenar(aux_dataset, 3, 0, nItemsImportados - 1);
                 cout << "Concluiu em " << base.timerEnd() << " segundos." << endl << endl;
                 delete quickSortMediana;
                 quickSortMediana = NULL;

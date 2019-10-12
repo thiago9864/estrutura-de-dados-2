@@ -102,16 +102,17 @@ public:
             tempo_teste = timerEnd();//marca o tempo final
 
             //salva os resultados
-            temposDeExecucao[1][t] = tempo_teste;
-            numeroDeComparacores[1][t] = quickSort->getNumComparacoes();
-            numeroDeTrocas[1][t] = quickSort->getNumTrocas();
+            temposDeExecucao[0][t] = tempo_teste;
+            numeroDeComparacores[0][t] = quickSort->getNumComparacoes();
+            numeroDeTrocas[0][t] = quickSort->getNumTrocas();
+            salvaLinhaResultado(0, t);
 
             //Debug - Salva o vetor ordenado pelo QuickSort
             //salvaVetor("quicksort_ordenado_"+to_string(tamVetorInt)+".csv", copiaLocal, tamVetorInt);
 
             //libera memoria desse teste
-            delete quickSort;
             delete[] copiaLocal;
+            delete quickSort;
             quickSort = NULL;
             copiaLocal = NULL;
 
@@ -132,6 +133,7 @@ public:
             temposDeExecucao[1][t] = tempo_teste;
             numeroDeComparacores[1][t] = quickSortInsertion->getNumComparacoes();
             numeroDeTrocas[1][t] = quickSortInsertion->getNumTrocas();
+            salvaLinhaResultado(1, t);
 
             //Debug - Salva o vetor ordenado pelo QuickSort
             //salvaVetor("quicksort_ordenado_"+to_string(tamVetorInt)+".csv", copiaLocal, tamVetorInt);
@@ -152,13 +154,14 @@ public:
 
             timerStart();//marca o tempo inicial
             quickSortMediana->resetContadores();
-            quickSortMediana->ordenarInt(copiaLocal, 0, tamVetorInt-1);
+            quickSortMediana->ordenarInt(copiaLocal, 3, 0, tamVetorInt-1);
             tempo_teste = timerEnd();//marca o tempo final
 
             //salva os resultados
-            temposDeExecucao[1][t] = tempo_teste;
-            numeroDeComparacores[1][t] = quickSortMediana->getNumComparacoes();
-            numeroDeTrocas[1][t] = quickSortMediana->getNumTrocas();
+            temposDeExecucao[2][t] = tempo_teste;
+            numeroDeComparacores[2][t] = quickSortMediana->getNumComparacoes();
+            numeroDeTrocas[2][t] = quickSortMediana->getNumTrocas();
+            salvaLinhaResultado(2, t);
 
             //Debug - Salva o vetor ordenado pelo QuickSort
             //salvaVetor("quicksort_ordenado_"+to_string(tamVetorInt)+".csv", copiaLocal, tamVetorInt);

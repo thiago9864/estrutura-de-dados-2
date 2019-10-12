@@ -48,8 +48,8 @@ public:
 
         numAlgoritmos = 5;
         algoritmos = new string[numAlgoritmos];
-        algoritmos[1] = "Quicksort (Objetos)";
-        algoritmos[2] = "Quicksort (Inteiros)";
+        algoritmos[0] = "Quicksort (Objetos)";
+        algoritmos[1] = "Quicksort (Inteiros)";
 
         //cria os vetores de teste
         temposDeExecucao = new double*[numAlgoritmos];
@@ -80,19 +80,19 @@ public:
             //obtem dados do teste com a semente atual
             carregaDadosTeste(tamVetorInt);
 
-            int* copiaLocal;//copia do vetor de testes usada no algoritmo
+            //cópias de teste
+            UserReview* copiaLocalObjetos;
+            int* copiaLocalInteiro;
+
             double tempo_teste;
 
             ////////// Quicksort (Objetos) //////////
 
             //rodar isso sempre antes de qualquer ordenação
-            copiaLocal = copiaLocalVetorInt();
-
-            //debug - Salvar o vetor fonte
-            //salvaVetor("vetor_fonte_"+to_string(tamVetorInt)+".csv", copiaLocal, tamVetorInt);
+            copiaLocalObjetos = copiaLocalVetor<UserReview>(dataset, tamVetorInt);
 
             //debug - nome do algoritmo
-            cout << "QuickSort Recursivo" << endl;
+            cout << "QuickSort Recursivo (Objetos)" << endl;
 
             //inicialização do algoritmo
             QuickSort<UserReview> *quickSortObjetos = new QuickSort<UserReview>();
@@ -100,31 +100,30 @@ public:
             timerStart();//marca o tempo inicial
 
             // aqui roda o algoritmo
+            quickSortObjetos->resetContadores();
+            quickSortObjetos->ordenar(copiaLocalObjetos, 0, tamVetorInt-1);
 
             tempo_teste = timerEnd();//marca o tempo final
 
             //salva os resultados
             temposDeExecucao[0][t] = tempo_teste;
-            numeroDeComparacores[0][t] = 0;//pegar do algoritmo
-            numeroDeTrocas[0][t] = 0;//pegar do algoritmo
+            numeroDeComparacores[0][t] = quickSortObjetos->getNumComparacoes();
+            numeroDeTrocas[0][t] = quickSortObjetos->getNumTrocas();
             salvaLinhaResultado(0, t);
 
             //libera memoria desse teste
-            delete quickSortObjetos; // colocar variavel do algoritmo aqui
-            delete[] copiaLocal;
-            quickSortObjetos = NULL; // colocar variavel do algoritmo aqui
-            copiaLocal = NULL;
+            delete quickSortObjetos;
+            delete[] copiaLocalObjetos;
+            quickSortObjetos = NULL;
+            copiaLocalObjetos = NULL;
 
             ////////// Quicksort (Inteiros) //////////
 
             //rodar isso sempre antes de qualquer ordenação
-            copiaLocal = copiaLocalVetorInt();
-
-            //debug - Salvar o vetor fonte
-            //salvaVetor("vetor_fonte_"+to_string(tamVetorInt)+".csv", copiaLocal, tamVetorInt);
+            copiaLocalInteiro = copiaLocalVetor<int>(vetorInt, tamVetorInt);
 
             //debug - nome do algoritmo
-            cout << "QuickSort Recursivo" << endl;
+            cout << "QuickSort Recursivo (Inteiros)" << endl;
 
             //inicialização do algoritmo
             QuickSort<int> *quickSortInt = new QuickSort<int>();
@@ -132,20 +131,22 @@ public:
             timerStart();//marca o tempo inicial
 
             // aqui roda o algoritmo
+            quickSortInt->resetContadores();
+            quickSortInt->ordenarInt(copiaLocalInteiro, 0, tamVetorInt-1);
 
             tempo_teste = timerEnd();//marca o tempo final
 
             //salva os resultados
-            temposDeExecucao[0][t] = tempo_teste;
-            numeroDeComparacores[0][t] = 0;//pegar do algoritmo
-            numeroDeTrocas[0][t] = 0;//pegar do algoritmo
-            salvaLinhaResultado(0, t);
+            temposDeExecucao[1][t] = tempo_teste;
+            numeroDeComparacores[1][t] = quickSortInt->getNumComparacoes();
+            numeroDeTrocas[1][t] = quickSortInt->getNumTrocas();
+            salvaLinhaResultado(1, t);
 
             //libera memoria desse teste
             delete quickSortInt; // colocar variavel do algoritmo aqui
-            delete[] copiaLocal;
+            delete[] copiaLocalInteiro;
             quickSortInt = NULL; // colocar variavel do algoritmo aqui
-            copiaLocal = NULL;
+            copiaLocalInteiro = NULL;
 
         }
     }
@@ -154,7 +155,7 @@ private:
     string nomeArquivoEntrada;
     int numTestes;
     int* testes;
-    int *dataset = NULL;//vetor de objetos do dataset
+    UserReview *dataset = NULL;//vetor de objetos do dataset
     int *vetorInt = NULL;//vetor de inteiros dos ids do dataset
     int tamVetorInt = NULL;
     double** temposDeExecucao;
@@ -221,20 +222,34 @@ private:
             //limpa memoria se tiver alguma coisa nele
             delete[] dataset;
         }
-        this->dataset = new int[qtdDadosTeste];
+        if(vetorInt != NULL){
+            //limpa memoria se tiver alguma coisa nele
+            delete[] vetorInt;
+        }
+
+        this->dataset = new UserReview[qtdDadosTeste];
+        this->vetorInt = new int[qtdDadosTeste];
 
         //monta vetor de inteiros
         for(int i=0; i<qtdDadosTeste; i++){
-            dataset[i] = dts[i].id;
+            dataset[i] = dts[i];
+            vetorInt[i] = dts[i].id;
         }
+
+        //debug - Salvar o vetor fonte
+        //salvaVetor("vetor_fonte_"+to_string(tamVetorInt)+".csv", copiaLocal, tamVetorInt);
+
+
         delete userReviews;//libera memória do leitor
     }
 
     /**
     * Faz uma cópia do vetor de inteiros.
     * Isso é usado porque os algoritmos modificam o vetor
-    * @return *int
+    * @return *T
     */
+    /*
+    template <class T>
     int* copiaLocalVetorInt(){
         int* copia = new int[tamVetorInt];
         for(int i=0; i<tamVetorInt; i++){
@@ -242,6 +257,14 @@ private:
             copia[i] = dataset[i];
         }
         return copia;
+    }*/
+    template <class T>
+    T* copiaLocalVetor(T *vetor, int tam){
+        T *ret = new T[tam];
+        for(int i=0; i<tam; i++){
+            ret[i] = vetor[i];
+        }
+        return ret;
     }
 
 

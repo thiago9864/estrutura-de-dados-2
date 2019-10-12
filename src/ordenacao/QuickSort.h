@@ -27,28 +27,14 @@ class QuickSort
          * @param inicio Posição de inicio do vetor
          * @param fim Posição final do vetor
          */
-        void ordenar(T* vet,long long int inicio, long long int fim){
+        void ordenar(T* vet, int inicio, int fim){
 
-            /*profundidade++;
-            if(profundidade%100==0 || profundidade%100==1){
-                cout << "profundidade -> " << profundidade << endl;
-            }*/
             if (inicio < fim)
             {
                 int p = particao(vet,inicio,fim);
-
-                /*if(profundidade%100==0 || profundidade%100==1){
-                    cout << " inicio: " << inicio << ", fim: " << fim << " p: " << p << endl;
-                }*/
-
                 ordenar(vet, inicio, p-1);
                 ordenar(vet, p + 1,fim);
-            }/*
-            profundidade--;
-            if(profundidade%100==0){
-                cout << "profundidade <- " << profundidade << endl;
-            }*/
-
+            }
         };
 
         /**
@@ -57,7 +43,7 @@ class QuickSort
          * @param inicio Posição de inicio do vetor
          * @param fim Posição final do vetor
          */
-        void ordenarInt(int* vet, long long int inicio, long long int fim){
+        void ordenarInt(int* vet, int inicio, int fim){
 
             if (inicio < fim)
             {
@@ -83,20 +69,12 @@ class QuickSort
     private:
         long long int num_comparacoes;
         long long int num_trocas;
-        //long long int profundidade=0;
 
-        int particao(T* vet, long long int inicio, long long int fim){
+        int particao(T* vet, int inicio, int fim){
 
             int i = inicio - 1;
-
-            /*if(vet==0x0){
-                cout << "profundidade: " << profundidade << endl;
-                cout << "inicio: " << inicio << endl;
-                cout << "fim: " << fim << endl;
-                exit(1);
-            }*/
-
             T pivo = vet[fim];
+
             for(int j = inicio; j <= fim - 1; j++){
                 if(comparador(vet[j], pivo))
                 {
@@ -104,11 +82,12 @@ class QuickSort
                     troca(vet,i,j);
                 }
             }
+
             troca(vet,i+1,fim);
             return (i+1);
         };
 
-        int particaoInt(int* vet,long long int inicio, long long int fim){
+        int particaoInt(int* vet,int inicio, int fim){
 
             long long int i = inicio - 1;
 
@@ -128,11 +107,11 @@ class QuickSort
             num_comparacoes++;
             return a.id <= b.id;
         }
-        bool comparadorInt(long long int a, long long int b){
+        bool comparadorInt(int a, int b){
             num_comparacoes++;
             return a <= b;
         }
-        void troca(T* vet,long long int i,long long int j){
+        void troca(T* vet, int i, int j){
             num_trocas++;
             T aux = vet[i];
             vet[i] = vet[j];
