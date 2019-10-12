@@ -51,38 +51,60 @@ public:
         }
     };
 
+    /**
+     * Reseta os contadores para os estado que estavam no momento de criação do objeto
+     */
     void resetContadores(){
         num_trocas=0;
         num_comparacoes=0;
     }
+
+    /**
+     * Retorna o numero de comparações contabilizado pelo contador
+     * @return numero de comparações feitas desde a ultima inicialização dos contadores
+     */
     long getNumComparacoes(){
         return num_comparacoes;
     }
+
+    /**
+     * Retorna o numero de trocas contabilizado pelo contador
+     * @return numero de trocas feitas desde a ultima inicialização dos contadores
+     */
     long getNumTrocas(){
         return num_trocas;
     }
 private:
-    long num_comparacoes;
-    long num_trocas;
+    long num_comparacoes; // Contador de comparações
+    long num_trocas; // Contador de trocas
 
+    /**
+     * Constroi uma heap com os itens do vetor de tipo T
+     * @param m o indice o primeiro item que o constroiHeap não deve considerar na hora de "heapify" o vetor
+     * @param vet vetor à ser ordenado em forma de heap
+     */
     void constroiHeap(int m, T *vet)
     {
-
+        // Inicializa as variaveis
         int tam = m;
         int p = (int) (tam/2) - 1;
         bool existe2 = true;
 
         while(p > -1)
         {
+            // Conforme passam as iterações ele vai montando as subarvores
             T pai = vet[p];
             T filho1 = vet[2*p];
             T filho2 = vet[2*p+1];
 
+            // Aqui ele testa se o item p da lista tem filhos na heap
             if(2*p+1 >= tam)
             {
                 existe2 = false;
             }
 
+            // Aqui está sendo testado se as subarvores cumprem os criterios para a arvore
+            // montada ser considerada uma heap
             if(comparador(filho1, filho2) && existe2)
             {
                 if(comparador(pai, filho2))
@@ -95,31 +117,35 @@ private:
             }
             p--;
         }
-        /*
-        for (int z=0;z<=m;z++){
-            cout<<"construindo a arvore"<<vet[z].id<<endl ;
-        }
-        */
     }
 
+    /**
+     * Constroi uma heap com os itens do vetor de inteiros
+     * @param m o indice o primeiro item que o constroiHeap não deve considerar na hora de "heapify" o vetor
+     * @param vet vetor à ser ordenado em forma de heap
+     */
     void constroiHeapInt(int m, T *vet)
     {
-
+        // Inicializa as variaveis
         int tam = m;
         int p = (int) (tam/2) - 1;
         bool existe2 = true;
 
         while(p > -1)
         {
+            // Conforme passam as iterações ele vai montando as subarvores
             int pai = vet[p];
             int filho1 = vet[2*p];
             int filho2 = vet[2*p+1];
 
+            // Aqui ele testa se o item p da lista tem filhos na heap
             if(2*p+1 >= tam)
             {
                 existe2 = false;
             }
 
+            // Aqui está sendo testado se as subarvores cumprem os criterios para a arvore
+            // montada ser considerada uma heap
             if(comparadorInt(filho1, filho2) && existe2)
             {
                 if(comparadorInt(pai, filho2))
@@ -132,22 +158,35 @@ private:
             }
             p--;
         }
-        /*
-        for (int z=0;z<=m;z++){
-            cout<<"construindo a arvore"<<vet[z]<<endl ;
-        }
-        */
     }
 
+    /**
+     * Recebe dois parametros, diz de a.id < b.id e atualiza o contador
+     * @param a item 1 da comparação
+     * @param b item 2 da comparação
+     * @return booleano indicando se a.id < b.id
+     */
     bool comparador(T a, T b){
         num_comparacoes++;
         return a.id < b.id;
     }
+
+    /**
+     * Recebe dois parametros, diz de a > b e atualiza o contador
+     * @param a item 1 da comparação
+     * @param b item 2 da comparação
+     * @return booleano indicando se a > b
+     */
     bool comparadorInt(int a, int b){
         num_comparacoes++;
         return a < b;
     }
 
+    /**
+     * Inverte a posição de um item com o seu pai na heap e atualiza do contador de trocas
+     * @param vet vetor que está tendo seus itens invertidos
+     * @param f posição do item a ser trocado
+     */
     void troca(T *vet, int f)
     {
         T aux;

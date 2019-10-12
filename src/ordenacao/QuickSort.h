@@ -55,20 +55,33 @@ class QuickSort
 
         };
 
+        /**
+         * Reseta os contadores para os estado que estavam no momento de criação do objeto
+         */
         void resetContadores(){
             num_trocas=0;
             num_comparacoes=0;
         }
+
+        /**
+         * Retorna o numero de comparações contabilizado pelo contador
+         * @return numero de comparações feitas desde a ultima inicialização dos contadores
+         */
         long getNumComparacoes(){
             return num_comparacoes;
         }
+
+        /**
+         * Retorna o numero de trocas contabilizado pelo contador
+         * @return numero de trocas feitas desde a ultima inicialização dos contadores
+         */
         long getNumTrocas(){
             return num_trocas;
         }
 
     private:
-        long long int num_comparacoes;
-        long long int num_trocas;
+        long long int num_comparacoes; // Contador de comparações
+        long long int num_trocas; // Contador de trocas
 
         int particao(T* vet, int inicio, int fim){
 
@@ -107,10 +120,24 @@ class QuickSort
             num_comparacoes++;
             return a.id <= b.id;
         }
+
+        /**
+         * Recebe dois parametros, diz de a <= b e atualiza o contador
+         * @param a item 1 da comparação
+         * @param b item 2 da comparação
+         * @return booleano indicando se a <= b
+         */
         bool comparadorInt(int a, int b){
             num_comparacoes++;
             return a <= b;
         }
+
+        /**
+         * Inverte a posição de 2 itens no vetor
+         * @param vet vetor que está tendo seus itens invertidos
+         * @param i posição do item 1 no vetor
+         * @param j posição do item 2 no vetor
+         */
         void troca(T* vet, int i, int j){
             num_trocas++;
             T aux = vet[i];

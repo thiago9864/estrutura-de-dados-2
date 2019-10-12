@@ -95,11 +95,11 @@ class BubbleSort
     private:
 
         long num_comparacoes; // Contador de comparações
-        long num_trocas; // Contadore de trocas
+        long num_trocas; // Contador de trocas
         int tamanho; // Tamanho da lista à ser ordenada
 
         /**
-         * Recebe dois parametros, diz de a.id > b.id e contabiliza a comparação
+         * Recebe dois parametros, diz de a.id > b.id e atualiza o contador
          * @param a item 1 da comparação
          * @param b item 2 da comparação
          * @return booleano indicando se a.id > b.id
@@ -110,7 +110,7 @@ class BubbleSort
         }
 
         /**
-         * Recebe dois parametros, diz de a > b e contabiliza a comparação
+         * Recebe dois parametros, diz de a > b e atualiza o contador
          * @param a item 1 da comparação
          * @param b item 2 da comparação
          * @return booleano indicando se a > b
