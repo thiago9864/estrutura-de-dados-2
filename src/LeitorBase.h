@@ -41,7 +41,7 @@ class LeitorBase
          * @return string
          */
         string getDiretorioPreprocessado(){
-            this->caminho_diretorio_main_cpp = "C:\\Users\\Thiago\\Documents\\Repositorios\\UFJF\\estrutura-de-dados-2\\src\\";//preencher se der erro de leitura
+            this->caminho_diretorio_main_cpp = "D:\\Projetos\\ED2\\estrutura-de-dados-2\\src\\";//preencher se der erro de leitura
             string path = this->caminho_diretorio_main_cpp+"datasets"+getDirSep()+"preprocessado"+getDirSep();
             return path;
         }

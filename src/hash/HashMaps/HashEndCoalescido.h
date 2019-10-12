@@ -38,13 +38,13 @@ public:
             for(int i = this->tamanho - 1; i >= 0; i--){
                 if(this->isPosicaoVazia(i)) {
                     int pointerID = hs;
-                    while(pointerID!=-1){
+                    while(this->hashMap[pointerID].idNext != -1){
+                        cout << pointerID << endl;
                         pointerID = hashMap[pointerID].idNext;
                     }
                     hashMap[pointerID].idNext = i;
                     hashMap[i] = this->criaHashItem(item);
-                } else {
-                    numColisoes++;
+                    break;
                 }
                 if(i==0){
                     cout << "ERRO, HASHTABLE CHEIA" << endl;
