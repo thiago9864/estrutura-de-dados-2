@@ -11,6 +11,7 @@
 #define QUICKSORTMEDIANA_H
 
 #include <iostream>
+#include "../LeitorBase.h"
 
 using namespace std;
 
@@ -21,9 +22,11 @@ public:
     QuickSortMediana(){};
     ~QuickSortMediana(){};
 
-    void ordenar(T *vet, int inicio, int fim)
+    void ordenar(T* vet, int k, int inicio, int fim)
     {
-
+        this.k=k;
+        LeitorBase a=new LeitorBase;
+        a.gerarSemente();
         if (inicio < fim)
         {
             int p = particao(vet, inicio, fim);
@@ -40,7 +43,6 @@ public:
         {
             calculaMediana3k(vet, fim);
             int p = particaoInt(vet, inicio, fim);
-
             ordenarInt(vet, inicio, p - 1);
             ordenarInt(vet, p + 1, fim);
         }
@@ -61,46 +63,66 @@ private:
     long num_comparacoes;
     long num_trocas;
     int mediana;
+    int k;
+    LeitorBase a;
 
-    void calculaMediana3k(T *vet, int fim)
+    void calculaMedianak(T *vet, int fim)
     {
+        if(k==3) {
+            int i1, i2, i3;
+            i1 = a.getRand(fim+1);
+            i2 = a.getRand(fim+1);
+            i3 = a.getRand(fim+1);
 
-        int i1, i2, i3;
-        i1 = rand() % (fim + 1);
-        i2 = rand() % (fim + 1);
-        i3 = rand() % (fim + 1);
-        while (i1 < 0 || i1 > fim || i2 < 0 || 12 > fim || i3 < 0 || i3 > fim)
-        {
-            if (i1 < 0 || i1 > fim)
-                i1 = rand();
-            if (i2 < 0 || 12 > fim)
-                i2 = rand();
-            if (i3 < 0 || i3 > fim)
-            {
-                i3 = rand();
+            T aux[3] = {vet[i1], vet[i2], vet[i3]};
+            T auxiliar;
+
+            for (int k = 0; k < 2; k++) {
+                if (aux[k].id > aux[k + 1].id) {
+                    auxiliar = aux[k];
+                    aux[k] = aux[k + 1];
+                    aux[k + 1] = aux[k];
+                }
+                if (aux[k].id > aux[k + 2].id) {
+
+                    auxiliar = aux[k];
+                    aux[k] = aux[k + 1];
+                    aux[k + 1] = aux[k];
+
+                }
             }
+            mediana = aux[1];
         }
+        else {if(k==5){
+            int i1, i2, i3;
+            i1 = a.getRand(fim+1);
+            i2 = a.getRand(fim+1);
+            i3 = a.getRand(fim+1);
+            i4= a.getRand(fim+1);
+            i5= a.getRand(fim+1);
 
-        int aux[3] = {i1, i2, i3};
-        int auxiliar;
 
-        for (int k = 0; k < 2; k++)
-        {
-            if (aux[k] > aux[k + 1])
-            {
-                auxiliar = aux[k];
-                aux[k]=aux[k+1];
-                aux[k+1]=aux[k];
+
+            T aux[5] = {vet[i1], vet[i2], vet[i3],vet[i4],vet[i5]};
+            T auxiliar;
+
+            for (int k = 0; k < 3; k++) {
+                if (aux[k].id > aux[k + 1].id) {
+                    auxiliar = aux[k];
+                    aux[k] = aux[k + 1];
+                    aux[k + 1] = aux[k];
+                }
+                if (aux[k].id > aux[k + 2].id) {
+
+                    auxiliar = aux[k];
+                    aux[k] = aux[k + 1];
+                    aux[k + 1] = aux[k];
+
+                }
             }
-            if(aux[k] > aux[k + 2]){
+            mediana = aux[3];
 
-                auxiliar = aux[k];
-                aux[k]=aux[k+1];
-                aux[k+1]=aux[k];
-
-            }
-        }
-        mediana=aux[1];
+        }}
     }
 
     int particao(T *vet, int inicio, int fim)
