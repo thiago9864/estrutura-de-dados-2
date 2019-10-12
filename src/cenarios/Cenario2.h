@@ -49,12 +49,13 @@ public:
 
         uint64_t inicio;
 
-        numAlgoritmos = 4;
+        numAlgoritmos = 5;
         algoritmos = new string[numAlgoritmos];
         algoritmos[0] = "Quicksort";
-        algoritmos[1] = "Quicksort Insertion";
-        algoritmos[2] = "Quicksort Mediana (k=3)";
-        algoritmos[3] = "Quicksort Mediana (k=5)";
+        algoritmos[1] = "Quicksort Insertion (m=10)";
+        algoritmos[2] = "Quicksort Insertion (m=100)";
+        algoritmos[3] = "Quicksort Mediana (k=3)";
+        algoritmos[4] = "Quicksort Mediana (k=5)";
 
 
 
@@ -118,10 +119,10 @@ public:
             quickSort = NULL;
             copiaLocal = NULL;
 
-            ////////// QuickSortInsertion //////////
+            ////////// QuickSortInsertion (m=10) //////////
 
             copiaLocal = copiaLocalVetorInt();
-            cout << "- QuickSortInsertion" << endl;
+            cout << "- QuickSortInsertion (m=10)" << endl;
 
             //inicia o algoritmo de ordenacao
             QuickSortInsertion<int> *quickSortInsertion = new QuickSortInsertion<int>();
@@ -146,6 +147,34 @@ public:
             quickSortInsertion = NULL;
             copiaLocal = NULL;
 
+            ////////// QuickSortInsertion (m=100) //////////
+
+            copiaLocal = copiaLocalVetorInt();
+            cout << "- QuickSortInsertion (m=100)" << endl;
+
+            //inicia o algoritmo de ordenacao
+            QuickSortInsertion<int> *quickSortInsertion_m100 = new QuickSortInsertion<int>();
+
+            timerStart();//marca o tempo inicial
+            quickSortInsertion_m100->resetContadores();
+            quickSortInsertion_m100->ordenarInt(copiaLocal, 0, tamVetorInt-1, 100);
+            tempo_teste = timerEnd();//marca o tempo final
+
+            //salva os resultados
+            temposDeExecucao[2][t] = tempo_teste;
+            numeroDeComparacores[2][t] = quickSortInsertion_m100->getNumComparacoes();
+            numeroDeTrocas[2][t] = quickSortInsertion_m100->getNumTrocas();
+            salvaLinhaResultado(2, t);
+
+            //Debug - Salva o vetor ordenado pelo QuickSort
+            //salvaVetor("quicksort_ordenado_"+to_string(tamVetorInt)+".csv", copiaLocal, tamVetorInt);
+
+            //libera memoria desse teste
+            delete quickSortInsertion_m100;
+            delete[] copiaLocal;
+            quickSortInsertion_m100 = NULL;
+            copiaLocal = NULL;
+
             ////////// QuickSortMediana k=3 //////////
 
             copiaLocal = copiaLocalVetorInt();
@@ -160,10 +189,10 @@ public:
             tempo_teste = timerEnd();//marca o tempo final
 
             //salva os resultados
-            temposDeExecucao[2][t] = tempo_teste;
-            numeroDeComparacores[2][t] = quickSortMediana->getNumComparacoes();
-            numeroDeTrocas[2][t] = quickSortMediana->getNumTrocas();
-            salvaLinhaResultado(2, t);
+            temposDeExecucao[3][t] = tempo_teste;
+            numeroDeComparacores[3][t] = quickSortMediana->getNumComparacoes();
+            numeroDeTrocas[3][t] = quickSortMediana->getNumTrocas();
+            salvaLinhaResultado(3, t);
 
             //Debug - Salva o vetor ordenado pelo QuickSort
             //salvaVetor("quicksort_ordenado_"+to_string(tamVetorInt)+".csv", copiaLocal, tamVetorInt);
@@ -188,10 +217,10 @@ public:
             tempo_teste = timerEnd();//marca o tempo final
 
             //salva os resultados
-            temposDeExecucao[3][t] = tempo_teste;
-            numeroDeComparacores[3][t] = quickSortMediana_k5->getNumComparacoes();
-            numeroDeTrocas[3][t] = quickSortMediana_k5->getNumTrocas();
-            salvaLinhaResultado(3, t);
+            temposDeExecucao[4][t] = tempo_teste;
+            numeroDeComparacores[4][t] = quickSortMediana_k5->getNumComparacoes();
+            numeroDeTrocas[4][t] = quickSortMediana_k5->getNumTrocas();
+            salvaLinhaResultado(4, t);
 
             //Debug - Salva o vetor ordenado pelo QuickSort
             //salvaVetor("quicksort_ordenado_"+to_string(tamVetorInt)+".csv", copiaLocal, tamVetorInt);
