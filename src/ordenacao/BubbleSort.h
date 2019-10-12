@@ -123,8 +123,8 @@ class BubbleSort
         /**
          * Inverte a posição de 2 itens no vetor
          * @param vetor vetor que está tendo seus itens invertidos
-         * @param p1 item 1 da inversão
-         * @param p2 item 2 da inversão
+         * @param p1 posição do item 1 no vetor
+         * @param p2 posição do item 2 no vetor
          */
         void troca(T* vetor, int p1, int p2){
             T aux = vetor[p1];

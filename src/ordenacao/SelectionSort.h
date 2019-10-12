@@ -73,15 +73,34 @@ class SelectionSort
         long num_trocas;
         int tamanho;
 
+        /**
+         * Recebe dois parametros, diz de a.id > b.id e contabiliza a comparação
+         * @param a item 1 da comparação
+         * @param b item 2 da comparação
+         * @return booleano indicando se a.id > b.id
+         */
         bool comparador(T a, T b){
             num_comparacoes++;
             return a.id < b.id;
         }
+
+        /**
+         * Recebe dois parametros, diz de a > b e contabiliza a comparação
+         * @param a item 1 da comparação
+         * @param b item 2 da comparação
+         * @return booleano indicando se a > b
+         */
         bool comparadorInt(int a, int b){
             num_comparacoes++;
             return a < b;
         }
 
+        /**
+         * Inverte a posição de 2 itens no vetor
+         * @param vetor vetor que está tendo seus itens invertidos
+         * @param p1 posição do item 1 no vetor
+         * @param p2 posição do item 2 no vetor
+         */
         void troca(T* vetor, int p1, int p2){
             T aux = vetor[p1];
             vetor[p1] = vetor[p2];
