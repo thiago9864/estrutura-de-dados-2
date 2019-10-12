@@ -45,6 +45,8 @@ public:
                     hashMap[pointerID].idNext = i;
                     hashMap[i] = this->criaHashItem(item);
                     break;
+                } else {
+                    numColisoes++;
                 }
                 if(i==0){
                     cout << "ERRO, HASHTABLE CHEIA" << endl;
