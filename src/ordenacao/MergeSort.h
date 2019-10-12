@@ -84,6 +84,13 @@ class MergeSort
         long num_comparacoes; // Contador de comparações
         long num_trocas; // Contador de trocas
 
+        /**
+         *
+         * @param vet
+         * @param inicio
+         * @param meio
+         * @param fim
+         */
         void intercala(T* vet,int inicio, int meio,int fim)
         {
 
@@ -129,6 +136,13 @@ class MergeSort
             }
         }
 
+        /**
+         * 
+         * @param vet
+         * @param inicio
+         * @param meio
+         * @param fim
+         */
         void intercalaInt(int* vet,int inicio, int meio,int fim)
         {
 
