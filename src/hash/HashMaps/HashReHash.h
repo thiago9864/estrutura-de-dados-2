@@ -50,16 +50,12 @@ public:
             hashMap[hs] = criaHashItem(item);
         } else {
             int hs2 = HashFunctions::multiplicacao(item.id, item.user, this->tamanho);
+            if(this->tamanho%hs2 == 0)hs2++;
             this->numColisoes++;
             hs = (hs + hs2) % this->tamanho;
-            int contadorLoop = 0;
             while(!this->isPosicaoVazia(hs)){
                 this->numColisoes++;
-                contadorLoop++;
                 hs = (hs + hs2) % this->tamanho;
-                if(contadorLoop > this->tamanho){
-                    hs = (hs + 1)% this->tamanho;
-                }
             }
             hashMap[hs] = criaHashItem(item);
 
