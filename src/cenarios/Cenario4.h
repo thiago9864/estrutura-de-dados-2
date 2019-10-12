@@ -20,6 +20,7 @@
 #include "../hash/HashMaps/HashEncSeparado.h"
 #include "../hash/HashMaps/HashEndCoalescido.h"
 #include "../hash/HashMaps/HashReHash.h"
+#include "../Memoria.h"
 
 using namespace std;
 
@@ -49,6 +50,8 @@ public:
     void realizaTeste(){
 
         uint64_t inicio;
+        Memoria memInfo;
+        uint64_t memoria_inicial = memInfo.getCurrentRSS();
 
         numAlgoritmos = 5;
         algoritmos = new string[numAlgoritmos];
@@ -59,23 +62,27 @@ public:
         algoritmos[4] = "Encadeamento Coalescido";
 
         //cria os vetores de teste
+        temposDeExecucao = new double*[numAlgoritmos];
         numeroDeComparacores = new uint64_t*[numAlgoritmos];
+        numeroDeColisoes = new uint64_t*[numAlgoritmos];
         gastoDeMemoria = new uint64_t*[numAlgoritmos];
 
         //inicia os vetores de teste com zero
         for(int a=0; a<numAlgoritmos; a++){
             temposDeExecucao[a] = new double[numTestes];
             numeroDeComparacores[a] = new uint64_t[numTestes];
+            numeroDeColisoes[a] = new uint64_t[numTestes];
             gastoDeMemoria[a] = new uint64_t[numTestes];
             for(int t=0; t<numTestes; t++){
                 temposDeExecucao[a][t] = 0;
                 numeroDeComparacores[a][t] = 0;
+                numeroDeColisoes[a][t] = 0;
                 gastoDeMemoria[a][t] = 0;
             }
         }
 
         //preenche header do csv
-        Log::getInstance().lineArquivo("Teste,Número de Testes,Algoritmo,Número de Comparações,Gasto de Memoria");
+        Log::getInstance().lineArquivo("Teste,Número de Testes,Algoritmo,Tempo de Execução,Número de Comparações,Número de Colisões,Gasto de Memoria");
 
         //Loop entre os testes do arquivo de configuração
         for(int t=0; t<numTestes; t++){
@@ -86,18 +93,14 @@ public:
             //obtem dados do teste com a semente atual
             carregaDadosTeste(sizeDataset);
 
-            int* copiaLocal;//copia do vetor de testes usada no algoritmo
             double tempo_teste;
 
             ////////// Enderecamento por Sondagem Linear //////////
-
-
-            //debug - nome do algoritmo
             cout << "- Enderecamento por Sondagem Linear" << endl;
 
             //inicialização do algoritmo
             auto* encLinear = new HashEncLinear(sizeDataset);
-
+            encLinear->resetContadores();
             timerStart();//marca o tempo inicial
 
             // Iniciando as inserções
@@ -110,7 +113,8 @@ public:
             //salva os resultados
             temposDeExecucao[0][t] = tempo_teste;
             numeroDeComparacores[0][t] = encLinear->getNumComparacoes();//pegar do algoritmo
-            gastoDeMemoria[0][t] = sizeof(encLinear);//pegar do algoritmo
+            numeroDeColisoes[0][t] = encLinear->getNumColisoes();//pegar do algoritmo
+            gastoDeMemoria[0][t] = memInfo.getCurrentRSS() - memoria_inicial;
             salvaLinhaResultado(0, t);
 
             //libera memoria desse teste
@@ -124,7 +128,7 @@ public:
 
             //inicialização do algoritmo
             auto* encQuadratico = new HashEncQuadratico(sizeDataset);
-
+            encQuadratico->resetContadores();
             timerStart();//marca o tempo inicial
 
             // Iniciando as inserções
@@ -135,10 +139,16 @@ public:
             tempo_teste = timerEnd();//marca o tempo final
 
             //salva os resultados
-            temposDeExecucao[0][t] = tempo_teste;
-            numeroDeComparacores[0][t] = encQuadratico->getNumComparacoes();//pegar do algoritmo
-            gastoDeMemoria[0][t] = sizeof(encQuadratico);//pegar do algoritmo
-            salvaLinhaResultado(0, t);
+            temposDeExecucao[1][t] = tempo_teste;
+            numeroDeComparacores[1][t] = encQuadratico->getNumComparacoes();//pegar do algoritmo
+            numeroDeColisoes[1][t] = encQuadratico->getNumColisoesQuadraticas() + encQuadratico->getNumColisoesLineares();//pegar do algoritmo
+            gastoDeMemoria[1][t] = memInfo.getCurrentRSS() - memoria_inicial;
+            salvaLinhaResultado(1, t);
+
+            cout << "  ** Info Extra **" << endl;
+            cout << "  NumColisoesQuadraticas: " << encQuadratico->getNumColisoesQuadraticas() << endl;
+            cout << "  NumColisoesLineares: " << encQuadratico->getNumColisoesLineares() << endl;
+            cout << "  NumMudancasDeEstrategia: " << encQuadratico->getNumMudancasDeEstrategia() << endl << endl;
 
             //libera memoria desse teste
             delete encQuadratico;
@@ -151,7 +161,7 @@ public:
 
             //inicialização do algoritmo
             auto* encSeparado = new HashEncSeparado(sizeDataset);
-
+            encSeparado->resetContadores();
             timerStart();//marca o tempo inicial
 
             // Iniciando as inserções
@@ -162,10 +172,11 @@ public:
             tempo_teste = timerEnd();//marca o tempo final
 
             //salva os resultados
-            temposDeExecucao[0][t] = tempo_teste;
-            numeroDeComparacores[0][t] = encSeparado->getNumComparacoes();//pegar do algoritmo
-            gastoDeMemoria[0][t] = sizeof(encSeparado);//pegar do algoritmo
-            salvaLinhaResultado(0, t);
+            temposDeExecucao[2][t] = tempo_teste;
+            numeroDeComparacores[2][t] = encSeparado->getNumComparacoes();//pegar do algoritmo
+            numeroDeColisoes[2][t] = encSeparado->getNumColisoes();//pegar do algoritmo
+            gastoDeMemoria[2][t] = memInfo.getCurrentRSS() - memoria_inicial;
+            salvaLinhaResultado(2, t);
 
             //libera memoria desse teste
             delete encSeparado;
@@ -178,7 +189,7 @@ public:
 
             //inicialização do algoritmo
             auto* endCoalescido = new HashEndCoalescido(sizeDataset);
-
+            endCoalescido->resetContadores();
             timerStart();//marca o tempo inicial
 
             // Iniciando as inserções
@@ -189,10 +200,11 @@ public:
             tempo_teste = timerEnd();//marca o tempo final
 
             //salva os resultados
-            temposDeExecucao[0][t] = tempo_teste;
-            numeroDeComparacores[0][t] = endCoalescido->getNumComparacoes();//pegar do algoritmo
-            gastoDeMemoria[0][t] = sizeof(endCoalescido);//pegar do algoritmo
-            salvaLinhaResultado(0, t);
+            temposDeExecucao[3][t] = tempo_teste;
+            numeroDeComparacores[3][t] = endCoalescido->getNumComparacoes();//pegar do algoritmo
+            numeroDeColisoes[3][t] = endCoalescido->getNumColisoes();//pegar do algoritmo
+            gastoDeMemoria[3][t] = memInfo.getCurrentRSS() - memoria_inicial;
+            salvaLinhaResultado(3, t);
 
             //libera memoria desse teste
             delete endCoalescido;
@@ -205,7 +217,7 @@ public:
 
             //inicialização do algoritmo
             auto* hashDuplo = new HashReHash(sizeDataset);
-
+            hashDuplo->resetContadores();
             timerStart();//marca o tempo inicial
 
             // Iniciando as inserções
@@ -216,10 +228,11 @@ public:
             tempo_teste = timerEnd();//marca o tempo final
 
             //salva os resultados
-            temposDeExecucao[0][t] = tempo_teste;
-            numeroDeComparacores[0][t] = hashDuplo->getNumComparacoes();//pegar do algoritmo
-            gastoDeMemoria[0][t] = sizeof(hashDuplo);//pegar do algoritmo
-            salvaLinhaResultado(0, t);
+            temposDeExecucao[4][t] = tempo_teste;
+            numeroDeComparacores[4][t] = hashDuplo->getNumComparacoes();//pegar do algoritmo
+            numeroDeColisoes[4][t] = hashDuplo->getNumColisoes();//pegar do algoritmo
+            gastoDeMemoria[4][t] = memInfo.getCurrentRSS() - memoria_inicial;
+            salvaLinhaResultado(4, t);
 
             //libera memoria desse teste
             delete hashDuplo;
@@ -235,6 +248,7 @@ private:
     int sizeDataset = NULL;
     double** temposDeExecucao;
     uint64_t** numeroDeComparacores;
+    uint64_t** numeroDeColisoes;
     uint64_t** gastoDeMemoria;
     string *algoritmos;
     int numAlgoritmos;
@@ -247,36 +261,11 @@ private:
         linha += algoritmos[indice_algoritmo] + ",";
         linha += to_string(temposDeExecucao[indice_algoritmo][indice_teste]) + ",";
         linha += to_string(numeroDeComparacores[indice_algoritmo][indice_teste]) + ",";
+        linha += to_string(numeroDeColisoes[indice_algoritmo][indice_teste]) + ",";
         linha += to_string(gastoDeMemoria[indice_algoritmo][indice_teste]);
 
         Log::getInstance().lineArquivo(linha);
     }
-
-    void carregaDadosTeste(int qtdDadosTeste){
-
-        LeitorUserReviews *userReviews = new LeitorUserReviews(qtdDadosTeste);
-        UserReview* dts = userReviews->getDataset();
-
-        if(dataset != NULL){
-            //limpa memoria se tiver alguma coisa nele
-            delete[] dataset;
-        }
-
-        this->dataset = new UserReview[qtdDadosTeste];
-
-        //monta vetor de inteiros
-        for(int i=0; i<qtdDadosTeste; i++){
-            dataset[i] = dts[i];
-        }
-
-        //debug - Salvar o vetor fonte
-        //salvaVetor("vetor_fonte_"+to_string(tamVetorInt)+".csv", copiaLocal, tamVetorInt);
-
-
-        delete userReviews;//libera memória do leitor
-    }
-
-
 
     /**
     * Carrega o arquivo de configuração do teste, que está na pasta 'entradas'
@@ -315,14 +304,8 @@ private:
     * @param qtdDadosTeste Tamanho do vetor que vai ser obtido
     */
     void carregaDadosTeste(int qtdDadosTeste){
-
         auto *userReviews = new LeitorUserReviews(qtdDadosTeste);
         this->dataset = userReviews->getDataset();
-
-        if(dataset != nullptr){
-            //limpa memoria se tiver alguma coisa nele
-            delete[] dataset;
-        }
         delete userReviews;//libera memória do leitor
     }
 
