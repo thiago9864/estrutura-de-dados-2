@@ -90,7 +90,7 @@ public:
             double tempo_teste;
 
             ////////// Enderecamento por Sondagem Linear //////////
-]
+
 
             //debug - nome do algoritmo
             cout << "- Enderecamento por Sondagem Linear" << endl;
@@ -98,147 +98,131 @@ public:
             //inicialização do algoritmo
             auto* encLinear = new HashEncLinear(sizeDataset);
 
+            timerStart();//marca o tempo inicial
 
             // Iniciando as inserções
             for(int i = 0; i<sizeDataset; i++){
                 encLinear->inserir(dataset[i]);
             }
 
+            tempo_teste = timerEnd();//marca o tempo final
+
             //salva os resultados
             temposDeExecucao[0][t] = tempo_teste;
-            numeroDeComparacores[0][t] = 0;//pegar do algoritmo
-            gastoDeMemoria[0][t] = 0;//pegar do algoritmo
+            numeroDeComparacores[0][t] = encLinear->getNumComparacoes();//pegar do algoritmo
+            gastoDeMemoria[0][t] = sizeof(encLinear);//pegar do algoritmo
             salvaLinhaResultado(0, t);
 
             //libera memoria desse teste
-            //delete algoritmo; // colocar variavel do algoritmo aqui
-            delete[] copiaLocal;
-            //algoritmo = NULL; // colocar variavel do algoritmo aqui
-            copiaLocal = NULL;
+            delete encLinear;
 
             ////////// Enderecamento por Sondagem Quadratica //////////
 
-            //rodar isso sempre antes de qualquer ordenação
-            copiaLocal = copiaLocalVetorInt();
-
-            //debug - Salvar o vetor fonte
-            //salvaVetor("vetor_fonte_"+to_string(tamVetorInt)+".csv", copiaLocal, tamVetorInt);
 
             //debug - nome do algoritmo
             cout << "- Enderecamento por Sondagem Quadratica" << endl;
 
             //inicialização do algoritmo
+            auto* encQuadratico = new HashEncQuadratico(sizeDataset);
 
             timerStart();//marca o tempo inicial
 
-            // aqui roda o algoritmo
+            // Iniciando as inserções
+            for(int i = 0; i<sizeDataset; i++){
+                encQuadratico->inserir(dataset[i]);
+            }
 
             tempo_teste = timerEnd();//marca o tempo final
 
             //salva os resultados
             temposDeExecucao[0][t] = tempo_teste;
-            numeroDeComparacores[0][t] = 0;//pegar do algoritmo
-            numeroDeTrocas[0][t] = 0;//pegar do algoritmo
+            numeroDeComparacores[0][t] = encQuadratico->getNumComparacoes();//pegar do algoritmo
+            gastoDeMemoria[0][t] = sizeof(encQuadratico);//pegar do algoritmo
             salvaLinhaResultado(0, t);
 
             //libera memoria desse teste
-            //delete algoritmo; // colocar variavel do algoritmo aqui
-            delete[] copiaLocal;
-            //algoritmo = NULL; // colocar variavel do algoritmo aqui
-            copiaLocal = NULL;
+            delete encQuadratico;
 
-            ////////// Enderecamento por Duplo Hash //////////
+            ////////// Enderecamento por Encadeamento Separado //////////
 
-            //rodar isso sempre antes de qualquer ordenação
-            copiaLocal = copiaLocalVetorInt();
-
-            //debug - Salvar o vetor fonte
-            //salvaVetor("vetor_fonte_"+to_string(tamVetorInt)+".csv", copiaLocal, tamVetorInt);
 
             //debug - nome do algoritmo
-            cout << "- Enderecamento por Duplo Hash" << endl;
+            cout << "- Enderecamento por Encadeamento Separado" << endl;
 
             //inicialização do algoritmo
+            auto* encSeparado = new HashEncSeparado(sizeDataset);
 
             timerStart();//marca o tempo inicial
 
-            // aqui roda o algoritmo
+            // Iniciando as inserções
+            for(int i = 0; i<sizeDataset; i++){
+                encSeparado->inserir(dataset[i]);
+            }
 
             tempo_teste = timerEnd();//marca o tempo final
 
             //salva os resultados
             temposDeExecucao[0][t] = tempo_teste;
-            numeroDeComparacores[0][t] = 0;//pegar do algoritmo
-            numeroDeTrocas[0][t] = 0;//pegar do algoritmo
+            numeroDeComparacores[0][t] = encSeparado->getNumComparacoes();//pegar do algoritmo
+            gastoDeMemoria[0][t] = sizeof(encSeparado);//pegar do algoritmo
             salvaLinhaResultado(0, t);
 
             //libera memoria desse teste
-            //delete algoritmo; // colocar variavel do algoritmo aqui
-            delete[] copiaLocal;
-            //algoritmo = NULL; // colocar variavel do algoritmo aqui
-            copiaLocal = NULL;
+            delete encSeparado;
 
-            ////////// Encadeamento Separado //////////
+            ////////// Enderecamento por Encadeamento Coalescido //////////
 
-            //rodar isso sempre antes de qualquer ordenação
-            copiaLocal = copiaLocalVetorInt();
-
-            //debug - Salvar o vetor fonte
-            //salvaVetor("vetor_fonte_"+to_string(tamVetorInt)+".csv", copiaLocal, tamVetorInt);
 
             //debug - nome do algoritmo
-            cout << "- Encadeamento Separado" << endl;
+            cout << "- Enderecamento por Encadeamento Coalescido" << endl;
 
             //inicialização do algoritmo
+            auto* endCoalescido = new HashEndCoalescido(sizeDataset);
 
             timerStart();//marca o tempo inicial
 
-            // aqui roda o algoritmo
+            // Iniciando as inserções
+            for(int i = 0; i<sizeDataset; i++){
+                endCoalescido->inserir(dataset[i]);
+            }
 
             tempo_teste = timerEnd();//marca o tempo final
 
             //salva os resultados
             temposDeExecucao[0][t] = tempo_teste;
-            numeroDeComparacores[0][t] = 0;//pegar do algoritmo
-            numeroDeTrocas[0][t] = 0;//pegar do algoritmo
+            numeroDeComparacores[0][t] = endCoalescido->getNumComparacoes();//pegar do algoritmo
+            gastoDeMemoria[0][t] = sizeof(endCoalescido);//pegar do algoritmo
             salvaLinhaResultado(0, t);
 
             //libera memoria desse teste
-            //delete algoritmo; // colocar variavel do algoritmo aqui
-            delete[] copiaLocal;
-            //algoritmo = NULL; // colocar variavel do algoritmo aqui
-            copiaLocal = NULL;
+            delete endCoalescido;
 
-            ////////// Encadeamento Coalescido //////////
+            ////////// Enderecamento por Hashing Duplo//////////
 
-            //rodar isso sempre antes de qualquer ordenação
-            copiaLocal = copiaLocalVetorInt();
-
-            //debug - Salvar o vetor fonte
-            //salvaVetor("vetor_fonte_"+to_string(tamVetorInt)+".csv", copiaLocal, tamVetorInt);
 
             //debug - nome do algoritmo
-            cout << "- Encadeamento Coalescido" << endl;
+            cout << "- Enderecamento por Hashing Duplo" << endl;
 
             //inicialização do algoritmo
+            auto* hashDuplo = new HashReHash(sizeDataset);
 
             timerStart();//marca o tempo inicial
 
-            // aqui roda o algoritmo
+            // Iniciando as inserções
+            for(int i = 0; i<sizeDataset; i++){
+                hashDuplo->inserir(dataset[i]);
+            }
 
             tempo_teste = timerEnd();//marca o tempo final
 
             //salva os resultados
             temposDeExecucao[0][t] = tempo_teste;
-            numeroDeComparacores[0][t] = 0;//pegar do algoritmo
-            numeroDeTrocas[0][t] = 0;//pegar do algoritmo
+            numeroDeComparacores[0][t] = hashDuplo->getNumComparacoes();//pegar do algoritmo
+            gastoDeMemoria[0][t] = sizeof(hashDuplo);//pegar do algoritmo
             salvaLinhaResultado(0, t);
 
             //libera memoria desse teste
-            //delete algoritmo; // colocar variavel do algoritmo aqui
-            delete[] copiaLocal;
-            //algoritmo = NULL; // colocar variavel do algoritmo aqui
-            copiaLocal = NULL;
+            delete hashDuplo;
 
         }
     }
