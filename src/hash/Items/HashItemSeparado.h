@@ -9,6 +9,9 @@
 
 using namespace std;
 
+/**
+ * Item para a lista de um hash, esse é utilizado no Hash com Endereçamento Separado
+ */
 class HashItemSeparado {
 public:
     HashItemSeparado(){}

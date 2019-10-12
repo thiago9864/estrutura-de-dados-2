@@ -14,6 +14,10 @@
 
 using namespace std;
 
+/**
+ * Classe que ordena uma lista usando o metodo de BubbleSort
+ * @tparam T Tipo do item da lista
+ */
 template <class T>
 class BubbleSort
 {
@@ -28,14 +32,17 @@ class BubbleSort
          */
         void ordenar(T* vetor, int tam){
             for(int i=0; i<tam-1; i++){
+                //Reseta o trocou para saber ao final se algo foi ordenado ou se a lista já está ordenada
                 bool trocou=false;
                 for(int j=0; j<tam-1-i; j++){
                     if(comparador(vetor[j], vetor[j+1])){
+                        //Caso o segundo seja menor que o primeiro eles são invertidos de posição
                         troca(vetor, j, j+1);
                         trocou=true;
                     }
                 }
-                if(trocou==false){
+                //Caso não tenha mais o que ordenar, a ordenação é finalizada
+                if(!trocou){
                     break;
                 }
             }
@@ -61,32 +68,64 @@ class BubbleSort
             }
         }
 
+        /**
+         * Reseta os contadores para os estado que estavam no momento de criação do objeto
+         */
         void resetContadores(){
             num_trocas=0;
             num_comparacoes=0;
         }
+
+        /**
+         * Retorna o numero de comparações contabilizado pelo contador
+         * @return numero de comparações feitas desde a ultima inicialização dos contadores
+         */
         long getNumComparacoes(){
             return num_comparacoes;
         }
+
+        /**
+         * Retorna o numero de trocas contabilizado pelo contador
+         * @return numero de trocas feitas desde a ultima inicialização dos contadores
+         */
         long getNumTrocas(){
             return num_trocas;
         }
 
     private:
 
-        long num_comparacoes;
-        long num_trocas;
-        int tamanho;
+        long num_comparacoes; // Contador de comparações
+        long num_trocas; // Contadore de trocas
+        int tamanho; // Tamanho da lista à ser ordenada
 
+        /**
+         * Recebe dois parametros, diz de a.id > b.id e contabiliza a comparação
+         * @param a item 1 da comparação
+         * @param b item 2 da comparação
+         * @return booleano indicando se a.id > b.id
+         */
         bool comparador(T a, T b){
             num_comparacoes++;
             return a.id > b.id;
         }
+
+        /**
+         * Recebe dois parametros, diz de a > b e contabiliza a comparação
+         * @param a item 1 da comparação
+         * @param b item 2 da comparação
+         * @return booleano indicando se a > b
+         */
         bool comparadorInt(int a, int b){
             num_comparacoes++;
             return a > b;
         }
 
+        /**
+         * Inverte a posição de 2 itens no vetor
+         * @param vetor vetor que está tendo seus itens invertidos
+         * @param p1 item 1 da inversão
+         * @param p2 item 2 da inversão
+         */
         void troca(T* vetor, int p1, int p2){
             T aux = vetor[p1];
             vetor[p1] = vetor[p2];
