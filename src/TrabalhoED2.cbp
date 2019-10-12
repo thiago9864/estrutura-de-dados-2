@@ -45,6 +45,15 @@
 		<Unit filename="cenarios/Cenario2.h" />
 		<Unit filename="cenarios/Cenario3.h" />
 		<Unit filename="cenarios/Cenario4.h" />
+		<Unit filename="hash/HashFunctions.h" />
+		<Unit filename="hash/HashMaps/HashEncLinear.h" />
+		<Unit filename="hash/HashMaps/HashEncQuadratico.h" />
+		<Unit filename="hash/HashMaps/HashEncSeparado.h" />
+		<Unit filename="hash/HashMaps/HashEndCoalescido.h" />
+		<Unit filename="hash/HashMaps/HashReHash.h" />
+		<Unit filename="hash/Items/HashItemBasic.h" />
+		<Unit filename="hash/Items/HashItemCoalescido.h" />
+		<Unit filename="hash/Items/HashItemSeparado.h" />
 		<Unit filename="hashing/EndSondagemLinear.h" />
 		<Unit filename="hashing/EndSondagemQuadratica.h" />
 		<Unit filename="hashing/HashMapItem.h" />

@@ -22,7 +22,7 @@ public:
 
     void ordenar(T* vet,int inicio, int fim, int m){
 
-        if(inicio - fim <= m){
+        if(fim - inicio <= m){
             inSorter->ordenarQuick(vet, inicio, fim);
         }
         if (inicio < fim)
@@ -37,7 +37,7 @@ public:
 
     void ordenarInt(T* vet,int inicio, int fim, int m){
 
-        if(inicio - fim <= m){
+        if(fim - inicio <= m){
             inSorter->ordenarIntQuick(vet, inicio, fim);
         }
         if (inicio < fim)

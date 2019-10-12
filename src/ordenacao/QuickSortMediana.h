@@ -19,32 +19,34 @@ template <class T>
 class QuickSortMediana
 {
 public:
-    QuickSortMediana(){};
+    QuickSortMediana(){
+        leitorBase=new LeitorBase();
+        leitorBase->gerarSemente();
+    };
     ~QuickSortMediana(){};
 
     void ordenar(T* vet, int k, int inicio, int fim)
     {
-        this.k=k;
-        LeitorBase a=new LeitorBase;
-        a.gerarSemente();
+        this->k=k;
         if (inicio < fim)
         {
+            calculaMedianak(vet, fim);
             int p = particao(vet, inicio, fim);
 
-            ordenar(vet, inicio, p - 1);
-            ordenar(vet, p + 1, fim);
+            ordenar(vet, k, inicio, p - 1);
+            ordenar(vet, k, p + 1, fim);
         }
     };
 
-    void ordenarInt(T *vet, int inicio, int fim)
+    void ordenarInt(T *vet, int k, int inicio, int fim)
     {
-
+        this->k=k;
         if (inicio < fim)
         {
-            calculaMediana3k(vet, fim);
+            calculaMedianakInt(vet, fim);
             int p = particaoInt(vet, inicio, fim);
-            ordenarInt(vet, inicio, p - 1);
-            ordenarInt(vet, p + 1, fim);
+            ordenarInt(vet, k, inicio, p - 1);
+            ordenarInt(vet, k, p + 1, fim);
         }
     };
 
@@ -64,15 +66,15 @@ private:
     long num_trocas;
     int mediana;
     int k;
-    LeitorBase a;
+    LeitorBase *leitorBase;
 
     void calculaMedianak(T *vet, int fim)
     {
         if(k==3) {
             int i1, i2, i3;
-            i1 = a.getRand(fim+1);
-            i2 = a.getRand(fim+1);
-            i3 = a.getRand(fim+1);
+            i1 = leitorBase->getRand(fim+1);
+            i2 = leitorBase->getRand(fim+1);
+            i3 = leitorBase->getRand(fim+1);
 
             T aux[3] = {vet[i1], vet[i2], vet[i3]};
             T auxiliar;
@@ -91,15 +93,15 @@ private:
 
                 }
             }
-            mediana = aux[1];
+            mediana = aux[1].id;
         }
         else {if(k==5){
-            int i1, i2, i3;
-            i1 = a.getRand(fim+1);
-            i2 = a.getRand(fim+1);
-            i3 = a.getRand(fim+1);
-            i4= a.getRand(fim+1);
-            i5= a.getRand(fim+1);
+            int i1, i2, i3, i4, i5;
+            i1 = leitorBase->getRand(fim+1);
+            i2 = leitorBase->getRand(fim+1);
+            i3 = leitorBase->getRand(fim+1);
+            i4 = leitorBase->getRand(fim+1);
+            i5 = leitorBase->getRand(fim+1);
 
 
 
@@ -120,6 +122,65 @@ private:
 
                 }
             }
+            mediana = aux[3].id;
+
+        }}
+    }
+
+    void calculaMedianakInt(T *vet, int fim)
+    {
+        if(k==3) {
+            int i1, i2, i3;
+            i1 = leitorBase->getRand(fim+1);
+            i2 = leitorBase->getRand(fim+1);
+            i3 = leitorBase->getRand(fim+1);
+
+            T aux[3] = {vet[i1], vet[i2], vet[i3]};
+            T auxiliar;
+
+            for (int k = 0; k < 2; k++) {
+                if (aux[k] > aux[k + 1]) {
+                    auxiliar = aux[k];
+                    aux[k] = aux[k + 1];
+                    aux[k + 1] = aux[k];
+                }
+                if (aux[k] > aux[k + 2]) {
+
+                    auxiliar = aux[k];
+                    aux[k] = aux[k + 1];
+                    aux[k + 1] = aux[k];
+
+                }
+            }
+            mediana = aux[1];
+        }
+        else {if(k==5){
+            int i1, i2, i3, i4, i5;
+            i1 = leitorBase->getRand(fim+1);
+            i2 = leitorBase->getRand(fim+1);
+            i3 = leitorBase->getRand(fim+1);
+            i4= leitorBase->getRand(fim+1);
+            i5= leitorBase->getRand(fim+1);
+
+
+
+            T aux[5] = {vet[i1], vet[i2], vet[i3],vet[i4],vet[i5]};
+            T auxiliar;
+
+            for (int k = 0; k < 3; k++) {
+                if (aux[k] > aux[k + 1]) {
+                    auxiliar = aux[k];
+                    aux[k] = aux[k + 1];
+                    aux[k + 1] = aux[k];
+                }
+                if (aux[k] > aux[k + 2]) {
+
+                    auxiliar = aux[k];
+                    aux[k] = aux[k + 1];
+                    aux[k + 1] = aux[k];
+
+                }
+            }
             mediana = aux[3];
 
         }}
@@ -130,10 +191,10 @@ private:
 
         int i = inicio - 1;
 
-        T pivo = vet[mediana];
+        int pivo = mediana;
         for (int j = inicio; j <= fim - 1; j++)
         {
-            if (comparador(vet[j], pivo))
+            if (comparadorInt(vet[j].id, pivo))
             {
                 i++;
                 troca(vet, i, j);
@@ -148,7 +209,7 @@ private:
 
         int i = inicio - 1;
 
-        T pivo = vet[mediana];
+        T pivo = mediana;
         for (int j = inicio; j <= fim - 1; j++)
         {
             if (comparadorInt(vet[j], pivo))
