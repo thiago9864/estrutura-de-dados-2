@@ -17,7 +17,7 @@ public:
 
     static int multiplicacao(int id, string nome, int tamTable){
         int hashValue = geraNumeroHashable(id, nome);
-        return (int)(10*(hashValue*0.61803399-(int)(hashValue*0.61803399)));
+        return 1 + (int)(10*(hashValue*0.61803399-(int)(hashValue*0.61803399)));
     };
 
     static int encontraPrimo(int x){

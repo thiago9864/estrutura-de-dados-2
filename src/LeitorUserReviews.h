@@ -64,7 +64,7 @@ class LeitorUserReviews : protected LeitorBase
                 vector<string> result = explode(line, ',');
 
                 //obtem o numero de colunas e extrai o header
-                if(headerProcessado==false){
+                if(!headerProcessado){
                     headerProcessado=true;
 
                     //inicia o vetor de objetos do dataset com ids=-1
