@@ -46,6 +46,9 @@ public:
                 } else {
                     numColisoes++;
                 }
+                if(i==0){
+                    cout << "ERRO, HASHTABLE CHEIA" << endl;
+                }
             }
         }
     };

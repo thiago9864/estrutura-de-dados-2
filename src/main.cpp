@@ -40,10 +40,9 @@
 //hashing
 #include "hash/HashMaps/HashEncLinear.h"
 #include "hash/HashMaps/HashEncQuadratico.h"
-#include "hash/HashMaps/HashReHash.h"
 #include "hash/HashMaps/HashEncSeparado.h"
 #include "hash/HashMaps/HashEndCoalescido.h"
-
+#include "hash/HashMaps/HashReHash.h"
 
 
 //cenarios
@@ -321,7 +320,6 @@ void hashingSubMenu(){
                     cout << "Não Encontrado" << endl << endl;
                 }
                 delete endSondagemLinear;
-                endSondagemLinear = NULL;
                 break;
             }
             case 2:{
@@ -347,7 +345,6 @@ void hashingSubMenu(){
                     cout << "Nao Encontrado" << endl << endl;
                 }
                 delete endSondagemQuadratica;
-                endSondagemQuadratica = NULL;
                 break;
             }
             case 3:{

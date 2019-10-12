@@ -42,11 +42,16 @@ public:
         } else {
             HashItemSeparado* currentPointer = hashMap[hs].prox;
             if(currentPointer != nullptr){
+                this->numComparacoes++;
+                this->numColisoes++;
                 while(currentPointer->prox != nullptr){
+                    this->numComparacoes++;
+                    this->numColisoes++;
                     currentPointer = currentPointer->prox;
                 }
             }
             else {
+                this->numComparacoes++;
                 hashMap[hs].prox = new HashItemSeparado(item.user, item.id);
                 return;
             }
