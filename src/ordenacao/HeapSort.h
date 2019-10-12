@@ -51,19 +51,33 @@ public:
         }
     };
 
+    /**
+     * Reseta os contadores para os estado que estavam no momento de criação do objeto
+     */
     void resetContadores(){
         num_trocas=0;
         num_comparacoes=0;
     }
+
+    /**
+     * Retorna o numero de comparações contabilizado pelo contador
+     * @return numero de comparações feitas desde a ultima inicialização dos contadores
+     */
     long getNumComparacoes(){
         return num_comparacoes;
     }
+
+    /**
+     * Retorna o numero de trocas contabilizado pelo contador
+     * @return numero de trocas feitas desde a ultima inicialização dos contadores
+     */
     long getNumTrocas(){
         return num_trocas;
     }
 private:
-    long num_comparacoes;
-    long num_trocas;
+    long num_comparacoes; // Contador de comparações
+    long num_trocas; // Contador de trocas
+
 
     void constroiHeap(int m, T *vet)
     {
@@ -139,10 +153,23 @@ private:
         */
     }
 
+    /**
+     * Recebe dois parametros, diz de a.id < b.id e atualiza o contador
+     * @param a item 1 da comparação
+     * @param b item 2 da comparação
+     * @return booleano indicando se a.id < b.id
+     */
     bool comparador(T a, T b){
         num_comparacoes++;
         return a.id < b.id;
     }
+
+    /**
+     * Recebe dois parametros, diz de a > b e atualiza o contador
+     * @param a item 1 da comparação
+     * @param b item 2 da comparação
+     * @return booleano indicando se a > b
+     */
     bool comparadorInt(int a, int b){
         num_comparacoes++;
         return a < b;
