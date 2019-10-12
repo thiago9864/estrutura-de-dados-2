@@ -54,7 +54,7 @@ public:
                 if(this->isPosicaoVazia(i)) {
                     int pointerID = hs;
                     while(this->hashMap[pointerID].idNext != -1){
-                        cout << pointerID << endl;
+                        //cout << pointerID << endl;
                         pointerID = hashMap[pointerID].idNext;
                     }
                     hashMap[pointerID].idNext = i;

@@ -21,6 +21,7 @@ public:
     };
 
     static int encontraPrimo(int x){
+        return x;/*
         int nNew = ((x * 2 + 3) - 2)/ 2;
         bool* colore = new bool[nNew + 1];
         for(int k = 0; k < nNew + 1; k++){
@@ -45,7 +46,7 @@ public:
             }
         }
 
-        return primo;
+        return primo;*/
     };
 
 private:

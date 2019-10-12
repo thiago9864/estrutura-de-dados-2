@@ -78,32 +78,32 @@ algo_dfs = []
 #separa os dataframes de cada algoritmo
 for name in algo_names:
     algo_dfs.append(group_by_algo.get_group(name))
+    
 
 #pega os valores do eixo x (os numeros de teste)
 eixo_x = dataframe_concat[colunas[1]].unique()
-
-cores = ['r', 'g', 'b', 'm', 'c', 'y']
-
 
 #%% Gera a tabela
     
 #imprime uma tabela com os dados
     
 for i in range(len(algo_dfs)):#algoritmos
-    print('\n---',algo_names[i],'---')
-    print(str(colunas[1])+'&\t'+str(colunas[3])+'&\t'+str(colunas[4])+'&\t'+str(colunas[5]))
+    print('---',algo_names[i],'---')
+    print(str(colunas[1])+',\t'+str(colunas[3])+',\t'+str(colunas[4])+',\t'+str(colunas[5]))
     for j in range(len(eixo_x)):#testes
         testes = str(list(algo_dfs[i][colunas[1]])[j])
         tempo = str(list(algo_dfs[i][colunas[3]])[j])
         comp = str(list(algo_dfs[i][colunas[4]])[j])
         trocas = str(list(algo_dfs[i][colunas[5]])[j])
-        print(testes+'&\t'+tempo+'&\t'+comp+'&\t'+trocas)
+        print(testes+',\t'+tempo+',\t'+comp+',\t'+trocas)
     
 
 
 
 #%% Plota gráficos
     
+
+cores = ['r', 'g', 'b', 'm', 'c', 'y']
 
 #plota os resultados do tempo (linear)
 for i in range(len(algo_dfs)):

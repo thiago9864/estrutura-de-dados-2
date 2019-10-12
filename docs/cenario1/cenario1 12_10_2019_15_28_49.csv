@@ -1,0 +1,11 @@
+Teste,Número de Testes,Algoritmo,Tempo de Execução,Número de Comparações,Número de Trocas
+0,1000,Quicksort (Objetos),0.000849,10653,5290
+0,1000,Quicksort (Inteiros),0.000215,10653,5290
+1,5000,Quicksort (Objetos),0.006049,70828,37107
+1,5000,Quicksort (Inteiros),0.001061,70828,37107
+2,10000,Quicksort (Objetos),0.012431,165949,86825
+2,10000,Quicksort (Inteiros),0.002287,165949,86825
+3,50000,Quicksort (Objetos),0.078385,926516,476571
+3,50000,Quicksort (Inteiros),0.015634,926516,476571
+4,100000,Quicksort (Objetos),0.157420,2045109,1075640
+4,100000,Quicksort (Inteiros),0.027409,2045109,1075640
