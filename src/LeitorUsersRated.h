@@ -48,6 +48,8 @@ class LeitorUsersRated : protected LeitorBase
             {
                 cout << "Impossivel abrir o arquivo '2019-05-02.csv' para leitura";
                 cout << "Verifique a pasta 'datasets' pela pasta 'preprocessado'. Nela deve estar o arquivo" << endl;
+                cout << "Se o arquivo estiver na pasta, verifique a classe 'LeitorBase.h' para o caminho correto no"<<endl;
+                cout << "metodo 'getDiretorioPreprocessado()'." << endl;
                 exit(1); // sai do programa se nao conseguir abrir o arquivo
             }
 

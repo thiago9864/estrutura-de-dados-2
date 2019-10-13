@@ -41,8 +41,8 @@ class LeitorBase
          * @return string
          */
         string getDiretorioPreprocessado(){
-            this->caminho_diretorio_main_cpp = "D:\\Projetos\\ED2\\estrutura-de-dados-2\\src\\";//preencher se der erro de leitura
-            //this->caminho_diretorio_main_cpp = "";
+            //this->caminho_diretorio_main_cpp = "D:\\Projetos\\ED2\\estrutura-de-dados-2\\src\\";//preencher se der erro de leitura
+            this->caminho_diretorio_main_cpp = "";
             string path = this->caminho_diretorio_main_cpp+"datasets"+getDirSep()+"preprocessado"+getDirSep();
             return path;
         }
@@ -63,7 +63,6 @@ class LeitorBase
             return this->caminho_diretorio_main_cpp+"entradas"+getDirSep();
         }
 
-
         /**
          * Quebra a string fornecida em strings menores dado o separador
          * @s String para quebrar
@@ -72,8 +71,14 @@ class LeitorBase
          */
         const vector<string> explode(const string& s, const char& c)
         {
+            if(s == "" || s.length()<=0){
+                cout << "explode(): string vazia" << endl;
+                return vector<string>();
+            }
+
             string buff{""};
             vector<string> v;
+
 
             for(auto n:s)
             {

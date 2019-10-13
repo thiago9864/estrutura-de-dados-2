@@ -51,6 +51,10 @@
 #include "cenarios/Cenario3.h"
 #include "cenarios/Cenario4.h"
 
+//parte 2
+#include "parte2/Parte2.h"
+
+
 using namespace std;
 
 void mainMenu();
@@ -81,6 +85,8 @@ int main(int argc, char *argv[])
 void mainMenu(){
     string userInput;
     int numberUserInput;
+    //medição de tempo
+    LeitorBase base;
     bool exit = false;
 
     while(!exit){
@@ -88,6 +94,7 @@ void mainMenu(){
         cout << "(1) - Ordenacao" << endl;
         cout << "(2) - Hashing" << endl;
         cout << "(3) - Cenarios" << endl;
+        cout << "(4) - Segunda Parte - Implementacao das Categorias Frequentes e dos Usuarios Ativos" << endl;
         cout << "(0) - Sair" << endl;
         cout << "Numero desejado: ";
         cin >> userInput;
@@ -104,6 +111,12 @@ void mainMenu(){
             }
             case 3:{
                 cenariosSubMenu();
+                break;
+            }
+            case 4:{
+                auto *parte2 = new Parte2("parte2 "+base.getCurrentDateAsString()+".csv");
+                parte2->realizaTeste();
+                delete parte2;
                 break;
             }
             case 0:{

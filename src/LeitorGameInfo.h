@@ -51,6 +51,8 @@ class LeitorGameInfo : protected LeitorBase
             {
                 cout << "Impossivel abrir o arquivo 'games_detailed_info.csv' para leitura";
                 cout << "Verifique a pasta 'datasets' pela pasta 'preprocessado'. Nela deve estar o arquivo" << endl;
+                cout << "Se o arquivo estiver na pasta, verifique a classe 'LeitorBase.h' para o caminho correto no"<<endl;
+                cout << "metodo 'getDiretorioPreprocessado()'." << endl;
                 exit(1); // sai do programa se nao conseguir abrir o arquivo
             }
 
@@ -81,13 +83,18 @@ class LeitorGameInfo : protected LeitorBase
                     while(dataset[pos].id!=-1){
                         pos=getRand(numRegistros);
                     }
-
                     //cria o objeto
                     GameInfo g;
                     g.id = stoi(result[0]);
-                    g.boardgamecategory = explode(result[1], '|');
-                    dataset[pos] = g;
 
+                    if(result.size()>1){
+                        string cat = result[1];
+                        //registro com categorias
+                        g.boardgamecategory = explode(cat, '|');
+                    }
+
+                    dataset[pos] = g;
+                    //cout << "--" << endl;
                     //conta linhas inseridas
                     linhas_inseridas++;
 
