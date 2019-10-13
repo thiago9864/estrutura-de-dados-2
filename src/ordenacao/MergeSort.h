@@ -85,7 +85,7 @@ class MergeSort
         long num_trocas; // Contador de trocas
 
         /**
-         *
+         * A função faz as comparações e ordena o vetor de objetos, ela pega o vetor "partido" e faz as trocas do elemento da esquerda com os elementos da esquerda.
          * @param vet
          * @param inicio
          * @param meio
@@ -137,7 +137,7 @@ class MergeSort
         }
 
         /**
-         * 
+         * A função faz as comparações e ordena o vetor de inteiros, ela pega o vetor "partido" e faz as trocas do elemento da esquerda com os elementos da esquerda.
          * @param vet
          * @param inicio
          * @param meio
