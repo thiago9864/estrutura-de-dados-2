@@ -1,6 +1,11 @@
-//
-// Created by lrpes on 11/10/2019.
-//
+/**
+    Universidade Federal de Juiz de Fora
+    HashEncSeparado.h
+    Propósito: Resolução de conflitos de merge usando listas encadeadas
+
+    @author Lucas Ribeiro e Luan Reis
+    @version 1.0 08/10/19
+*/
 
 #ifndef SRC_HASHENCSEPARADO_H
 #define SRC_HASHENCSEPARADO_H
