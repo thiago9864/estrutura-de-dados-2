@@ -15,6 +15,11 @@
 
 using namespace std;
 
+/**
+ * Classe que ordena uma lista usando o metodo do QuickSort, porem usando metodos para tentar procurar
+ * partições melhores
+ * @tparam T Tipo do item da lista
+ */
 template <class T>
 class QuickSortMediana
 {
@@ -81,7 +86,11 @@ private:
     int k;
     LeitorBase *leitorBase;
 
-    void calculaMedianak(T *vet, int fim)
+    /**
+     * Acha a mediana do vetor inserido e salva na classe
+     * @param vet vetor à ser procurado
+     */
+    void calculaMedianak(T *vet)
     {
         if(k==3) {
             int i1, i2, i3;
@@ -140,7 +149,11 @@ private:
         }}
     }
 
-    void calculaMedianakInt(T *vet, int fim)
+    /**
+     * Acha a mediana do vetor inserido e salva na classe
+     * @param vet vetor à ser procurado
+     */
+    void calculaMedianakInt(T *vet)
     {
         if(k==3) {
             int i1, i2, i3;
@@ -199,6 +212,14 @@ private:
         }}
     }
 
+    /**
+     * Escolhe um pivo entre o inicio e o fim especificado, depois coloca todos os maiores que ele de um lado e
+     * todos os maiores do outro
+     * @param vet vetor à ser particionado
+     * @param inicio indice que começa a parte a ser particionada
+     * @param fim  indice que termina a parte a ser particionada
+     * @return a posição que o pivo ficou
+     */
     int particao(T *vet, int inicio, int fim)
     {
 
@@ -217,6 +238,14 @@ private:
         return (i + 1);
     };
 
+    /**
+     * Escolhe um pivo entre o inicio e o fim especificado, depois coloca todos os maiores que ele de um lado e
+     * todos os maiores do outro
+     * @param vet vetor à ser particionado
+     * @param inicio indice que começa a parte a ser particionada
+     * @param fim  indice que termina a parte a ser particionada
+     * @return a posição que o pivo ficou
+     */
     int particaoInt(T *vet, int inicio, int fim)
     {
 
@@ -236,7 +265,7 @@ private:
     };
 
     /**
-     * Recebe dois parametros, diz de a.id <= b.id e atualiza o contador
+     * Recebe dois parametros, diz se a.id <= b.id e atualiza o contador
      * @param a item 1 da comparação
      * @param b item 2 da comparação
      * @return booleano indicando se a.id <= b.id
@@ -247,7 +276,7 @@ private:
     }
 
     /**
-     * Recebe dois parametros, diz de a <= b e atualiza o contador
+     * Recebe dois parametros, diz se a <= b e atualiza o contador
      * @param a item 1 da comparação
      * @param b item 2 da comparação
      * @return booleano indicando se a <= b
