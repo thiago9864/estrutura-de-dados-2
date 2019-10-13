@@ -14,6 +14,10 @@
 
 using namespace std;
 
+/**
+ * Classe que ordena uma lista usando o metodo de MergeSort
+ * @tparam T Tipo do item da lista
+ */
 template <class T>
 class MergeSort
 {
@@ -85,11 +89,12 @@ class MergeSort
         long num_trocas; // Contador de trocas
 
         /**
-         * A função faz as comparações e ordena o vetor de objetos, ela pega o vetor "partido" e faz as trocas do elemento da esquerda com os elementos da esquerda.
-         * @param vet
-         * @param inicio
-         * @param meio
-         * @param fim
+         * A função faz as comparações e ordena o vetor de objetos, ela pega o vetor "partido" e
+         * faz as trocas do elemento da esquerda com os elementos da esquerda.
+         * @param vet vetor ter elementos intercalados
+         * @param inicio inicio da parte que vai ser intercalada
+         * @param meio meio da parte que vai ser intercalada
+         * @param fim fim da parte que vai ser intercalada
          */
         void intercala(T* vet,int inicio, int meio,int fim)
         {
@@ -137,11 +142,12 @@ class MergeSort
         }
 
         /**
-         * A função faz as comparações e ordena o vetor de inteiros, ela pega o vetor "partido" e faz as trocas do elemento da esquerda com os elementos da esquerda.
-         * @param vet
-         * @param inicio
-         * @param meio
-         * @param fim
+         * A função faz as comparações e ordena o vetor de inteiros, ela pega o vetor "partido" e
+         * faz as trocas do elemento da esquerda com os elementos da esquerda.
+         * @param vet vetor ter elementos intercalados
+         * @param inicio inicio da parte que vai ser intercalada
+         * @param meio meio da parte que vai ser intercalada
+         * @param fim fim da parte que vai ser intercalada
          */
         void intercalaInt(int* vet,int inicio, int meio,int fim)
         {
@@ -187,7 +193,7 @@ class MergeSort
         }
 
         /**
-         * Recebe dois parametros, diz de a.id <= b.id e atualiza o contador
+         * Recebe dois parametros, diz se a.id <= b.id e atualiza o contador
          * @param a item 1 da comparação
          * @param b item 2 da comparação
          * @return booleano indicando se a.id <= b.id
@@ -198,7 +204,7 @@ class MergeSort
         }
 
         /**
-         * Recebe dois parametros, diz de a <= b e atualiza o contador
+         * Recebe dois parametros, diz se a <= b e atualiza o contador
          * @param a item 1 da comparação
          * @param b item 2 da comparação
          * @return booleano indicando se a <= b

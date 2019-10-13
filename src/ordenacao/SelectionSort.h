@@ -14,6 +14,10 @@
 
 using namespace std;
 
+/**
+ * Classe que ordena uma lista usando o metodo de SelectionSort
+ * @tparam T Tipo do item da lista
+ */
 template <class T>
 class SelectionSort
 {
@@ -87,7 +91,7 @@ class SelectionSort
         int tamanho; // Tamanho da lista à ser ordenada
 
         /**
-         * Recebe dois parametros, diz de a.id < b.id e contabiliza a comparação
+         * Recebe dois parametros, diz se a.id < b.id e contabiliza a comparação
          * @param a item 1 da comparação
          * @param b item 2 da comparação
          * @return booleano indicando se a.id < b.id
@@ -98,7 +102,7 @@ class SelectionSort
         }
 
         /**
-         * Recebe dois parametros, diz de a < b e atualiza o contador
+         * Recebe dois parametros, diz se a < b e atualiza o contador
          * @param a item 1 da comparação
          * @param b item 2 da comparação
          * @return booleano indicando se a <  b
