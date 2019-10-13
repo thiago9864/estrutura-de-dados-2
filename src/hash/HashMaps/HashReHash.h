@@ -48,7 +48,29 @@ public:
         int hs = HashFunctions::divisao(item.id, item.user, this->tamanho, this->primo);
         if(this->isPosicaoVazia(hs)){
             hashMap[hs] = criaHashItem(item);
+            numItensInseridos++;
+        } else if(numItensInseridos+10 >= this->tamanho){
+            //usa estrategia linear
+            int j=0;// conta a iteração
+            int hs_search = hs;//auxiliar para percorrer linearmente a tabela
+            while(j<tamanho){
+                if(hs_search >= tamanho){
+                    //chegou no fim do vetor sem resolver, busca do inicio agora
+                    hs_search = 0;
+                }
+                if(isPosicaoVazia(hs_search)){
+                    //a colisão foi resolvida
+                    hashMap[hs_search] = criaHashItem(item);
+                    numItensInseridos++;
+                    break;
+                } else {
+                    numColisoes++;//contabiliza a colisão
+                }
+                j++;
+                hs_search++;
+            }
         } else {
+            //usa estrategia hash duplo
             int hs2 = HashFunctions::multiplicacao(item.id, item.user, this->tamanho);
             while(this->tamanho%hs2 == 0)hs2++;
             this->numColisoes++;
@@ -58,8 +80,9 @@ public:
                 hs = (hs + hs2) % this->tamanho;
             }
             hashMap[hs] = criaHashItem(item);
-
+            numItensInseridos++;
         }
+
     };
 
     /**
@@ -73,6 +96,8 @@ public:
         if(hashMap[hs].idRating == item.id){
             return true;
         }
+
+        //procura por rehash
         checkCounter++;
         int hs2 = HashFunctions::multiplicacao(item.id, item.user, this->tamanho);
         hs = hs + hs2;
@@ -85,6 +110,24 @@ public:
             }
             checkCounter++;
         }
+
+        //se não achar, procura linearmente
+        hs = HashFunctions:: divisao(item.id, item.user, this->tamanho, this->primo);
+        int j=1;//conta a iteração
+        int hs_search = hs+1;//posição do hash
+        while(j<tamanho){
+            if(hashMap[hs_search].idRating == item.id){
+                return true;
+            }
+            j++;
+            hs_search++;
+            if(hs_search >= tamanho){
+                //chegou no fim do vetor sem resolver, busca do inicio agora
+                hs_search = 0;
+            }
+        }
+
+        return false;
     }
 
     /**
@@ -127,6 +170,7 @@ public:
     void resetContadores(){
         numColisoes = 0;
         numComparacoes = 0;
+        numItensInseridos = 0;
     };
 
     /**
@@ -147,7 +191,7 @@ private:
     int numColisoes; // Contador de colisões
     int numComparacoes; // Contador de comparações
     int primo; // Numero primo sendo utilizado no hash de divisão
-
+    int numItensInseridos;
     /**
      * Cria um novo item para o hash
      * @param ur Review à ser transformado em um item do hash
