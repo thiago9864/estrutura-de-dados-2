@@ -14,6 +14,10 @@
 
 using namespace std;
 
+/**
+ * Classe que ordena uma lista usando o metodo de InsertionSort
+ * @tparam T Tipo do item da lista
+ */
 template <class T>
 class InsertionSort
 {
@@ -121,7 +125,7 @@ class InsertionSort
         int tamanho; // Tamanho da lista à ser ordenada
 
         /**
-         * Recebe dois parametros, diz de a.id > b.id e atualiza o contador
+         * Recebe dois parametros, diz se a.id > b.id e atualiza o contador
          * @param a item 1 da comparação
          * @param b item 2 da comparação
          * @return booleano indicando se a.id > b.id
@@ -132,7 +136,7 @@ class InsertionSort
             }
 
         /**
-         * Recebe dois parametros, diz de a > b e atualiza o contador
+         * Recebe dois parametros, diz se a > b e atualiza o contador
          * @param a item 1 da comparação
          * @param b item 2 da comparação
          * @return booleano indicando se a > b

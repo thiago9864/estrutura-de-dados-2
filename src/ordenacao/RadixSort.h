@@ -8,6 +8,10 @@
 #include <iostream>
 using namespace std;
 
+/**
+ * Classe que ordena uma lista usando o metodo de RadixSort
+ * @tparam T Tipo do item da lista
+ */
 template <class T>
 class RadixSort {
 public:
@@ -15,7 +19,7 @@ public:
     ~RadixSort(){};
 
     /**
-     * Ordena��o para os tipos de dados do dataset
+     * Ordenacao para os tipos de dados do dataset
      * @param vet Vetor de objetos
      * @param n Tamanho do vetor
      */
@@ -27,7 +31,7 @@ public:
     };
 
     /**
-     * Ordena��o para inteiros
+     * Ordenacao para inteiros
      * @param vet Vetor de inteiros
      * @param n Tamanho do vetor
      */
@@ -38,13 +42,14 @@ public:
         }
     };
 
-    void print(T* vet, int n){
-        for(int i = 0; i < n; i++){
-            cout << vet[i].id << " ";
-        }
-    }
 private:
 
+    /**
+     * Obtem o maior valor em um vetor
+     * @param vet vetor
+     * @param n tamanho do vetor
+     * @return maior valor
+     */
     T getMax(T* vet, int n){
         T mx = vet[0];
         for(int i = 1; i < n; i++){
@@ -55,6 +60,12 @@ private:
         return mx;
     };
 
+    /**
+     * Função que realiza o countsort para o digito atual no exp
+     * @param vet vetor a ser ordenado
+     * @param n tamanho do vetor
+     * @param exp digito atual sendo ordenado
+     */
     void countSort(T* vet, int n, int exp){
         T output[n];
         int i, count[10] = {0};
@@ -77,6 +88,12 @@ private:
         }
     }
 
+    /**
+     * Obtem o maior valor em um vetor
+     * @param vet vetor
+     * @param n tamanho do vetor
+     * @return maior valor
+     */
     int getMaxInt(int* vet, int n){
         int mx = vet[0];
         for(int i = 1; i < n; i++){
@@ -87,6 +104,12 @@ private:
         return mx;
     };
 
+    /**
+     * Função que realiza o countsort para o digito atual no exp
+     * @param vet vetor a ser ordenado
+     * @param n tamanho do vetor
+     * @param exp digito atual sendo ordenado
+     */
     void countSortInt(int* vet, int n, int exp){
         T output[n];
         int i, count[10] = {0};

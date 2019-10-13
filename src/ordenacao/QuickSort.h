@@ -14,6 +14,10 @@
 
 using namespace std;
 
+/**
+ * Classe que ordena uma lista usando o metodo de QuickSort Recursivo
+ * @tparam T Tipo do item da lista
+ */
 template <class T>
 class QuickSort
 {
@@ -83,6 +87,15 @@ class QuickSort
         long long int num_comparacoes; // Contador de comparações
         long long int num_trocas; // Contador de trocas
 
+
+        /**
+         * Escolhe um pivo entre o inicio e o fim especificado, depois coloca todos os maiores que ele de um lado e
+         * todos os maiores do outro
+         * @param vet vetor à ser particionado
+         * @param inicio indice que começa a parte a ser particionada
+         * @param fim  indice que termina a parte a ser particionada
+         * @return a posição que o pivo ficou
+         */
         int particao(T* vet, int inicio, int fim){
 
             int i = inicio - 1;
@@ -100,6 +113,14 @@ class QuickSort
             return (i+1);
         };
 
+        /**
+         * Escolhe um pivo entre o inicio e o fim especificado, depois coloca todos os maiores que ele de um lado e
+         * todos os maiores do outro
+         * @param vet vetor à ser particionado
+         * @param inicio indice que começa a parte a ser particionada
+         * @param fim  indice que termina a parte a ser particionada
+         * @return a posição que o pivo ficou
+         */
         int particaoInt(int* vet,int inicio, int fim){
 
             long long int i = inicio - 1;
@@ -116,13 +137,19 @@ class QuickSort
             return (i+1);
         };
 
+        /**
+         * Recebe dois parametros, diz se a.id <= b.id e atualiza o contador
+         * @param a item 1 da comparação
+         * @param b item 2 da comparação
+         * @return booleano indicando se aid <= b.id
+         */
         bool comparador(T a, T b){
             num_comparacoes++;
             return a.id <= b.id;
         }
 
         /**
-         * Recebe dois parametros, diz de a <= b e atualiza o contador
+         * Recebe dois parametros, diz se a <= b e atualiza o contador
          * @param a item 1 da comparação
          * @param b item 2 da comparação
          * @return booleano indicando se a <= b
