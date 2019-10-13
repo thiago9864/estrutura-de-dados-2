@@ -1,6 +1,12 @@
-//
-// Created by luand on 13/10/2019.
-//
+/**
+    Universidade Federal de Juiz de Fora
+    Parte.h
+    Propósito: Classe pra rodar a parte 2 do trabalho
+
+    @author Luan Ciribelli
+    @version 1.0 10/10/19
+*/
+
 
 #ifndef SRC_PARTE2_H
 #define SRC_PARTE2_H
@@ -28,8 +34,7 @@ private:
 
 int tam;
 HashEncSeparado* Hash1;
-HashEncSeparado* Hashavaliações;
-HashEncSeparado* Hashcategorias;
+
 int npalavrasrepetidas;
 LeitorBase a;
 int id=0;
