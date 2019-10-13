@@ -23,7 +23,7 @@ public:
 
     Parte2(UserReview* vet[],int tam,int N ){
         this.tam=tam;
-        this.npalavrasrepetidas=N;
+        this.numerodecategoriasaretornar=N;
         hash1=new HashEncSeparado;
         a=new LeitorBase;
         a.gerarSemente();
@@ -34,12 +34,10 @@ private:
 
 int tam;
 HashEncSeparado* Hash1;
-
-int npalavrasrepetidas;
+int numerodecategoriasaretornar;
 LeitorBase a;
-int id=0;
-String boardgamecategory=0;
-string user=0;
+
+
 
 
 
