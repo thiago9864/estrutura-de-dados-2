@@ -21,7 +21,7 @@ class Parte2{
 
 public:
 
-    Parte2(Userreview* vet,int tam,int N ){
+    Parte2(UserReview* vet,int tam,int N ){
         this.tam=tam;
         this.npalavrasrepetidas=N;
         hash1=new HashEncSeparado;
