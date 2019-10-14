@@ -25,7 +25,7 @@ public:
      */
     void ordenar(T* vet, int n){
         T m = getMax(vet, n);
-        for(int exp = 1; m.id/exp > 0; exp *= 10){
+        for(long long int exp = 1; m.id/exp > 0; exp *= 10){
             countSort(vet, n, exp);
         }
     };
@@ -50,7 +50,7 @@ private:
      * @param n tamanho do vetor
      * @return maior valor
      */
-    T getMax(T* vet, int n){
+    T getMax(T* vet, long long int n){
         T mx = vet[0];
         for(int i = 1; i < n; i++){
             if(vet[i].id > mx.id){
@@ -68,7 +68,12 @@ private:
      */
     void countSort(T* vet, int n, int exp){
         T* output = new T[n];
-        int i, count[10] = {0};
+        long long int *count = new long long int[10];
+        long long int i=0;
+        for(int i=0; i<10; i++){
+            count[i] = 0;
+        }
+        //int i, count[10] = {0};
 
         for(i = 0; i < n; i++){
             count[(vet[i].id/exp)%10]++;

@@ -3,8 +3,8 @@
     HashItemSeparado.h
     Propósito:
 
-    @author Lucas Ribeiro
-    @version 1.0 08/10/19
+    @author Lucas Ribeiro, Thiago Almeida
+    @version 1.5 14/10/19
 */
 
 #ifndef SRC_HASHITEMSEPARADOGAMEINFO_H
@@ -17,18 +17,18 @@ using namespace std;
 /**
  * Item para a lista de um hash, esse é utilizado no Hash com Endereçamento Separado
  */
-class HashItemSeparadoGameInfo {
+class HashItemSeparadoParte2 {
 public:
-    HashItemSeparadoGameInfo(){}
-    HashItemSeparadoGameInfo(int idGame, vector<string> boardgamecategory){
-        this->boardgamecategory = boardgamecategory;
-        this->idGame = idGame;
+    HashItemSeparadoParte2(){}
+    HashItemSeparadoParte2(string conteudo){
+        this->conteudo = conteudo;
         this->prox = nullptr;
+        this->frequencia = 1;
     }
 
-    vector<string> boardgamecategory;
-    long idGame; // É o id do jogo
-    HashItemSeparadoGameInfo* prox;
+    string conteudo = "";
+    long frequencia = 0;
+    HashItemSeparadoParte2* prox;
 
 };
 

@@ -20,16 +20,16 @@ using namespace std;
 class FreqCounter {
 public:
     FreqCounter(){}
-    FreqCounter(int id, string categoria){
+    FreqCounter(int id, string conteudo){
         this->id = id;
         this->prox = nullptr;
         this->frequencia = 1;
-        this->categoria = categoria;
+        this->conteudo = conteudo;
     }
 
     long id=0; // É o id do jogo
     long frequencia=0;
-    string categoria="";
+    string conteudo="";
     FreqCounter* prox=nullptr;
 
 };

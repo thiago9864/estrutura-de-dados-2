@@ -28,7 +28,11 @@ public:
      * @return resultado da conta realizada pelo hasher
      */
     static int divisao(int id, string nome, int tamTable, int primo){
-        return (geraNumeroHashable(id, nome) % primo) % tamTable;
+        int num = (geraNumeroHashable(id, nome) % primo) % tamTable;
+        if(num < 0){
+            cout << geraNumeroHashable(id, nome) << ", " << primo << ", " << tamTable << endl;
+        }
+        return num;
     };
 
     /**
@@ -90,7 +94,11 @@ private:
         // Conta as letras pelo asc code
         int totalLetras = 0;
         for(int i = 0; i<nome.length(); i++){
-            totalLetras = totalLetras + int(nome.at(i));
+            int chrInt = int(nome.at(i));
+            if(chrInt < 0){
+                chrInt = 0;
+            }
+            totalLetras = totalLetras + chrInt;
         }
         return totalLetras + id;
     };
