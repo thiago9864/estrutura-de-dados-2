@@ -54,10 +54,6 @@
 		<Unit filename="hash/Items/HashItemBasic.h" />
 		<Unit filename="hash/Items/HashItemCoalescido.h" />
 		<Unit filename="hash/Items/HashItemSeparado.h" />
-		<Unit filename="hashing/EndSondagemLinear.h" />
-		<Unit filename="hashing/EndSondagemQuadratica.h" />
-		<Unit filename="hashing/HashMapItem.h" />
-		<Unit filename="hashing/HashingDuplo.h" />
 		<Unit filename="main.cpp" />
 		<Unit filename="ordenacao/BubbleSort.h" />
 		<Unit filename="ordenacao/HeapSort.h" />
@@ -68,6 +64,11 @@
 		<Unit filename="ordenacao/QuickSortMediana.h" />
 		<Unit filename="ordenacao/RadixSort.h" />
 		<Unit filename="ordenacao/SelectionSort.h" />
+		<Unit filename="parte2/HashAvaliacoes.h" />
+		<Unit filename="parte2/HashCategorias.h" />
+		<Unit filename="parte2/HashItemSeparadoGameInfo.h" />
+		<Unit filename="parte2/Parte2.h" />
+		<Unit filename="parte2/FreqCounter.h" />
 		<Extensions>
 			<code_completion />
 			<envvars />

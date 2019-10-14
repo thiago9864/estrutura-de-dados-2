@@ -67,7 +67,7 @@ private:
      * @param exp digito atual sendo ordenado
      */
     void countSort(T* vet, int n, int exp){
-        T output[n];
+        T* output = new T[n];
         int i, count[10] = {0};
 
         for(i = 0; i < n; i++){
@@ -86,6 +86,8 @@ private:
         for(i = 0; i < n; i++){
             vet[i] = output[i];
         }
+
+        delete[] output;
     }
 
     /**
