@@ -76,6 +76,7 @@ public:
         int nCatMax = hashCategorias->getTamanho();
         vfreq = new FreqCounter[nCatMax];
 
+        //faz uma cópia do vetor da hashtable pra ser ordenado sem influenciar a tabela
         for(int i=0; i<nCatMax; i++){
             FreqCounter fc;
             fc.id = gamesInfo[i].frequencia;
@@ -102,6 +103,7 @@ public:
         Log::getInstance().line("Concluido em "+to_string(tempo_teste)+" segundos.\n");
         cout << endl;
 
+        //limpa memória usada
         delete[] vfreq;
         delete radixSort;
         radixSort=nullptr;
@@ -121,6 +123,7 @@ public:
         int nUsrMax = hashAvaliacoes->getTamanho();
         vfreq = new FreqCounter[nUsrMax];
 
+        //faz uma cópia do vetor da hashtable pra ser ordenado sem influenciar a tabela
         for(int i=0; i<nUsrMax; i++){
             FreqCounter fc;
             fc.id = userReviews[i].frequencia;
@@ -133,6 +136,7 @@ public:
 
         //ordena esse vetor usando o melhor do cenário 3
         radixSort = new RadixSort<FreqCounter>();
+        radixSort->ordenar(vfreq, nUsrMax);
 
         //mostra as nCategorias mais frequentes
         Log::getInstance().line("\nMostrando os "+to_string(nUsuarios)+" usuarios mais ativos (com mais avaliacoes):");
@@ -152,8 +156,8 @@ private:
     int nCategorias;
     int nUsuarios;
     string nomeArquivoEntrada;
-    long long int tamHashAvaliacoes = 13170000;
-    //long long int tamHashAvaliacoes = 12000000;
+    //long long int tamHashAvaliacoes = 13170000; //não usado por restrições de memória do pc de teste
+    long long int tamHashAvaliacoes = 10000000;
     int tamHashCategorias = 17060;
     HashAvaliacoes *hashAvaliacoes = NULL;//tabela hash de objetos do dataset de avaliacoes
     HashCategorias *hashCategorias = NULL;//tabela hash de objetos do dataset de categorias
@@ -204,7 +208,6 @@ private:
             for(int i=0; i<categorias.size();i++){
                 hashCategorias->inserir(categorias[i]);
             }
-
         }
 
         cout << "Insercao no hash de categorias concluida" << endl;

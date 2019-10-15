@@ -50,7 +50,7 @@ private:
      * @param n tamanho do vetor
      * @return maior valor
      */
-    T getMax(T* vet, long long int n){
+    T getMax(T* vet, int n){
         T mx = vet[0];
         for(int i = 1; i < n; i++){
             if(vet[i].id > mx.id){
@@ -68,8 +68,8 @@ private:
      */
     void countSort(T* vet, int n, int exp){
         T* output = new T[n];
-        long long int *count = new long long int[10];
-        long long int i=0;
+        int *count = new int[10];
+        int i=0;
         for(int i=0; i<10; i++){
             count[i] = 0;
         }
