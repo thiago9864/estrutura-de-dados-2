@@ -1,46 +1,62 @@
 /**
     Universidade Federal de Juiz de Fora
-    LeitorGameInfo.h
-    Propósito: Leitor do arquivo pre processado'games_detailed_info.csv'
+    LeitorUserReviews.h
+    Propósito: Leitor do arquivo pre processado 'bgg-13m-reviews.csv'
 
-    @version 1.0 19/08/19
+    @version 1.0 18/08/19
 */
-#ifndef LEITORGAMEINFO_H
-#define LEITORGAMEINFO_H
+#ifndef LEITORUSERREVIEWS_H
+#define LEITORUSERREVIEWS_H
 #include <iostream>
 #include <fstream>
 #include <string>
 #include <sstream>
 #include <vector>
-#include "LeitorBase.h"
+#include <errno.h>
+#include "UserReview.h"
 #include "GameInfo.h"
+#include "LeitorBase.h"
 
 using namespace std;
 
-class LeitorGameInfo : protected LeitorBase
+class LeitorUserReviews : protected LeitorBase
 {
     public:
 
-        LeitorGameInfo(int numRegistros){
-            this->caminhoArquivo = this->getDiretorioPreprocessado()+"games_detailed_info.csv";
+        LeitorUserReviews(long long int numRegistros){
+            this->caminhoArquivo = this->getDiretorioPreprocessado()+"bgg-13m-reviews.csv";
             this->numRegistros = numRegistros;
             lerArquivo();
         };
-        ~LeitorGameInfo(){};
+        ~LeitorUserReviews(){};
 
-        GameInfo* getDataset(){
+        UserReview* getDataset(){
             return dataset;
         }
 
     private:
-
-        GameInfo *dataset;
+        UserReview *dataset;
         string caminhoArquivo;
-        int numRegistros;
+        long long int numRegistros;
         string line;
         ifstream arqEntrada;
         bool headerProcessado;
-        int linePos;
+
+        float strToFloat(string s){
+            float f=0;
+            std::stringstream ss(s);
+            ss >> f;
+            return f;
+        }
+        int strToInt(string s){
+            int i = stoi(s);
+            if (errno == ERANGE){
+                cout << "int range error on " << s << endl;
+                errno = 0;
+                i=0;
+            }
+            return i;
+        }
 
         void lerArquivo(){
             //abre o arquivo
@@ -49,7 +65,7 @@ class LeitorGameInfo : protected LeitorBase
             //verifica se o arquivo foi aberto
             if (!arqEntrada || !arqEntrada.is_open())
             {
-                cout << "Impossivel abrir o arquivo 'games_detailed_info.csv' para leitura";
+                cout << "Impossivel abrir o arquivo 'bgg-13m-reviews.csv' para leitura" << endl;
                 cout << "Verifique a pasta 'datasets' pela pasta 'preprocessado'. Nela deve estar o arquivo" << endl;
                 cout << "Se o arquivo estiver na pasta, verifique a classe 'LeitorBase.h' para o caminho correto no"<<endl;
                 cout << "metodo 'getDiretorioPreprocessado()'." << endl;
@@ -60,7 +76,7 @@ class LeitorGameInfo : protected LeitorBase
             this->gerarSemente();
 
             headerProcessado=false;
-            int linhas_inseridas=0;
+            long long int linhas_inseridas=0;
             bool insuficiente=true;
 
             while (getline(arqEntrada, line))
@@ -68,11 +84,11 @@ class LeitorGameInfo : protected LeitorBase
                 vector<string> result = explode(line, ',');
 
                 //obtem o numero de colunas e extrai o header
-                if(headerProcessado==false){
+                if(!headerProcessado){
                     headerProcessado=true;
 
                     //inicia o vetor de objetos do dataset com ids=-1
-                    dataset = new GameInfo[numRegistros];
+                    dataset = new UserReview[numRegistros];
                     for(int i=0; i<numRegistros; i++){
                         dataset[i].id=-1;
                     }
@@ -83,18 +99,18 @@ class LeitorGameInfo : protected LeitorBase
                     while(dataset[pos].id!=-1){
                         pos=getRand(numRegistros);
                     }
-                    //cria o objeto
-                    GameInfo g;
-                    g.id = stoi(result[0]);
 
-                    if(result.size()>1){
-                        string cat = result[1];
-                        //registro com categorias
-                        g.boardgamecategory = explode(cat, '|');
+                    if(linhas_inseridas %500000 == 0){
+                        cout << linhas_inseridas << " registros lidos" << endl;
                     }
 
-                    dataset[pos] = g;
-                    //cout << "--" << endl;
+                    //cria objeto na posicao
+                    UserReview u;
+                    u.id = strToInt(result[0]);
+                    u.user = result[1];
+                    u.rating = strToFloat(result[2]);
+                    dataset[pos] = u;
+
                     //conta linhas inseridas
                     linhas_inseridas++;
 
@@ -108,7 +124,10 @@ class LeitorGameInfo : protected LeitorBase
 
             if(insuficiente){
                 cout << "O numero de registros solicitado e maior que o numero de registros do dataset" << endl;
+                cout << "foram solicitados " << numRegistros << " mas so " << linhas_inseridas << " foram encontrados" << endl;
                 exit(1);
+            } else {
+                cout << linhas_inseridas << " registros lidos" << endl;
             }
 
             if(arqEntrada.is_open()){
@@ -117,4 +136,4 @@ class LeitorGameInfo : protected LeitorBase
         }
 };
 
-#endif // LEITORGAMEINFO_H
+#endif // LEITORUSERREVIEWS_H

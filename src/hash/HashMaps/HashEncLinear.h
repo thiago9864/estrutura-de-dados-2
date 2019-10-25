@@ -1,6 +1,11 @@
-//
-// Created by lrpes on 11/10/2019.
-//
+/**
+    Universidade Federal de Juiz de Fora
+    HashEncLinear.h
+    Propósito:
+
+    @author Lucas Ribeiro e Thiago Almeida
+    @version 1.0 08/10/19
+*/
 
 #ifndef SRC_HASHENCLINEAR_H
 #define SRC_HASHENCLINEAR_H

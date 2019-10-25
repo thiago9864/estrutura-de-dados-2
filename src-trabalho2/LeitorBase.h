@@ -8,10 +8,13 @@
 #ifndef LEITORBASE_H
 #define LEITORBASE_H
 #include <iostream>
+#include <fstream>
+#include <sstream>
 #include <string>
 #include <vector>
 #include <time.h>
 #include <random>
+#include <chrono>
 
 #include "UserReview.h"
 using namespace std;

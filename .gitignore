@@ -144,3 +144,9 @@ src/datasets/preprocessado/
 src/saidas/
 src/.idea/
 src/CMakeLists.txt
+
+src-trabalho2/datasets/originais/
+src-trabalho2/datasets/preprocessado/
+src-trabalho2/saidas/
+src-trabalho2/.idea/
+src-trabalho2/CMakeLists.txt

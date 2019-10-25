@@ -12,6 +12,7 @@
 #include <string>
 #include <sstream>
 #include <vector>
+#include <errno.h>
 #include "UserReview.h"
 #include "GameInfo.h"
 
@@ -21,7 +22,7 @@ class LeitorUserReviews : protected LeitorBase
 {
     public:
 
-        LeitorUserReviews(int numRegistros){
+        LeitorUserReviews(long long int numRegistros){
             this->caminhoArquivo = this->getDiretorioPreprocessado()+"bgg-13m-reviews.csv";
             this->numRegistros = numRegistros;
             lerArquivo();
@@ -35,10 +36,26 @@ class LeitorUserReviews : protected LeitorBase
     private:
         UserReview *dataset;
         string caminhoArquivo;
-        int numRegistros;
+        long long int numRegistros;
         string line;
         ifstream arqEntrada;
         bool headerProcessado;
+
+        float strToFloat(string s){
+            float f=0;
+            std::stringstream ss(s);
+            ss >> f;
+            return f;
+        }
+        int strToInt(string s){
+            int i = stoi(s);
+            if (errno == ERANGE){
+                cout << "int range error on " << s << endl;
+                errno = 0;
+                i=0;
+            }
+            return i;
+        }
 
         void lerArquivo(){
             //abre o arquivo
@@ -47,8 +64,10 @@ class LeitorUserReviews : protected LeitorBase
             //verifica se o arquivo foi aberto
             if (!arqEntrada || !arqEntrada.is_open())
             {
-                cout << "Impossivel abrir o arquivo 'bgg-13m-reviews.csv' para leitura";
+                cout << "Impossivel abrir o arquivo 'bgg-13m-reviews.csv' para leitura" << endl;
                 cout << "Verifique a pasta 'datasets' pela pasta 'preprocessado'. Nela deve estar o arquivo" << endl;
+                cout << "Se o arquivo estiver na pasta, verifique a classe 'LeitorBase.h' para o caminho correto no"<<endl;
+                cout << "metodo 'getDiretorioPreprocessado()'." << endl;
                 exit(1); // sai do programa se nao conseguir abrir o arquivo
             }
 
@@ -56,7 +75,7 @@ class LeitorUserReviews : protected LeitorBase
             this->gerarSemente();
 
             headerProcessado=false;
-            int linhas_inseridas=0;
+            long long int linhas_inseridas=0;
             bool insuficiente=true;
 
             while (getline(arqEntrada, line))
@@ -80,11 +99,15 @@ class LeitorUserReviews : protected LeitorBase
                         pos=getRand(numRegistros);
                     }
 
+                    if(linhas_inseridas %500000 == 0){
+                        cout << linhas_inseridas << " registros lidos" << endl;
+                    }
+
                     //cria objeto na posicao
                     UserReview u;
-                    u.id = stoi(result[0]);
+                    u.id = strToInt(result[0]);
                     u.user = result[1];
-                    u.rating = stof(result[2]);
+                    u.rating = strToFloat(result[2]);
                     dataset[pos] = u;
 
                     //conta linhas inseridas
@@ -100,7 +123,10 @@ class LeitorUserReviews : protected LeitorBase
 
             if(insuficiente){
                 cout << "O numero de registros solicitado e maior que o numero de registros do dataset" << endl;
+                cout << "foram solicitados " << numRegistros << " mas so " << linhas_inseridas << " foram encontrados" << endl;
                 exit(1);
+            } else {
+                cout << linhas_inseridas << " registros lidos" << endl;
             }
 
             if(arqEntrada.is_open()){

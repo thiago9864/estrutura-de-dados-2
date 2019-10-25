@@ -1,6 +1,11 @@
-//
-// Created by lrpes on 11/10/2019.
-//
+/**
+    Universidade Federal de Juiz de Fora
+    HashReHash.h
+    Propósito:
+
+    @author Lucas Ribeiro
+    @version 1.0 08/10/19
+*/
 
 #ifndef SRC_HASHREHASH_H
 #define SRC_HASHREHASH_H
@@ -72,6 +77,8 @@ public:
         } else {
             //usa estrategia hash duplo
             int hs2 = HashFunctions::multiplicacao(item.id, item.user, this->tamanho);
+            //para evitar loops, quando o tamanho da lista é divisivel pelo hash 2, ele soma o valor do hash em 1 até
+            //ele ser incapaz de dividir o tamanho da lista com resto 0, portanto impedindo loops
             while(this->tamanho%hs2 == 0)hs2++;
             this->numColisoes++;
             hs = (hs + hs2) % this->tamanho;
@@ -100,6 +107,9 @@ public:
         //procura por rehash
         checkCounter++;
         int hs2 = HashFunctions::multiplicacao(item.id, item.user, this->tamanho);
+        //para evitar loops, quando o tamanho da lista é divisivel pelo hash 2, ele soma o valor do hash em 1 até
+        //ele ser incapaz de dividir o tamanho da lista com resto 0, portanto impedindo loops
+        while(this->tamanho%hs2 == 0)hs2++;
         hs = hs + hs2;
         while(checkCounter <= this->tamanho){
             if(hashMap[hs].idRating == item.id){

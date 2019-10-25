@@ -1,6 +1,12 @@
-//
-// Created by lrpes on 11/10/2019.
-//
+/**
+    Universidade Federal de Juiz de Fora
+    HashEncQuadratrico.h
+    Propósito:
+
+    @author Lucas Ribeiro e Thiago Almeida
+    @version 1.0 08/10/19
+*/
+
 
 #ifndef SRC_HASHENCQUADRATICO_H
 #define SRC_HASHENCQUADRATICO_H

@@ -14,6 +14,7 @@
 #include <vector>
 #include "LeitorBase.h"
 #include "GameInfo.h"
+#include "LeitorBase.h"
 
 using namespace std;
 

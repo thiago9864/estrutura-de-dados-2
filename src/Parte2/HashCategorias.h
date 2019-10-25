@@ -1,38 +1,38 @@
 /**
     Universidade Federal de Juiz de Fora
-    HashEncSeparado.h
-    Propósito: Resolução de conflitos de merge usando listas encadeadas
+    HashCategorias.h
+    Propósito:
 
-    @author Lucas Ribeiro e Luan Reis
-    @version 1.0 08/10/19
+    @author Lucas Ribeiro, Thiago Almeida
+    @version 1.0 10/10/19
 */
 
-#ifndef SRC_HASHENCSEPARADO_H
-#define SRC_HASHENCSEPARADO_H
+#ifndef SRC_HASHCATEGORIAS_H
+#define SRC_HASHCATEGORIAS_H
 
 #include <iostream>
-#include "../../UserReview.h"
-#include "../Items/HashItemSeparado.h"
-#include "../HashFunctions.h"
+#include "../GameInfo.h"
+#include "HashItemSeparadoParte2.h"
+#include "../hash/HashFunctions.h"
 
 using namespace std;
 
 /**
  * Hash que resolve suas colisões pelo metodo do endereçamento separado
  */
-class HashEncSeparado {
+class HashCategorias {
 public:
 
     /**
      * Construtor do hash
      * @param tam tamanho da lista que vai guardar o hash
      */
-    HashEncSeparado(int tam){
+    HashCategorias(int tam){
         this->tamanho = tam;
         this->primo = HashFunctions::encontraPrimo(tam);
 
         // Inicializa hashMap
-        this->hashMap = new HashItemSeparado[tam];
+        this->hashMap = new HashItemSeparadoParte2[tam];
         for(int i=0; i<tam; i++){
             hashMap[i] = criaHashItemVazio();
         }
@@ -41,7 +41,7 @@ public:
     /**
      * Destrutor do hash
      */
-    ~HashEncSeparado(){
+    ~HashCategorias(){
         for(int i = 0; i<this->tamanho; i++){
             if(hashMap[i].prox != nullptr){
                 deleteRecursivo(hashMap[i].prox);
@@ -54,12 +54,21 @@ public:
      * Insere o item no hash, usando seu metodo respectivo de lidar com as colisões
      * @param item item a ser inserido no hash
      */
-    void inserir(UserReview item){
-        int hs = HashFunctions::divisao(item.id, item.user, this->tamanho, this->primo);
+    void inserir(string categoria){
+
+        int hs = HashFunctions::divisao(0, categoria, this->tamanho, this->primo);
+
+        //procura o item
+        if(contaFrequencia(categoria)){
+            //o item já existe e foi incrementada a frequencia
+            return;
+        }
+
+        //o item não foi encontrado na tabela, adicionar
         if(this->isPosicaoVazia(hs)){
-            hashMap[hs] = criaHashItem(item);
+            hashMap[hs] = criaHashItem(categoria);
         } else {
-            HashItemSeparado* currentPointer = hashMap[hs].prox;
+            HashItemSeparadoParte2* currentPointer = hashMap[hs].prox;
             if(currentPointer != nullptr){
                 this->numComparacoes++;
                 this->numColisoes++;
@@ -71,10 +80,10 @@ public:
             }
             else {
                 this->numComparacoes++;
-                hashMap[hs].prox = new HashItemSeparado(item.user, item.id);
+                hashMap[hs].prox = new HashItemSeparadoParte2(categoria);
                 return;
             }
-            currentPointer->prox = new HashItemSeparado(item.user, item.id);
+            currentPointer->prox = new HashItemSeparadoParte2(categoria);
         }
     };
 
@@ -83,16 +92,45 @@ public:
      * @param item item à ser verificado
      * @return booleano indicando se o item existe no hash
      */
-    bool buscar(UserReview item){
-        int hs = HashFunctions::divisao(item.id, item.user, this->tamanho, this->primo);
-        if(hashMap[hs].idRating == item.id) return true;
-        HashItemSeparado* currentPointer = hashMap[hs].prox;
+    bool buscar(string categoria){
+
+        int hs = HashFunctions::divisao(0, categoria, this->tamanho, this->primo);
+
+        if(hashMap[hs].conteudo == categoria) return true;
+        HashItemSeparadoParte2* currentPointer = hashMap[hs].prox;
         if(currentPointer == nullptr) return false;
         while(currentPointer->prox != nullptr){
-            if(currentPointer->idRating == item.id) return true;
+            if(currentPointer->conteudo == categoria) return true;
             currentPointer = currentPointer->prox;
         }
-        return currentPointer->idRating == item.id;
+        return currentPointer->conteudo == categoria;
+    }
+
+    /**
+     * Verifica se um item está inserido no hash, se estiver, incrementa o contador de frequencia
+     * @param categoria item à ser verificado
+     * @return booleano indicando se o item foi incrementado
+     */
+    bool contaFrequencia(string categoria){
+
+        int hs = HashFunctions::divisao(0, categoria, this->tamanho, this->primo);
+
+        if(hashMap[hs].conteudo == categoria){
+            //incrementa o contador de frequencia
+            hashMap[hs].frequencia++;
+            return true;
+        }
+        HashItemSeparadoParte2* currentPointer = hashMap[hs].prox;
+        if(currentPointer == nullptr) return false;
+        while(currentPointer->prox != nullptr){
+            if(currentPointer->conteudo == categoria){
+                //incrementa o contador de frequencia
+                currentPointer->frequencia++;
+                return true;
+            }
+            currentPointer = currentPointer->prox;
+        }
+        return currentPointer->conteudo == categoria;
     }
 
     /**
@@ -107,7 +145,7 @@ public:
      * Retorna a lista de items que tem por trás do hash
      * @return lista por trás do hash
      */
-    HashItemSeparado *getHashMap() const {
+    HashItemSeparadoParte2 *getHashMap() const {
         return hashMap;
     };
 
@@ -144,12 +182,12 @@ public:
         cout << endl << "------- Imprime a tabela Hash -------" << endl << endl;
         for(int i=0; i<tamanho; i++){
             cout << "#" << i << ": ";
-            cout << "id: " << hashMap[i].idRating << ", ";
-            cout << "user: " << hashMap[i].name << ", ";
+            cout << "conteudo: " << hashMap[i].conteudo << ", ";
+            cout << "frequencia: " << hashMap[i].frequencia << ", ";
             cout << "encadeamento: ";
-            HashItemSeparado *p = hashMap[i].prox;
+            HashItemSeparadoParte2 *p = hashMap[i].prox;
             while(p != nullptr){
-                cout << "{ " << p->idRating << ", " << p->name << "} ";
+                cout << "{ " << p->conteudo << ", " << p->frequencia <<  "} ";
                 p = p->prox;
             }
             cout << endl;
@@ -158,34 +196,34 @@ public:
 
 private:
     int tamanho; // Tamanho do da lista que está sendo utilizado para guardar os items do hash
-    HashItemSeparado* hashMap; // Lista de hashItems sendo usado para guardar os itens inseridos
+    HashItemSeparadoParte2* hashMap; // Lista de hashItems sendo usado para guardar os itens inseridos
     int numColisoes; // Contador de colisões
     int numComparacoes; // Contador de comparações
     int primo; // Numero primo sendo utilizado no hash de divisão
 
     /**
      * Cria um novo item para o hash
-     * @param ur Review à ser transformado em um item do hash
+     * @param GameInfo à ser transformado em um item do hash
      * @return item para ser inserido no hash
      */
-    HashItemSeparado criaHashItem(UserReview ur){
-        HashItemSeparado h;
-        h.idRating = ur.id;
-        h.name = ur.user;
-        h.prox = nullptr;
-        return h;
+    HashItemSeparadoParte2 criaHashItem(string conteudo){
+        HashItemSeparadoParte2 g;
+        g.conteudo = conteudo;
+        g.frequencia = 1;
+        g.prox = nullptr;
+        return g;
     };
 
     /**
      * Cria um item vazio para inicializar o hash
      * @return item vazio para o hash
      */
-    HashItemSeparado criaHashItemVazio(){
-        HashItemSeparado h;
-        h.name = "";
-        h.idRating = -1;
-        h.prox = nullptr;
-        return h;
+    HashItemSeparadoParte2 criaHashItemVazio(){
+        HashItemSeparadoParte2 g;
+        g.conteudo = "";
+        g.frequencia = 0;
+        g.prox = nullptr;
+        return g;
     }
 
     /**
@@ -195,16 +233,14 @@ private:
      */
     bool isPosicaoVazia(int pos){
         numComparacoes++;
-        return hashMap[pos].idRating == -1;
+        return hashMap[pos].conteudo == "";
     };
 
-    void deleteRecursivo(HashItemSeparado* deletado){
+    void deleteRecursivo(HashItemSeparadoParte2* deletado){
         if(deletado->prox != nullptr){
             this->deleteRecursivo(deletado->prox);
         }
         delete deletado;
     }
 };
-
-
-#endif //SRC_HASHENCSEPARADO_H
+#endif //SRC_HASHCATEGORIAS_H

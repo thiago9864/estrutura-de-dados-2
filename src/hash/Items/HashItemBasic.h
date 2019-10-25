@@ -1,6 +1,11 @@
-//
-// Created by lrpes on 11/10/2019.
-//
+/**
+    Universidade Federal de Juiz de Fora
+    HashItemBasic.h
+    Propósito:
+
+    @author Lucas Ribeiro
+    @version 1.0 08/10/19
+*/
 
 #ifndef SRC_HASHITEMBASIC_H
 #define SRC_HASHITEMBASIC_H

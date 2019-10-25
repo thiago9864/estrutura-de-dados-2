@@ -1,7 +1,11 @@
-//
-// Created by lrpes on 11/10/2019.
-//
+/**
+    Universidade Federal de Juiz de Fora
+    HashEndCoalescido.h
+    Propósito:
 
+    @author Lucas Ribeiro e Renan Nunes
+    @version 1.0 08/10/19
+*/
 #ifndef SRC_HASHENDCOALESCIDO_H
 #define SRC_HASHENDCOALESCIDO_H
 

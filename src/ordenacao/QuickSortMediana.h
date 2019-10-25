@@ -90,7 +90,7 @@ private:
      * Acha a mediana do vetor inserido e salva na classe
      * @param vet vetor à ser procurado
      */
-    void calculaMedianak(T *vet)
+    void calculaMedianak(T *vet, int fim)
     {
         if(k==3) {
             int i1, i2, i3;
@@ -153,7 +153,7 @@ private:
      * Acha a mediana do vetor inserido e salva na classe
      * @param vet vetor à ser procurado
      */
-    void calculaMedianakInt(T *vet)
+    void calculaMedianakInt(T *vet, int fim)
     {
         if(k==3) {
             int i1, i2, i3;
