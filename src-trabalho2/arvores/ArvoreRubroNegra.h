@@ -248,10 +248,33 @@ class ArvoreRubroNegra : protected BaseArvores{
             g->color = 1; //Vermelho
         }
 
-        void remove(No<int>* no)
-        {
+        //Função de impressão da arvore RB
+       void imprimir()
+       {
+           this->imprimirPorNivel(this->root,0);
+       };
 
-        };
+       void imprimirPorNivel(No<T>* p, int nivel)
+       {
+           if(p != nullptr)
+           {
+               cout << "( " << nivel << " )";
+               for(int i = 1; i <= nivel; i++)
+               {
+                   cout "--";
+               }
+
+               //cout << p; //O que o Nó tá guardando é para ser impresso aqui
+               if(p->color)
+               {
+                   cout << "(V)" << endl;
+               } else {
+                   cout << "(P)" << endl;
+               }
+               imprimirPorNivel(p->leftChild,nivel+1);
+               imprimirPorNivel(p->rightChild,nivel+1)
+           }
+       };
 
 
        //Função que retorna o irmão do Nó
