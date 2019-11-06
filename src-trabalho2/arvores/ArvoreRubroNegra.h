@@ -12,6 +12,7 @@
 #include <iostream>
 #include <math.h>
 #include "BaseArvores.h"
+#include "UserReview.h"
 #include "No.h"
 
 
@@ -48,20 +49,130 @@ class ArvoreRubroNegra : protected BaseArvores{
         };
 
         //Função de inserção de Nós na arvore RB
-        void inserir(No<T>* v)
+        void inserir(T valor)
         {
-            this->root = inserirNo(v,this->root);
+            this->root = inserirNo(valor,this->root);
         };
-        
+
         //Função auxiliar que insere o Nó. Retorna a raiz, nova ou não - dependendo do caso de inserção
-        void inserirNo(No<T>* v, No<T>* p)
+        void inserirNo(T valor, No<T>* p)
         {
             //Se p é null a arvore está vazia
             if(p == nullptr)
             {
-                this->numComparacoes++;
+                this->registraComparacao();
                 p = new No<T>();
+                p->value = valor;
+                p->color = 0; //Preta para raiz
+            } else {
+                No<T>* pai;
+                while(p != nullptr)
+                {
+                    pai = p;
+                    this->registraComparacao();
+
+                    if(valor < p->value)
+                    {
+                        p = p->leftChild;
+                    } else {
+                        p = p->rightChild;
+                    }
+                }
+
+                p = new No<T>();
+                p->parent = pai;
+                p->value= valor;
+                this->registraComparacao();
+
+                if(valor > pai->value)
+                {
+                    pai->rightChild = p;
+                } else {
+                    pai->leftChild= p;
+                }
+
+                No<T>* auxRoot;
+                while(p != nullptr)
+                {
+                    this->registraComparacao();
+                    p = verificaArvore(p);
+                    auxRoot = p;
+                    p = p->parent;
+                }
             }
+
+            return auxRoot;
+        };
+
+        //Função que verifica se há necessidade de correção na arvore vermelho preta
+        No<T>* verficaArvore(No<T>* p)
+        {
+            this->registraComparacao();
+            if(p->parent == nullptr)
+            {
+                p->color = false;
+                return p;
+            } else {
+                this->registraComparacao();
+                if(!(p->parent->color)) //Verifica se o pai é preto
+                {
+                    return p;
+                } else {
+                    No<T>* pai = p->parent;
+                    No<T>* avo = p->parent->parent;
+                    No<T>* tio = this->getTio(p);
+
+                    this->registraComparacao();
+                    if(p->color && pai->color)
+                    {
+                        this->registraComparacao();
+                        if(tio != nullptr)
+                        {
+                            if(tio->color)
+                            {
+                                avo->color = true;
+                                tio->color = false;
+                                pai->color = false;
+                            } else {
+                                p = verificarRotacao(p);
+                            }
+                        }
+                    }
+                    return p;
+                }
+            }
+        };
+
+        No<T>* verificarRotacao(No<T>* p)
+        {
+            No<T>* pai = p->parent;
+            No<T>* avo = p->parent->parent;
+
+            this->registraComparacao();
+            if(avo->leftChild == pai)
+            {
+                this->registraComparacao();
+                if(pai->rightChild == p)
+                {
+                    avo = rotacaoDuplaEsqDir(avo);
+                } else
+                {
+                    avo = rotacaoSimplesDir(avo);
+                }
+            } else {
+                this->registraComparacao(); 
+                if(pai->rightChild == p)
+                {
+                    avo = rotacaoSimplesEsq(avo);
+                } else {
+                    avo = rotacaoDuplaDirEsq(avo);
+                }
+            }
+
+            avo->color = false;
+            avo->leftChild->color = true;
+            avo->rightChild->color = true;
+            return avo;
         };
 
         //Função que calcula a altura da árvore RB a partir de um Nó
@@ -180,10 +291,89 @@ class ArvoreRubroNegra : protected BaseArvores{
            } else {
                return nullptr;
            }
+        };
+
+        /*CASOS DE ROTAÇÃO DA AVORE RUBRO NEGRA*/
+        No<T>* rotacaoSimplesEsq(No<T>* p)
+        {
+            No<T>* pai = p->rightChild;
+            No<T>* a = p->leftChild;
+            No<T>* b = p->leftChild;
+            No<T>* c = p->parent;
+
+            pai->leftChild = p;
+            p->leftChild = a;
+            p->rightChild = b;
+
+            if(a)
+            {
+                a->parent = p;
+            } 
+            if(b)
+            {
+                b->parent = p;
+            }
+
+            p->parent = pai;
+            pai->parent = c;
+
+            if(c)
+            {
+                c->leftChild = pai;
+            }
+            
+            return pai;
+        };
+
+        No<T>* rotacaoSimplesDir(No<T>* p)
+        {
+            No<T>* pai = p->leftChild;
+            No<T>* a = p->rightChild;
+            No<T>* b = p->rightChild;
+            No<T>* c = p->parent;
+
+            pai->rightChild= p;
+            p->rightChild= a;
+            p->leftChild = b;
+
+            if(a)
+            {
+                a->parent = p;
+            } 
+            if(b)
+            {
+                b->parent = p;
+            }
+
+            p->parent = pai;
+            pai->parent = c;
+
+            if(c)
+            {
+                c->rightChild = pai;
+            }
+
+            return pai;
+        };
+
+        No<T>* rotacaoDuplaEsqDir(No<T>* p)
+        {
+            No<T>* pai = p->leftChild;
+
+            p->leftChild = this->rotacaoSimplesEsq(pai);
+            p->leftChild->parent = p;
+            return rotacaoSimplesDir(p);
+        };
+
+        No<T>* rotacaoDuplaDirEsq(No<T>* p)
+        {
+            No<T>* pai = p->leftChild;
+
+            p->leftChild = this->rotacaoSimplesDir(pai);
+            p->leftChild->parent = p;
+            return rotacaoSimplesEsq(p);
         }
-
-
-
+        
 };
 
 #endif //SRC_TRABALHO2_ARVORERUBRONEGRA_H
