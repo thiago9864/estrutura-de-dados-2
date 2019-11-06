@@ -61,6 +61,8 @@ class No
         int color; //0: Preto, 1: Vermelho
         No *leftChild; //Filho a esquerda
         No *rightChild; //Filho a direita
+    
+
 };
 
 #endif // NO_H
