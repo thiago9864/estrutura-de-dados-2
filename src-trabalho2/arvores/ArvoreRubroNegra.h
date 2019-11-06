@@ -390,12 +390,34 @@ class ArvoreRubroNegra : protected BaseArvores{
 
         No<T>* casoDoisFilhos(T valor,No<T>* p)
         {
+            No<T>* aux;
 
+            aux = p->rightChild;
+            while(aux->leftChild != nullptr)
+            {
+                this->registraComparacao();
+                aux = aux->leftChild;
+            }
+
+            p->value = aux->value;
+            aux->value = valor;
+            removerNo(valor,p->rightChild);
+            return p;
         };
 
         No<T>* casoNoFolha(No<T>* p)
         {
-
+            this->registraComparacao();
+            if(p->parent == nullptr)
+            {
+                delete p;
+            } else if(p->color)
+            {
+                this->registraComparacao();
+                No<T>* pai = p->parent;
+                this->registraComparacao();
+                if(pai->)
+            }
         };
 
         No<T>* rotacaoSimplesDir(No<T>* p)
