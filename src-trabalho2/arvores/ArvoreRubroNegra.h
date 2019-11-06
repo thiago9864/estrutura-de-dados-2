@@ -27,6 +27,8 @@ class ArvoreRubroNegra : protected BaseArvores{
         ArvoreRubroNegra()
         {
             this->root = nullptr;
+            this->numComparacoes = 0;
+            this->numCopias = 0;
         };
 
         ~ArvoreRubroNegra()
@@ -42,6 +44,23 @@ class ArvoreRubroNegra : protected BaseArvores{
                 this->auxDestrutor(p->leftChild);
                 this->auxDestrutor(p->rightChild);
                 delete p;
+            }
+        };
+
+        //Função de inserção de Nós na arvore RB
+        void inserir(No<T>* v)
+        {
+            this->root = inserirNo(v,this->root);
+        };
+        
+        //Função auxiliar que insere o Nó. Retorna a raiz, nova ou não - dependendo do caso de inserção
+        void inserirNo(No<T>* v, No<T>* p)
+        {
+            //Se p é null a arvore está vazia
+            if(p == nullptr)
+            {
+                this->numComparacoes++;
+                p = new No<T>();
             }
         };
 
@@ -93,160 +112,7 @@ class ArvoreRubroNegra : protected BaseArvores{
                 else 
                     return alturaDireita+1;
             }
-        };
-
-
-        /*Operações*/
-        void leftRotate(No<int>* no)
-        { 
-            No<int>* p = no->rightChild;
-            no->rightChild = p->leftChild;
-
-            if(p->leftChild != nullptr)
-            {
-                p->leftChild->parent = no;
-            }
-            p->parent = no->parent;
-
-            if(no->parent == nullptr)
-            {
-                this->root = p;
-            } else 
-            {
-                if (no == (no->parent)->leftChild)
-                {
-                    no->parent->leftChild = p;
-                } else 
-                {
-                    no->parent->rightChild = p;
-                }
-            }
-            p->leftChild = no;
-            no->parent = p;
-        };
-
-        void rightRotate(No<int>* n)
-        {
-            No<int>* p = n->leftChild;
-            n->leftChild = p->rightChild;
-
-            if(p->rightChild != nullptr)
-            {
-                p->rightChild->parent = n;
-            }
-            p->parent = n->parent;
-
-            if(n->parent == nullptr)
-            {
-                this->root = p;
-            } else 
-            {
-                if (n == (n->parent)->rightChild)
-                {
-                    n->parent->rightChild  = p;
-                } else 
-                {
-                    n->parent->leftChild = p;
-                }
-            }
-            p->rightChild = n;
-            n->parent = p;
-        };
-
-        No<int>* insere(No<int>* root,No<int>* no)
-        {
-            insereRecursivo(root, no);
-
-            insereReparando(no);
-
-            root = no;
-            while(root->parent != nullptr)
-            {
-                root = root->parent;
-            }
-            return root;
-        };
-
-        void insereRecursivo(No<int>* root,No<int>* no)
-        {
-            if(root != nullptr && no->key < root->key)
-            {
-                if(root->leftChild != nullptr)
-                {
-                    insereRecursivo(root->leftChild,no);
-                    return;
-                } else 
-                {
-                    root->leftChild = no;
-                }
-            } else if (root != nullptr)
-            {
-                if(root->rightChild != nullptr)
-                {
-                    insereRecursivo(root->rightChild,no);
-                    return;
-                } else {
-                    root->rightChild = no;
-                }
-            }
-
-            no->parent = root;
-            no->leftChild = nullptr;
-            no->rightChild = nullptr;
-            no->color = 1; //Vermelho
-        };
-
-        void insereReparando(No<int>* no)
-        {
-            if(no->parent == nullptr)
-            {
-                if(getParent(no) == nullptr)
-                {
-                    no->color = 0; // Preto
-                }
-
-            } else if (no->parent->color == 0)
-            {
-                return;
-            } else if (getUncle(no) != nullptr && getUncle(no)->color == 0)
-            {
-                getParent(no)->color = 0; //Preto
-                getUncle(no)->color = 0; //Preto
-                getGrandParent(no)->color = 1; //Vermelho
-                insereReparando(getGrandParent(no));
-            } else {
-                No<int>* p = getParent(no);
-                No<int>* g = getGrandParent(no);
-
-                if(no == p->rightChild && p == g->leftChild)
-                {
-                    leftRotate(p);
-                    no = no->leftChild;
-                } else if (no == p->leftChild && p == g->rightChild)
-                {
-                    leftRotate(p);
-                    no = no->rightChild;
-                }
-
-                insereCaso(no);
-            }
-        };
-
-        void insereCaso(No<int>* n)
-        {
-            No<int>* p = getParent(n);
-            No<int>* g = getGrandParent(n);
-
-            if(n == p->leftChild)
-            {
-                rightRotate(g);
-            } else {
-                rightRotate(g);
-            }
-
-            p->color = 0; //Preto
-            g->color = 1; //Vermelho
-        }
+        };     
 
         //Função de impressão da arvore RB
        void imprimir()
@@ -254,6 +120,7 @@ class ArvoreRubroNegra : protected BaseArvores{
            this->imprimirPorNivel(this->root,0);
        };
 
+        //Função auxiliar da impressão da arvore RB
        void imprimirPorNivel(No<T>* p, int nivel)
        {
            if(p != nullptr)
@@ -264,7 +131,7 @@ class ArvoreRubroNegra : protected BaseArvores{
                    cout "--";
                }
 
-               //cout << p; //O que o Nó tá guardando é para ser impresso aqui
+               cout << p->value; //O que o Nó tá guardando é para ser impresso aqui
                if(p->color)
                {
                    cout << "(V)" << endl;
