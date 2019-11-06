@@ -416,8 +416,72 @@ class ArvoreRubroNegra : protected BaseArvores{
                 this->registraComparacao();
                 No<T>* pai = p->parent;
                 this->registraComparacao();
-                if(pai->)
+                if(pai->rightChild == p)
+                    p->rightChild = nullptr;
+                else 
+                    pai->leftChild = nullptr;
+
+                delete p;
+            } else {
+                if(this->getIrmao(p)->color)
+                {
+                    this->registraComparacao();
+
+                    No<T>* pai = p->parent;
+                    this->registraComparacao();
+                    if(pai->rightChild == p)
+                    {
+                        pai->rightChild = nullptr;
+                        delete p;
+                        pai = rotacaoDuplaEsqDir(pai);
+                    } else {
+                        pai->leftChild = nullptr;
+                        delete p;
+                        pai = rotacaoDuplaDirEsq(pai);
+                    }
+                } else {
+                    No<T>* irmao = getIrmao(p);
+                    No<T>* pai = p->parent;
+                    this->getNumComparacoes();
+                    this->getNumComparacoes();
+                    if(!(irmao->rightChild->color) && !(irmao->leftChild->color))
+                    {
+                        this->getNumComparacoes();
+                        if(pai->rightChild == p)
+                        {
+                            pai->rightChild = nullptr;
+                            delete p;  
+                        } else {
+                            pai->leftChild = nullptr;
+                            delete p;
+                        }
+                        trocarCor(pai);
+                        trocarCor(irmao);
+                    } else {
+                        No<T>* neto = ;
+                        this->registraComparacao();
+                        if(pai->rightChild == p)
+                        {
+                            pai->rightChild = nullptr;
+                            delete p;
+                        } else {
+                            pai = verificarRotacao(neto);
+                            trocarCor(neto);
+                            trocarCor(getIrmao(neto));
+                        }
+                    }
+                }
             }
+            return nullptr;
+        };
+
+        void trocarCor(No<T>* p)
+        {
+            if(p->color)
+                p->color = false;
+            else
+                p->color = true;
+                
         };
 
         No<T>* rotacaoSimplesDir(No<T>* p)
