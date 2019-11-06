@@ -325,6 +325,79 @@ class ArvoreRubroNegra : protected BaseArvores{
             return pai;
         };
 
+        //Remoção de um Nó
+        void remover(T valor)
+        {
+            this->root= removerNo(valor,this->root);
+        };
+
+        No<T>* removerNo(T valor, No<T>* p)
+        {
+            this->registraComparacao();
+            if(p == nullptr)
+            {
+                return nullptr;
+            } else if(valor < p->value)
+            {
+                this->registraComparacao();
+                removerNo(valor,p->leftChild);
+            } else if(valor > p->value)
+            {
+                removerNo(valor,p->rightChild);
+            } else {
+
+                if(p->rightChild == nullptr && p->leftChild == nullptr)
+                {
+                    this->registraComparacao();
+                    this->registraComparacao();
+
+                    p = casoNoFolha(p);
+                } else if((p->rightChild == nullptr) ||(p->leftChild == nullptr))
+                {
+                    this->registraComparacao();
+                    this->registraComparacao();
+
+                    p = casoNoUmFilho(p);
+                } else {
+                    p = casoNoDoisFilhos(valor,p);
+                }
+            }
+            return p;
+        };
+
+        No<T>* casoNoUmFilho(No<T>* p)
+        {
+            No<T>* aux;
+            this->registraComparacao();
+            if(p->leftChild == nullptr)
+            {
+                aux = p->rightChild;
+                p->value = aux->value;
+                p->rightChild = aux->rightChild;
+                p->leftChild = aux->leftChild;
+                
+                delete aux;
+            } else {
+                aux = p->leftChild;
+                p->value = aux->value;
+                p->rightChild = aux->rightChild;
+                p->leftChild = aux->leftChild;
+
+                delete aux;
+            }
+            return p;
+        };
+
+        No<T>* casoDoisFilhos(T valor,No<T>* p)
+        {
+
+        };
+
+        No<T>* casoNoFolha(No<T>* p)
+        {
+
+        };
+
         No<T>* rotacaoSimplesDir(No<T>* p)
         {
             No<T>* pai = p->leftChild;
@@ -373,6 +446,8 @@ class ArvoreRubroNegra : protected BaseArvores{
             p->leftChild->parent = p;
             return rotacaoSimplesEsq(p);
         }
+
+        
         
 };
 
