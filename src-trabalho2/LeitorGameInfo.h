@@ -90,8 +90,7 @@ class LeitorGameInfo : protected LeitorBase
 
                     if(result.size()>1){
                         string cat = result[1];
-                        //registro com categorias
-                        g.boardgamecategory = explode(cat, '|');
+                        g.description = result[1];
                     }
 
                     dataset[pos] = g;
