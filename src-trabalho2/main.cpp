@@ -18,6 +18,7 @@
 #include "cenarios/CenarioArvoreRubroNegra.h"
 #include "cenarios/CenarioCompressaoStrings.h"
 
+#include "compressao/FileManager.h"
 
 using namespace std;
 

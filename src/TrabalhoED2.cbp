@@ -39,6 +39,7 @@
 		<Unit filename="LeitorUserReviews.h" />
 		<Unit filename="LeitorUsersRated.h" />
 		<Unit filename="Log.h" />
+		<Unit filename="Memoria.h" />
 		<Unit filename="UserReview.h" />
 		<Unit filename="UsersRated.h" />
 		<Unit filename="cenarios/Cenario1.h" />
