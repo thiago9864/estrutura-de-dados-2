@@ -42,7 +42,7 @@ public:
     }
 
     void Percorre() 
-    {  if (raiz != NULL) raiz->traverse(); } 
+    {  if (raiz != NULL) raiz->percorre(); }
 
    NoB::NoB(int _t, bool _leaf) 
 { 
@@ -62,7 +62,7 @@ void inserir(int K)
 {
   
     // If tree is empty 
-    if (root == NULL) 
+    if (raiz == NULL)
     { 
         // Allocate memory for root 
         raiz = new NoB(t, true); 
@@ -78,26 +78,51 @@ void inserir(int K)
             NoB *s = new NoB(t, false); 
   
             // Make old root as child of new root 
-            s->C[0] = root; 
+            s->C[0] = raiz;
   
             // Split the old root and move 1 key to the new root 
-            s->splitChild(0, raiz); 
+            s->dividirFilho(0, raiz);
   
             // New root has two children now.  Decide which of the 
             // two children is going to have new key 
             int i = 0; 
             if (s->keys[0] < k) 
                 i++; 
-            s->C[i]->insertNonFull(k); 
+            s->C[i]->inserirNaoCheio(k);
   
             // Change root 
             raiz = s; 
         } 
         else  // If root is not full, call insertNonFull for root 
-            raiz->insertNonFull(k); 
+            raiz->inserirNaoCheio(k);
     } 
-} 
-   
+}
+void BTree::remove(int k)
+{
+    if (!root)
+    {
+        cout << "The tree is empty\n";
+        return;
+    }
+
+    // Call the remove function for root
+    raiz->remove(k);
+
+    // If the root node has 0 keys, make its first child as the new root
+    //  if it has a child, otherwise set root as NULL
+    if (raiz->n==0)
+    {
+        NoB *tmp = raiz;
+        if (raiz->leaf)
+            raiz = NULL;
+        else
+            raiz = raiz->C[0];
+
+        // Free the old root
+        delete tmp;
+    }
+    return;
+}
 
 
 };
