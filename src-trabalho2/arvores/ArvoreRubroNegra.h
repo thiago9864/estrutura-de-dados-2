@@ -12,7 +12,7 @@
 #include <iostream>
 #include <math.h>
 #include "BaseArvores.h"
-#include "UserReview.h"
+#include "../UserReview.h"
 #include "No.h"
 
 
@@ -57,6 +57,7 @@ class ArvoreRubroNegra : protected BaseArvores{
         //Função auxiliar que insere o Nó. Retorna a raiz, nova ou não - dependendo do caso de inserção
         void inserirNo(T valor, No<T>* p)
         {
+            No<T>* auxRoot; //Auxiliar para a raiz que será retornado caso o novo Nó seja inserido
             //Se p é null a arvore está vazia
             if(p == nullptr)
             {
@@ -91,7 +92,7 @@ class ArvoreRubroNegra : protected BaseArvores{
                     pai->leftChild= p;
                 }
 
-                No<T>* auxRoot;
+                //No<T>* auxRoot;
                 while(p != nullptr)
                 {
                     this->registraComparacao();
@@ -239,7 +240,7 @@ class ArvoreRubroNegra : protected BaseArvores{
                cout << "( " << nivel << " )";
                for(int i = 1; i <= nivel; i++)
                {
-                   cout "--";
+                   cout << "--";
                }
 
                cout << p->value; //O que o Nó tá guardando é para ser impresso aqui
@@ -250,7 +251,7 @@ class ArvoreRubroNegra : protected BaseArvores{
                    cout << "(P)" << endl;
                }
                imprimirPorNivel(p->leftChild,nivel+1);
-               imprimirPorNivel(p->rightChild,nivel+1)
+               imprimirPorNivel(p->rightChild,nivel+1);
            }
        };
 
@@ -458,7 +459,7 @@ class ArvoreRubroNegra : protected BaseArvores{
                         trocarCor(pai);
                         trocarCor(irmao);
                     } else {
-                        No<T>* neto = ;
+                        No<T>* neto;
                         this->registraComparacao();
                         if(pai->rightChild == p)
                         {

@@ -30,8 +30,6 @@ class No
             this->rightChild = NULL;
         };
         ~No(){
-            delete[] key;
-            delete[] child;
             parent = NULL;
             leftChild = NULL;
             rightChild = NULL;
