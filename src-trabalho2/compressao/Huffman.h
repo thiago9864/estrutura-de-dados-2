@@ -11,12 +11,18 @@
 
 using namespace std;
 
-
+/**
+ * Classe que guarda o metodo de compressão Huffman
+ */
 class Huffman : public BaseCompressao{
 public:
     Huffman(){};
     ~Huffman(){};
 
+    /**
+     * Comprime a string com o metodo de compressão Huffman
+     * @param stringParaCompactar (string) String a ser compactada
+     */
     void compactar(string stringParaCompactar)
     {
         this->stringOriginal = stringParaCompactar;
@@ -70,31 +76,25 @@ public:
 
         cout << stringCompactadaASC << endl;
 
-
-/*
-        // traverse the Huffman Tree again and this time
-        // decode the encoded string
-        int index = -1;
-        cout << "\nDecoded string is: \n";
-        while (index < (int)stringCompactada.size() - 2) {
-            decodifica(raiz, index, stringCompactada);
-        }
-        */
     }
 
     /**
-        * Salva os conteudos original e compactado nos locais indicados
-        * @param arquivoOriginal (string) Caminho que o arquivo original vai ser salvo
-        * @param conteudoArqOriginal (string) Conteudo do arquivo original
-        * @param arquivoCompactado (string) Caminho que o arquivo compactado vai ser salvo
-        * @param arquivoTabelaDeFrequencia (string) Caminho que a tabela de frequencias vai ser salva
-        */
+    * Salva os conteudos original e compactado nos locais indicados
+    * @param arquivoOriginal (string) Caminho que o arquivo original vai ser salvo
+    * @param arquivoCompactado (string) Caminho que o arquivo compactado vai ser salvo
+    * @param arquivoTabelaDeFrequencia (string) Caminho que a tabela de frequencias vai ser salva
+    */
     void salvarEmDisco(string arquivoOriginal, string arquivoCompactado, string arquivoTabelaDeFrequencia){
         fileManager->salvarText(this->stringOriginal, arquivoOriginal);
         fileManager->salvarText(this->stringCompactadaASC, arquivoCompactado);
         fileManager->salvarText(this->geraCSVTabelaDeFrequencia(), arquivoTabelaDeFrequencia);
     }
 
+    /**
+     * Calcula as estatisticas relativas ao metodo de compressão
+     * @param arquivoOriginal
+     * @param arquivoCompactado
+     */
     void calculaEstatisticas(string arquivoOriginal, string arquivoCompactado){
         int tamArquivoOriginal = this->stringOriginal.length();
         int tamArquivoCompactado = this->stringCompactadaASC.length();
@@ -133,18 +133,21 @@ public:
 
 
 private:
-    // variaveis estatisticas
+    // Variaveis estatisticas
     double taxaCompressao;
     double compressaoEmDisco;
     double tamanhoEmDiscoCompactado;
     double tamanhoEmDiscoOriginal;
 
-
+    // Variaveis compressão
     string stringOriginal;
     string stringCompactadaASC;
     unordered_map<char, int> freq;
     unordered_map<char, string> dicionarioHuffman;
 
+    /**
+     * Objeto usado como Nó para a Heap usada pelo metodo de compressão Huffman
+     */
     struct NoHuffmanTree
     {
         char ch;
@@ -152,7 +155,14 @@ private:
         NoHuffmanTree *left, *right;
     };
 
-// Funcao que cria um novo no
+    /**
+     * Função que cria um novo no para ser adicionado a heap do metodo Huffman
+     * @param ch (char) Caractere que o nó representa
+     * @param freq (int) Frequencia dele na tabela de frequencia
+     * @param left (NoHuffmanTree*) Filho dele à esquerda
+     * @param right (NoHuffmanTree*) Filho dele à direita
+     * @return (NoHuffmanTree*) Nó criado
+     */
     NoHuffmanTree* getNode(char ch, int freq, NoHuffmanTree* left, NoHuffmanTree* right)
     {
         NoHuffmanTree* noHuffman = new NoHuffmanTree();
@@ -165,7 +175,9 @@ private:
         return noHuffman;
     }
 
-// Objeto de comparacao usado mais acima pra ordenar a heap
+    /**
+     * Objeto de comparacao usado mais acima pra ordenar a heap
+     */
     struct comparacao
     {
         bool operator()(NoHuffmanTree* l, NoHuffmanTree* r)
@@ -175,7 +187,11 @@ private:
         }
     };
 
-// Gera o codigo binario ja compactado de cada caractere e coloca em um dicionario
+    /**
+     * Função recursiva que gera o codigo binario para cada caractere da sua subarvore e coloca em um dicionario
+     * @param raiz (NoHuffmanTree*) raiz da subarvore atual
+     * @param str (string) string de inicio de todos os membros da subarvore
+     */
     void geraCodigos(NoHuffmanTree *raiz, string str)
     {
         if (raiz == nullptr)
@@ -190,6 +206,10 @@ private:
         geraCodigos(raiz->right, str + "1");
     }
 
+    /**
+     * Gera uma string no formato CSV para armazenar a tabela de frequencia
+     * @return (string) Tabela de frequencia guardada em uma string com formatação de CSV
+     */
     string geraCSVTabelaDeFrequencia(){
         string CSVOutput;
         for(auto pair: this->freq){
@@ -199,27 +219,6 @@ private:
         return CSVOutput;
     }
 
-// percorre a arvore do Huffman e decodifica o texto
-    void decodifica(NoHuffmanTree *raiz, int &index, string str)
-    {
-        if (raiz == nullptr) {
-            return;
-        }
-
-        // achou uma folha
-        if (!raiz->left && !raiz->right)
-        {
-            cout << raiz->ch;
-            return;
-        }
-
-        index++;
-
-        if (str[index] =='0')
-            decodifica(raiz->left, index, str);
-        else
-            decodifica(raiz->right, index, str);
-    }
 
 };
 
