@@ -11,10 +11,12 @@
 #define CENARIOCOMPRESSAOSTRINGS_H
 #include <iostream>
 #include <string>
+#include <compressao/Huffman.h>
 
 #include "../LeitorGameInfo.h"
 #include "../Log.h"
 #include "../LeitorBase.h"
+#include "../compressao/LZW.h"
 
 using namespace std;
 
@@ -53,22 +55,25 @@ public:
         //cria os vetores de teste
         temposDeExecucao = new double*[numAlgoritmos];
         taxaDeCompressao = new double*[numAlgoritmos];
+        taxaDeCompressaoEmDisco = new double*[numAlgoritmos];
         armazenamentoEmDisco = new double*[numAlgoritmos];
 
         //inicia os vetores de teste com zero
         for(int a=0; a<numAlgoritmos; a++){
             temposDeExecucao[a] = new double[numTestes];
             taxaDeCompressao[a] = new double[numTestes];
+            taxaDeCompressaoEmDisco[a] = new double[numTestes];
             armazenamentoEmDisco[a] = new double[numTestes];
             for(int t=0; t<numTestes; t++){
                 temposDeExecucao[a][t] = 0;
                 taxaDeCompressao[a][t] = 0;
+                taxaDeCompressaoEmDisco[a][t] = 0;
                 armazenamentoEmDisco[a][t] = 0;
             }
         }
 
         //preenche header do csv
-        Log::getInstance().lineArquivo("Número de Testes,Algoritmo,Tempo de Execução,Taxa de Compressão,Armazenamento Em Disco");
+        Log::getInstance().lineArquivo("Número de Testes,Algoritmo,Tempo de Execução,Taxa de Compressão,Taxa de Compressão Em Disco,Armazenamento Em Disco");
 
         //Loop entre os testes do arquivo de configuração
         for(int t=0; t<numTestes; t++){
@@ -85,33 +90,46 @@ public:
 
             double tempo_teste;
 
-            ////////// Arvore Vermelho-Preta com objetos //////////
+            ////////// Algoritmo Huffman //////////
 
-            //rodar isso sempre antes de qualquer ordenação
+            //faz uma copia do dataset
             copiaLocalObjetos = copiaLocalVetor<GameInfo>(datasetObjetos, tamDataset);
+
+            //monta string para compressão
+            string textoParaComprimir;
+            for(int i=0; i<tamDataset; i++){
+                textoParaComprimir += copiaLocalObjetos[i].description + "\n";
+            }
 
             //debug - nome do algoritmo
             cout << algoritmos[0] << endl;
 
             //inicialização do algoritmo
-            /*
-             colocar codigo aqui
-            */
-           //huffman->resetContadores();
+            auto huffman = new Huffman();
 
             timerStart();//marca o tempo inicial
 
             // aqui roda o algoritmo
-            /*
-             colocar codigo aqui
-            */
+            huffman->compactar(textoParaComprimir);
 
             tempo_teste = timerEnd();//marca o tempo final
 
+            //salva em disco para obter a taxa de compressão de armazenamento
+            huffman->salvarEmDisco(getDiretorioTempCompressao() + "huffman_original" + to_string(tamDataset) + ".txt",
+                                   getDiretorioTempCompressao() + "huffman_compactado" + to_string(tamDataset) + ".txt",
+                                   getDiretorioTempCompressao() + "huffman_tabela_freq" + to_string(tamDataset) + ".txt"
+                                   );
+
+            huffman->calculaEstatisticas(getDiretorioTempCompressao() + "huffman_original" + to_string(tamDataset) + ".txt",
+                                         getDiretorioTempCompressao() + "huffman_compactado" + to_string(tamDataset) + ".txt");
+
+            //huffman->descompactar("huffman_compactado.lzw");
+
             //salva os resultados
             temposDeExecucao[0][t] = tempo_teste;
-            taxaDeCompressao[0][t] = 0;/* huffman->getTaxaCompressao(); */
-            armazenamentoEmDisco[0][t] = 0;/* huffman->getTamanhoEmDisco(); */
+            taxaDeCompressao[0][t] = 0;huffman->geraTaxaCompressao();
+            taxaDeCompressaoEmDisco[0][t] = 0; huffman->geraTaxaCompressaoEmDisco();
+            armazenamentoEmDisco[0][t] = 0; huffman->geraTamanhoCompactadoEmDisco();
             salvaLinhaResultado(0, t);
 
             //libera memoria desse teste
@@ -120,7 +138,7 @@ public:
             //huffman = NULL;
             copiaLocalObjetos = NULL;
 
-            ////////// Arvore Vermelho-Preta com inteiros //////////
+            ////////// Algoritmo LZW //////////
 
             //rodar isso sempre antes de qualquer ordenação
             copiaLocalObjetos = copiaLocalVetor<GameInfo>(datasetObjetos, tamDataset);
@@ -129,32 +147,34 @@ public:
             cout << algoritmos[1] << endl;
 
             //inicialização do algoritmo
-            /*
-             colocar codigo aqui
-            */
-            //lzw->resetContadores();
+            auto lzw = new LZW();
 
             timerStart();//marca o tempo inicial
 
             // aqui roda o algoritmo
-            /*
-             colocar codigo aqui
-            */
+            lzw->compactar(textoParaComprimir);
 
             tempo_teste = timerEnd();//marca o tempo final
 
+            //salva em disco para obter a taxa de compressão de armazenamento
+            lzw->salvarEmDisco(getDiretorioTempCompressao() + "lzw_original" + to_string(tamDataset) + ".txt", getDiretorioTempCompressao() + "lzw_compactado" + to_string(tamDataset) + ".lzw");
+            lzw->calculaEstatisticas();
+
+            lzw->descompactar("lzw_compactado.lzw");
+
             //salva os resultados
             temposDeExecucao[1][t] = tempo_teste;
-            taxaDeCompressao[1][t] = 0;/* lzw->getTaxaCompressao(); */
-            armazenamentoEmDisco[1][t] = 0;/* lzw->getTamanhoEmDisco(); */
+            taxaDeCompressao[1][t] = lzw->getTaxaCompressao();
+            taxaDeCompressaoEmDisco[1][t] = lzw->getTaxaCompressaoEmDisco();
+            armazenamentoEmDisco[1][t] = lzw->getTamanhoCompactadoEmDisco();
             salvaLinhaResultado(1, t);
 
             //libera memoria desse teste
-            //delete lzw;
+            delete lzw;
             delete[] copiaLocalObjetos;
-            //lzw = NULL;
+            lzw = NULL;
             copiaLocalObjetos = NULL;
-
+            //exit(1);
         }
     }
 
@@ -166,10 +186,16 @@ private:
     int tamDataset;
     double** temposDeExecucao;
     double** taxaDeCompressao;
+    double** taxaDeCompressaoEmDisco;
     double** armazenamentoEmDisco;
     string *algoritmos;
     int numAlgoritmos;
 
+    /**
+    * Salva uma linha no arquivo de resultado
+    * @param indice_algoritmo
+    * @param indice_teste
+    */
     void salvaLinhaResultado(int indice_algoritmo, int indice_teste){
         string linha = "";
 
@@ -177,6 +203,7 @@ private:
         linha += algoritmos[indice_algoritmo] + ",";
         linha += to_string(temposDeExecucao[indice_algoritmo][indice_teste]) + ",";
         linha += to_string(taxaDeCompressao[indice_algoritmo][indice_teste]) + ",";
+        linha += to_string(taxaDeCompressaoEmDisco[indice_algoritmo][indice_teste]) + ",";
         linha += to_string(armazenamentoEmDisco[indice_algoritmo][indice_teste]);
 
         Log::getInstance().lineArquivo(linha);

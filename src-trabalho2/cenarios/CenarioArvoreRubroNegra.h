@@ -15,6 +15,7 @@
 #include "../LeitorUserReviews.h"
 #include "../Log.h"
 #include "../LeitorBase.h"
+#include "../arvores/ArvoreRubroNegra.h"
 
 using namespace std;
 

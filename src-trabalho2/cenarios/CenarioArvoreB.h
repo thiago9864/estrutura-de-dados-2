@@ -3,7 +3,7 @@
     CenarioArvoreB.h
     Propósito: Implementação do cenario da arvore B do trabalho 2.
 
-    @author Thiago Almeida, Luan Ciriberi
+    @author Thiago Almeida, Luan Ciribelli
     @version 1.0 18/10/19
 */
 
