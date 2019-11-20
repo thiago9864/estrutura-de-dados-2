@@ -11,6 +11,7 @@
 #define CENARIOCOMPRESSAOSTRINGS_H
 #include <iostream>
 #include <string>
+#include <compressao/Huffman.h>
 
 #include "../LeitorGameInfo.h"
 #include "../Log.h"
@@ -95,7 +96,7 @@ public:
             copiaLocalObjetos = copiaLocalVetor<GameInfo>(datasetObjetos, tamDataset);
 
             //monta string para compressão
-            string textoParaComprimir = "";
+            string textoParaComprimir;
             for(int i=0; i<tamDataset; i++){
                 textoParaComprimir += copiaLocalObjetos[i].description + "\n";
             }
@@ -104,26 +105,31 @@ public:
             cout << algoritmos[0] << endl;
 
             //inicialização do algoritmo
-            //huffman->compactar(textoParaComprimir);
+            auto huffman = new Huffman();
 
             timerStart();//marca o tempo inicial
 
             // aqui roda o algoritmo
-            //huffman->compactar(textoParaComprimir);
+            huffman->compactar(textoParaComprimir);
 
             tempo_teste = timerEnd();//marca o tempo final
 
             //salva em disco para obter a taxa de compressão de armazenamento
-            //huffman->salvarEmDisco(getDiretorioTempCompressao() + "huffman_original" + to_string(tamDataset) + ".txt", getDiretorioTempCompressao() + "huffman_compactado" + to_string(tamDataset) + ".lzw");
-            //huffman->calculaEstatisticas();
+            huffman->salvarEmDisco(getDiretorioTempCompressao() + "huffman_original" + to_string(tamDataset) + ".txt",
+                                   getDiretorioTempCompressao() + "huffman_compactado" + to_string(tamDataset) + ".txt",
+                                   getDiretorioTempCompressao() + "huffman_tabela_freq" + to_string(tamDataset) + ".txt"
+                                   );
+
+            huffman->calculaEstatisticas(getDiretorioTempCompressao() + "huffman_original" + to_string(tamDataset) + ".txt",
+                                         getDiretorioTempCompressao() + "huffman_compactado" + to_string(tamDataset) + ".txt");
 
             //huffman->descompactar("huffman_compactado.lzw");
 
             //salva os resultados
             temposDeExecucao[0][t] = tempo_teste;
-            taxaDeCompressao[0][t] = 0;/* huffman->getTaxaCompressao(); */
-            taxaDeCompressaoEmDisco[0][t] = 0;/* huffman->getTaxaCompressaoEmDisco(); */
-            armazenamentoEmDisco[0][t] = 0;/* huffman->getTamanhoCompactadoEmDisco(); */
+            taxaDeCompressao[0][t] = 0;huffman->geraTaxaCompressao();
+            taxaDeCompressaoEmDisco[0][t] = 0; huffman->geraTaxaCompressaoEmDisco();
+            armazenamentoEmDisco[0][t] = 0; huffman->geraTamanhoCompactadoEmDisco();
             salvaLinhaResultado(0, t);
 
             //libera memoria desse teste
