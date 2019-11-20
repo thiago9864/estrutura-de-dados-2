@@ -100,6 +100,8 @@ public:
             /*
              colocar codigo aqui
             */
+           //ArvoreRubroNegra<UserReview>* arvore = new ArvoreRubroNegra<UserReview> ();
+
            //arvore->resetContadores();
 
             timerStart();//marca o tempo inicial
@@ -108,13 +110,18 @@ public:
             /*
              colocar codigo aqui
             */
+          
+
+
+            //Teste na tela
+            //arvore->imprimir();
 
             tempo_teste = timerEnd();//marca o tempo final
 
             //salva os resultados
             temposDeExecucao[0][t] = tempo_teste;
-            numeroDeComparacores[0][t] = 0;/* arvore->getNumComparacoes(); */
-            numeroDeCopias[0][t] = 0;/* arvore->getNumCopias(); */
+            numeroDeComparacores[0][t] = 0; // arvore->getNumComparacoes(); 
+            numeroDeCopias[0][t] = 0; //arvore->getNumCopias();
             salvaLinhaResultado(0, t);
 
             //libera memoria desse teste
@@ -135,7 +142,8 @@ public:
             /*
              colocar codigo aqui
             */
-            //arvore->resetContadores();
+           ArvoreRubroNegra<int>* arvore = new ArvoreRubroNegra<int> ();
+           arvore->resetContadores();
 
             timerStart();//marca o tempo inicial
 
@@ -143,6 +151,8 @@ public:
             /*
              colocar codigo aqui
             */
+           for(int i = 0; i < tamDataset; i++)
+                arvore->inserir(copiaLocalInteiro[i]);
 
             tempo_teste = timerEnd();//marca o tempo final
 
@@ -153,9 +163,9 @@ public:
             salvaLinhaResultado(1, t);
 
             //libera memoria desse teste
-            //delete arvore; // colocar variavel do algoritmo aqui
+            delete arvore; // colocar variavel do algoritmo aqui
             delete[] copiaLocalInteiro;
-            //arvore = NULL; // colocar variavel do algoritmo aqui
+            arvore = NULL; // colocar variavel do algoritmo aqui
             copiaLocalInteiro = NULL;
 
         }
