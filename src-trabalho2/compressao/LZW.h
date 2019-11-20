@@ -16,7 +16,7 @@
 using namespace std;
 
 /**
- * Classe que serve de base para as arvores
+ * Classe que guarda o metodo de compressão Lempel–Ziv–Welch
  */
 class LZW : public BaseCompressao
 {
