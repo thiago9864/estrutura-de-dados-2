@@ -17,7 +17,7 @@
 
 
 template <class T> 
-class ArvoreRubroNegra : protected BaseArvores{
+class ArvoreRubroNegra : public BaseArvores{
 
     private:
         No<T> *root;
@@ -28,8 +28,7 @@ class ArvoreRubroNegra : protected BaseArvores{
         ArvoreRubroNegra()
         {
             this->root = nullptr;
-            this->numComparacoes = 0;
-            this->numCopias = 0;
+            
         };
 
         ~ArvoreRubroNegra()
@@ -55,7 +54,7 @@ class ArvoreRubroNegra : protected BaseArvores{
         };
 
         //Função auxiliar que insere o Nó. Retorna a raiz, nova ou não - dependendo do caso de inserção
-        void inserirNo(T valor, No<T>* p)
+        No<T>* inserirNo(T valor, No<T>* p)
         {
             No<T>* auxRoot; //Auxiliar para a raiz que será retornado caso o novo Nó seja inserido
             //Se p é null a arvore está vazia
@@ -96,7 +95,7 @@ class ArvoreRubroNegra : protected BaseArvores{
                 while(p != nullptr)
                 {
                     this->registraComparacao();
-                    p = verificaArvore(p);
+                    p = verficaArvore(p);
                     auxRoot = p;
                     p = p->parent;
                 }
@@ -294,6 +293,12 @@ class ArvoreRubroNegra : protected BaseArvores{
            }
         };
 
+        //Função que retorna o "Neto" do Nó
+        No<T>* getNeto(No<T>* n)
+        {
+            No<T>* avo = n->parent->parent;
+        };
+
         /*CASOS DE ROTAÇÃO DA AVORE RUBRO NEGRA*/
         No<T>* rotacaoSimplesEsq(No<T>* p)
         {
@@ -360,7 +365,7 @@ class ArvoreRubroNegra : protected BaseArvores{
 
                     p = casoNoUmFilho(p);
                 } else {
-                    p = casoNoDoisFilhos(valor,p);
+                    p = casoDoisFilhos(valor,p);
                 }
             }
             return p;
