@@ -124,7 +124,6 @@ public:
                                          getDiretorioTempCompressao() + "huffman_compactado" + to_string(tamDataset) + ".txt"
                                          );
 
-            //huffman->descompactar("huffman_compactado.lzw");
 
             //salva os resultados
             temposDeExecucao[0][t] = tempo_teste;
