@@ -12,12 +12,12 @@
 #include <iostream>
 #include <math.h>
 #include "BaseArvores.h"
-#include "UserReview.h"
+#include "../UserReview.h"
 #include "No.h"
 
 
-template <class T> 
-class ArvoreRubroNegra : protected BaseArvores{
+template <class T>
+class ArvoreRubroNegra : public BaseArvores {
 
     private:
         No<T> *root;
@@ -57,6 +57,7 @@ class ArvoreRubroNegra : protected BaseArvores{
         //Função auxiliar que insere o Nó. Retorna a raiz, nova ou não - dependendo do caso de inserção
         void inserirNo(T valor, No<T>* p)
         {
+            No<T>* auxRoot;
             //Se p é null a arvore está vazia
             if(p == nullptr)
             {
@@ -91,7 +92,7 @@ class ArvoreRubroNegra : protected BaseArvores{
                     pai->leftChild= p;
                 }
 
-                No<T>* auxRoot;
+
                 while(p != nullptr)
                 {
                     this->registraComparacao();
@@ -101,7 +102,7 @@ class ArvoreRubroNegra : protected BaseArvores{
                 }
             }
 
-            return auxRoot;
+            //return auxRoot;
         };
 
         //Função que verifica se há necessidade de correção na arvore vermelho preta
@@ -160,7 +161,7 @@ class ArvoreRubroNegra : protected BaseArvores{
                     avo = rotacaoSimplesDir(avo);
                 }
             } else {
-                this->registraComparacao(); 
+                this->registraComparacao();
                 if(pai->rightChild == p)
                 {
                     avo = rotacaoSimplesEsq(avo);
@@ -220,10 +221,10 @@ class ArvoreRubroNegra : protected BaseArvores{
                 //No final de cada execução da recursividade é realmente somado ao lado com maior altura negra
                 if(alturaEsquerda > alturaDireita)
                     return alturaEsquerda+1;
-                else 
+                else
                     return alturaDireita+1;
             }
-        };     
+        };
 
         //Função de impressão da arvore RB
        void imprimir()
@@ -239,7 +240,7 @@ class ArvoreRubroNegra : protected BaseArvores{
                cout << "( " << nivel << " )";
                for(int i = 1; i <= nivel; i++)
                {
-                   cout "--";
+                   cout << "--";
                }
 
                cout << p->value; //O que o Nó tá guardando é para ser impresso aqui
@@ -250,7 +251,7 @@ class ArvoreRubroNegra : protected BaseArvores{
                    cout << "(P)" << endl;
                }
                imprimirPorNivel(p->leftChild,nivel+1);
-               imprimirPorNivel(p->rightChild,nivel+1)
+               imprimirPorNivel(p->rightChild,nivel+1);
            }
        };
 
@@ -308,7 +309,7 @@ class ArvoreRubroNegra : protected BaseArvores{
             if(a)
             {
                 a->parent = p;
-            } 
+            }
             if(b)
             {
                 b->parent = p;
@@ -321,7 +322,7 @@ class ArvoreRubroNegra : protected BaseArvores{
             {
                 c->leftChild = pai;
             }
-            
+
             return pai;
         };
 
@@ -375,7 +376,7 @@ class ArvoreRubroNegra : protected BaseArvores{
                 p->value = aux->value;
                 p->rightChild = aux->rightChild;
                 p->leftChild = aux->leftChild;
-                
+
                 delete aux;
             } else {
                 aux = p->leftChild;
@@ -418,7 +419,7 @@ class ArvoreRubroNegra : protected BaseArvores{
                 this->registraComparacao();
                 if(pai->rightChild == p)
                     p->rightChild = nullptr;
-                else 
+                else
                     pai->leftChild = nullptr;
 
                 delete p;
@@ -450,7 +451,7 @@ class ArvoreRubroNegra : protected BaseArvores{
                         if(pai->rightChild == p)
                         {
                             pai->rightChild = nullptr;
-                            delete p;  
+                            delete p;
                         } else {
                             pai->leftChild = nullptr;
                             delete p;
@@ -458,7 +459,7 @@ class ArvoreRubroNegra : protected BaseArvores{
                         trocarCor(pai);
                         trocarCor(irmao);
                     } else {
-                        No<T>* neto = ;
+                        No<T>* neto = NULL;
                         this->registraComparacao();
                         if(pai->rightChild == p)
                         {
@@ -481,7 +482,7 @@ class ArvoreRubroNegra : protected BaseArvores{
                 p->color = false;
             else
                 p->color = true;
-                
+
         };
 
         No<T>* rotacaoSimplesDir(No<T>* p)
@@ -498,7 +499,7 @@ class ArvoreRubroNegra : protected BaseArvores{
             if(a)
             {
                 a->parent = p;
-            } 
+            }
             if(b)
             {
                 b->parent = p;
@@ -533,8 +534,8 @@ class ArvoreRubroNegra : protected BaseArvores{
             return rotacaoSimplesEsq(p);
         }
 
-        
-        
+
+
 };
 
 #endif //SRC_TRABALHO2_ARVORERUBRONEGRA_H

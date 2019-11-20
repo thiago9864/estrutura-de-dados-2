@@ -30,12 +30,10 @@ class No
             this->rightChild = NULL;
         };
         ~No(){
-            delete[] key;
-            delete[] child;
             parent = NULL;
             leftChild = NULL;
             rightChild = NULL;
-        };   
+        };
 
         //parametros comuns
         bool isLeaf; // true se for nó folha
@@ -46,7 +44,7 @@ class No
         int color; //0: Preto, 1: Vermelho
         No *leftChild; //Filho a esquerda
         No *rightChild; //Filho a direita
-    
+
 
 };
 
