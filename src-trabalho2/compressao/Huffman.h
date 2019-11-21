@@ -71,6 +71,8 @@ public:
             nChTrechoStringCompactada++;
             if(nChTrechoStringCompactada == 8){
                 this->stringCompactadaASC += static_cast<char>(stoi(trechoStringCompactada, nullptr, 2));
+                nChTrechoStringCompactada = 0;
+                trechoStringCompactada = "";
             }
         }
 
