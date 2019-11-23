@@ -28,10 +28,9 @@ class No
             this->color = 1;//o nó começa sempre como vermelho
             this->leftChild = NULL;
             this->rightChild = NULL;
+            this->value = ;
         };
         ~No(){
-            delete[] key;
-            delete[] child;
             parent = NULL;
             leftChild = NULL;
             rightChild = NULL;
