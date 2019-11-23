@@ -97,30 +97,28 @@ public:
             cout << algoritmos[0] << endl;
 
             //inicialização do algoritmo
-            /*
-             colocar codigo aqui
-            */
-           //arvore->resetContadores();
+            auto arvore = new ArvoreRubroNegra<UserReview>();
+            arvore->resetContadores();
 
             timerStart();//marca o tempo inicial
 
             // aqui roda o algoritmo
-            /*
-             colocar codigo aqui
-            */
+            for(int i=0; i<tamDataset; i++){
+                arvore->inserir(copiaLocalObjetos[i]);
+            }
 
             tempo_teste = timerEnd();//marca o tempo final
 
             //salva os resultados
             temposDeExecucao[0][t] = tempo_teste;
-            numeroDeComparacores[0][t] = 0;/* arvore->getNumComparacoes(); */
-            numeroDeCopias[0][t] = 0;/* arvore->getNumCopias(); */
+            numeroDeComparacores[0][t] = arvore->getNumComparacoes();
+            numeroDeCopias[0][t] = arvore->getNumCopias();
             salvaLinhaResultado(0, t);
 
             //libera memoria desse teste
-            //delete arvore;
+            delete arvore;
             delete[] copiaLocalObjetos;
-            //arvore = NULL;
+            arvore = NULL;
             copiaLocalObjetos = NULL;
 
             ////////// Arvore Vermelho-Preta com inteiros //////////
@@ -132,30 +130,28 @@ public:
             cout << algoritmos[1] << endl;
 
             //inicialização do algoritmo
-            /*
-             colocar codigo aqui
-            */
-            //arvore->resetContadores();
+            auto arvoreInt = new ArvoreRubroNegra<int>();
+            arvoreInt->resetContadores();
 
             timerStart();//marca o tempo inicial
 
             // aqui roda o algoritmo
-            /*
-             colocar codigo aqui
-            */
+            for(int i=0; i<tamDataset; i++){
+                arvoreInt->inserir(copiaLocalInteiro[i]);
+            }
 
             tempo_teste = timerEnd();//marca o tempo final
 
             //salva os resultados
             temposDeExecucao[1][t] = tempo_teste;
-            numeroDeComparacores[1][t] = 0;/* arvore->getNumComparacoes(); */
-            numeroDeCopias[1][t] = 0;/* arvore->getNumCopias(); */
+            numeroDeComparacores[1][t] = arvoreInt->getNumComparacoes();
+            numeroDeCopias[1][t] = arvoreInt->getNumCopias();
             salvaLinhaResultado(1, t);
 
             //libera memoria desse teste
-            //delete arvore; // colocar variavel do algoritmo aqui
+            delete arvoreInt; // colocar variavel do algoritmo aqui
             delete[] copiaLocalInteiro;
-            //arvore = NULL; // colocar variavel do algoritmo aqui
+            arvoreInt = NULL; // colocar variavel do algoritmo aqui
             copiaLocalInteiro = NULL;
 
         }
