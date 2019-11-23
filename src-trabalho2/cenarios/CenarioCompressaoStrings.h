@@ -11,7 +11,7 @@
 #define CENARIOCOMPRESSAOSTRINGS_H
 #include <iostream>
 #include <string>
-#include <compressao/Huffman.h>
+#include "../compressao/Huffman.h"
 
 #include "../LeitorGameInfo.h"
 #include "../Log.h"

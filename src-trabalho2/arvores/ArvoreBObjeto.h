@@ -17,7 +17,7 @@
 #include "BaseArvores.h"
 #include "NoBObjeto.h"
 
-template <class T>
+
 class ArvoreBObjeto : public BaseArvores
 {
     NoBObjeto<UserReview> *raiz;
