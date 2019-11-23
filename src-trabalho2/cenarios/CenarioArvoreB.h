@@ -164,7 +164,7 @@ public:
             salvaLinhaResultado(0, t);
 
             //libera memoria desse teste
-            delete arvore; // colocar variavel do algoritmo aqui
+            delete ArvoreBObjeto; // colocar variavel do algoritmo aqui
             delete[] copiaLocalInteiro;
             arvore = NULL; // colocar variavel do algoritmo aqui
             copiaLocalInteiro = NULL;
@@ -179,14 +179,14 @@ public:
             cout << algoritmos[2] << endl;
 
             //inicialização do algoritmo
-           ArvoreB * arvore = new ArvoreB<int> ();
+           ArvoreB * arvore = new ArvoreB();
            arvore->resetContadores();
 
             timerStart();//marca o tempo inicial
 
             // aqui roda o algoritmo
             for(int i = 0; i < tamDataset; i++)
-                arvore->inserir(copiaLocalInteiro[i]);
+                arvore->insert(copiaLocalInteiro[i]);
 
 
             tempo_teste = timerEnd();//marca o tempo final
@@ -198,7 +198,7 @@ public:
             salvaLinhaResultado(2, t);
 
             //libera memoria desse teste
-            delete arvore; // colocar variavel do algoritmo aqui
+            delete ArvoreB; // colocar variavel do algoritmo aqui
             delete[] copiaLocalInteiro;
             arvore = NULL; // colocar variavel do algoritmo aqui
             copiaLocalInteiro = NULL;
@@ -218,7 +218,7 @@ public:
 
             // aqui roda o algoritmo
             for(int i = 0; i < tamDataset; i++)
-                arvore->inserir(copiaLocalInteiro[i]);
+                arvore->insert(copiaLocalInteiro[i]);
 
 
             tempo_teste = timerEnd();//marca o tempo final
