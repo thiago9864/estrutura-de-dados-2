@@ -18,13 +18,12 @@
 #include "NoBObjeto.h"
 
 template <class T>
-class ArvoreBObjeto:public BaseArvores
+class ArvoreBObjeto : public BaseArvores
 {
-    NoBObjeto * raiz;
+    NoBObjeto<UserReview> *raiz;
     int t;
+
 public:
-
-
     ArvoreBObjeto(int _t)
     {
         raiz = NULL;
@@ -33,28 +32,21 @@ public:
 
     void percorre()
     {
-        if (raiz != NULL) raiz->percorre();
+        if (raiz != NULL)
+            raiz->percorre();
     }
 
-
-    NoBObjeto * procura(int k)
+    NoBObjeto *procura(int k)
     {
-        return (raiz == NULL)? NULL : raiz->procura(k);
+        return (raiz == NULL) ? NULL : raiz->procura(k);
     }
-
 
     void insert(int k);
 
-
     void remove(int k);
-
 };
 
-
-
-
-
-void ArvoreBObjetos:: insert(int k)
+void ArvoreBObjetos::insert(int k)
 {
 
     if (raiz == NULL)
@@ -66,14 +58,13 @@ void ArvoreBObjetos:: insert(int k)
     }
     else
     {
-        if (raiz->n == 2*t-1)
+        if (raiz->n == 2 * t - 1)
         {
-            NoBObjeto *s = new NoBObjeto(t, false);
+            NoBObjeto<UserReview> *s = new NoBObjeto<UserReview>(t, false);
 
             s->C[0] = raiz;
 
             s->dividefilho(0, raiz);
-
 
             int i = 0;
             if (s->chave[0] < k)
@@ -87,8 +78,6 @@ void ArvoreBObjetos:: insert(int k)
     }
 }
 
-
-
 void ArvoreBObjetos::remove(int k)
 {
     if (!raiz)
@@ -97,18 +86,15 @@ void ArvoreBObjetos::remove(int k)
         return;
     }
 
-
     raiz->remove(k);
 
-
-    if (raiz->n==0)
+    if (raiz->n == 0)
     {
-        NoBObjeto* tmp = raiz;
+        NoBObjeto<UserReview> *tmp = raiz;
         if (raiz->folha)
             raiz = NULL;
         else
             raiz = raiz->C[0];
-
 
         delete tmp;
     }
