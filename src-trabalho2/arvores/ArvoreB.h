@@ -17,34 +17,34 @@
 #include "BaseArvores.h"
 #include "NoB.h"
 
-class BTree
+class ArvoreB
 {
-    BTreeNode *root; // Pointer to root node
-    int t;  // Minimum degree
+    NoB * raiz;
+    int t;
 public:
 
-    // Constructor (Initializes tree as empty)
-    BTree(int _t)
+
+    ArvoreB(int _t)
     {
-        root = NULL;
+        raiz = NULL;
         t = _t;
     }
 
-    void traverse()
+    void percorre()
     {
-        if (root != NULL) root->traverse();
+        if (raiz != NULL) raiz->percorre();
     }
 
-    // function to search a key in this tree
-    BTreeNode* search(int k)
+
+    NoB * procura(int k)
     {
-        return (root == NULL)? NULL : root->search(k);
+        return (raiz == NULL)? NULL : raiz->procura(k);
     }
 
-    // The main function that inserts a new key in this B-Tree
+
     void insert(int k);
 
-    // The main function that removes a new key in thie B-Tree
+
     void remove(int k);
 
 };
@@ -53,69 +53,62 @@ public:
 
 
 
-void BTree::insert(int k)
+void ArvoreB:: insert(int k)
 {
-    // If tree is empty
-    if (root == NULL)
+
+    if (raiz == NULL)
     {
-        // Allocate memory for root
-        root = new BTreeNode(t, true);
-        root->keys[0] = k;  // Insert key
-        root->n = 1;  // Update number of keys in root
+
+        raiz = new NoB(t, true);
+        raiz->chave[0] = k;
+        raiz->n = 1;
     }
-    else // If tree is not empty
+    else
     {
-        // If root is full, then tree grows in height
-        if (root->n == 2*t-1)
+        if (raiz->n == 2*t-1)
         {
-            // Allocate memory for new root
-            BTreeNode *s = new BTreeNode(t, false);
+            NoB *s = new NoB(t, false);
 
-            // Make old root as child of new root
-            s->C[0] = root;
+            s->C[0] = raiz;
 
-            // Split the old root and move 1 key to the new root
-            s->splitChild(0, root);
+            s->dividefilho(0, raiz);
 
-            // New root has two children now.  Decide which of the
-            // two children is going to have new key
+
             int i = 0;
-            if (s->keys[0] < k)
+            if (s->chave[0] < k)
                 i++;
-            s->C[i]->insertNonFull(k);
+            s->C[i]->inserenaocheio(k);
 
-            // Change root
-            root = s;
+            raiz = s;
         }
-        else  // If root is not full, call insertNonFull for root
-            root->insertNonFull(k);
+        else
+            raiz->inserenaocheio(k);
     }
 }
 
 
 
-void BTree::remove(int k)
+void ArvoreB::remove(int k)
 {
-    if (!root)
+    if (!raiz)
     {
-        cout << "The tree is empty\n";
+        cout << "A arvore está vazia\n";
         return;
     }
 
-    // Call the remove function for root
-    root->remove(k);
 
-    // If the root node has 0 keys, make its first child as the new root
-    //  if it has a child, otherwise set root as NULL
-    if (root->n==0)
+    raiz->remove(k);
+
+
+    if (raiz->n==0)
     {
-        BTreeNode *tmp = root;
-        if (root->leaf)
-            root = NULL;
+        NoB* tmp = raiz;
+        if (raiz->folha)
+            raiz = NULL;
         else
-            root = root->C[0];
+            raiz = raiz->C[0];
 
-        // Free the old root
+
         delete tmp;
     }
     return;
