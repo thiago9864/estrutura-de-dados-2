@@ -1,3 +1,19 @@
+/**
+    Universidade Federal de Juiz de Fora
+    ArvoreB.h
+    Propósito: Classe para implementar o NoB usando inteiros como chave
+
+    @author: Luan Reis Ciribelli
+    @version 1.0 27/10/2019
+
+
+
+*/
+
+#ifndef SRC_TRABALHO2_NoB_H
+#define SRC_TRABALHO2_No_H
+
+
 class NoB
 {
 private:
@@ -384,3 +400,5 @@ public:
 
     friend class ArvoreB;
 };
+
+#endif //SRC_TRABALHO2_NoB_H

@@ -17,7 +17,7 @@
 #include "BaseArvores.h"
 #include "NoB.h"
 
-class ArvoreB
+class ArvoreB:public BaseArvores
 {
     NoB * raiz;
     int t;
