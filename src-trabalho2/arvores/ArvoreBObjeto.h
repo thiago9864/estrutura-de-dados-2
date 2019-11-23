@@ -36,7 +36,7 @@ public:
             raiz->percorre();
     }
 
-    NoBObjeto *procura(int k)
+    NoBObjeto<UserReview> *procura(int k)
     {
         return (raiz == NULL) ? NULL : raiz->procura(k);
     }
@@ -52,7 +52,7 @@ void ArvoreBObjetos::insert(int k)
     if (raiz == NULL)
     {
 
-        raiz = new NoBObjeto(t, true);
+        raiz = new NoBObjeto<UserReview>(t, true);
         raiz->chave[0] = k;
         raiz->n = 1;
     }
