@@ -17,13 +17,12 @@
 #include "BaseArvores.h"
 #include "NoB.h"
 
-class ArvoreB:public BaseArvores
+class ArvoreB : public BaseArvores
 {
-    NoB * raiz;
+    NoB *raiz;
     int t;
+
 public:
-
-
     ArvoreB(int _t)
     {
         raiz = NULL;
@@ -32,28 +31,21 @@ public:
 
     void percorre()
     {
-        if (raiz != NULL) raiz->percorre();
+        if (raiz != NULL)
+            raiz->percorre();
     }
 
-
-    NoB * procura(int k)
+    NoB *procura(int k)
     {
-        return (raiz == NULL)? NULL : raiz->procura(k);
+        return (raiz == NULL) ? NULL : raiz->procura(k);
     }
-
 
     void insert(int k);
 
-
     void remove(int k);
-
 };
 
-
-
-
-
-void ArvoreB:: insert(int k)
+void ArvoreB::insert(int k)
 {
 
     if (raiz == NULL)
@@ -65,14 +57,13 @@ void ArvoreB:: insert(int k)
     }
     else
     {
-        if (raiz->n == 2*t-1)
+        if (raiz->n == 2 * t - 1)
         {
             NoB *s = new NoB(t, false);
 
             s->C[0] = raiz;
 
             s->dividefilho(0, raiz);
-
 
             int i = 0;
             if (s->chave[0] < k)
@@ -86,8 +77,6 @@ void ArvoreB:: insert(int k)
     }
 }
 
-
-
 void ArvoreB::remove(int k)
 {
     if (!raiz)
@@ -96,18 +85,15 @@ void ArvoreB::remove(int k)
         return;
     }
 
-
     raiz->remove(k);
 
-
-    if (raiz->n==0)
+    if (raiz->n == 0)
     {
-        NoB* tmp = raiz;
+        NoB *tmp = raiz;
         if (raiz->folha)
             raiz = NULL;
         else
             raiz = raiz->C[0];
-
 
         delete tmp;
     }
