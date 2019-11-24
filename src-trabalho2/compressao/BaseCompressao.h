@@ -9,6 +9,9 @@
 #ifndef BASECOMPRESSAO_H
 #define BASECOMPRESSAO_H
 #include <iostream>
+#include <fstream>
+#include <sstream>
+#include "FileManager.h"
 
 using namespace std;
 
@@ -19,33 +22,76 @@ class BaseCompressao
 {
     public:
 
-        BaseCompressao(){};
-        ~BaseCompressao(){};
+        BaseCompressao(){
+            fileManager = new FileManager();
+        };
+        ~BaseCompressao(){
+            delete fileManager;
+        };
 
         /**
          * Obtem a taxa de compressão
-         * @return double 
+         * @return double
          */
         double getTaxaCompressao(){
             return taxaCompressao;
         }
 
         /**
-         * Obtem o tamanho do arquivo em disco
-         * @return double 
+         * Obtem a taxa de compressão em disco
+         * @return double
          */
-        double getTamanhoEmDisco(){
-            return tamanhoEmDisco;
+        double getTaxaCompressaoEmDisco(){
+            return compressaoEmDisco;
         }
 
-        void calculaEstatisticas(uint64_t tamanhoStringEntrada, uint64_t tamanhoStringSaida, string caminhoArquivoEmDisco){
-            taxaCompressao=0;
-            tamanhoEmDisco=0;
+        /**
+         * Obtem o tamanho do arquivo compactado em disco
+         * @return int
+         */
+        double getTamanhoCompactadoEmDisco(){
+            return tamanhoEmDiscoCompactado;
+        }
+
+        /**
+        * Salva os conteudos original e compactado nos locais indicados
+        * @param arquivoOriginal (string) Caminho que o arquivo original vai ser salvo
+        * @param conteudoArqOriginal (string) Conteudo do arquivo original
+        * @param arquivoCompactado (string) Caminho que o arquivo compactado vai ser salvo
+        * @param conteudoArqCompactado (vector<int>) Conteudo do arquivo compactado
+        */
+        void salvarEmDisco(string arquivoOriginal, string conteudoArqOriginal, string arquivoCompactado, vector<int> conteudoArqCompactado){
+            fileManager->salvarText(conteudoArqOriginal, arquivoOriginal);
+            fileManager->salvarIntVector(conteudoArqCompactado, arquivoCompactado);
+        }
+
+        /**
+        * Calcula dados estatísticos sobre o algoritmo
+        * @param arquivoOriginal (string) Caminho que o arquivo original vai ser salvo
+        * @param conteudoArqOriginal (string) Conteudo do arquivo original
+        * @param arquivoCompactado (string) Caminho que o arquivo compactado vai ser salvo
+        * @param conteudoArqCompactado (vector<int>) Conteudo do arquivo compactado
+        */
+        void calculaEstatisticas(string arquivoOriginal, string conteudoArqOriginal, string arquivoCompactado, vector<int> conteudoArqCompactado){
+            int tamArquivoOriginal = conteudoArqOriginal.length();
+            int tamArquivoCompactado = conteudoArqCompactado.size();
+
+            tamanhoEmDiscoOriginal = fileManager->getTamanhoEmDisco(arquivoOriginal);
+            tamanhoEmDiscoCompactado = fileManager->getTamanhoEmDisco(arquivoCompactado);
+
+            taxaCompressao = 1 - (tamArquivoCompactado / (double)tamArquivoOriginal);
+            compressaoEmDisco = 1 - (tamanhoEmDiscoCompactado / tamanhoEmDiscoOriginal);
         }
 
     private:
         double taxaCompressao;
-        double tamanhoEmDisco;
+        double compressaoEmDisco;
+        double tamanhoEmDiscoCompactado;
+        double tamanhoEmDiscoOriginal;
+
+    protected:
+        FileManager *fileManager;
+
 };
 
 #endif // BASECOMPRESSAO_H

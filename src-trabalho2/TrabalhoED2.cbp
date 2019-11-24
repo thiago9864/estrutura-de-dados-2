@@ -44,6 +44,8 @@
 		<Unit filename="cenarios/CenarioArvoreRubroNegra.h" />
 		<Unit filename="cenarios/CenarioCompressaoStrings.h" />
 		<Unit filename="compressao/BaseCompressao.h" />
+		<Unit filename="compressao/FileManager.h" />
+		<Unit filename="compressao/LZW.h" />
 		<Unit filename="main.cpp" />
 		<Extensions>
 			<code_completion />

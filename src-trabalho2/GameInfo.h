@@ -7,7 +7,7 @@ using namespace std;
 class GameInfo {
     public:
         int id;
-        vector<string> boardgamecategory;
+        string description;
 };
 
 #endif // GAMEINFO_H

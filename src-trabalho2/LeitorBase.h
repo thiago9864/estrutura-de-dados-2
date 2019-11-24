@@ -15,15 +15,32 @@
 #include <time.h>
 #include <random>
 #include <chrono>
-
+#include <direct.h>
 #include "UserReview.h"
+
+#if defined(_WIN32)
+//includes para windows
+#include <windows.h>
+
+#elif defined(__APPLE__) && defined(__MACH__)
+//includes para mac
+#include <direct.h>
+
+#elif defined(__linux__) || defined(__linux) || defined(linux) || defined(__gnu_linux__)
+//includes para linux
+#include <direct.h>
+
+#endif
+
 using namespace std;
 
 class LeitorBase
 {
     public:
 
-        LeitorBase(){};
+        LeitorBase(){
+            criaDiretoriosNecessarios();
+        };
         ~LeitorBase(){};
 
         /**
@@ -59,12 +76,21 @@ class LeitorBase
         }
 
         /**
+         * Retorna o diretorio do arquivo temporario da compressao
+         * @return string
+         */
+        string getDiretorioTempCompressao(){
+            return this->caminho_diretorio_main_cpp+"temp_compressao"+getDirSep();
+        }
+
+        /**
          * Retorna o diretorio do arquivo de entrada
          * @return string
          */
         string getDiretorioArquivoDeEntrada(){
             return this->caminho_diretorio_main_cpp+"entradas"+getDirSep();
         }
+
 
         /**
          * Quebra a string fornecida em strings menores dado o separador
@@ -183,6 +209,24 @@ class LeitorBase
         default_random_engine generator;
         int semente;
         std::chrono::time_point<std::chrono::system_clock> start, end;
+
+
+        void criaDiretoriosNecessarios(){
+            criarDiretorio(getDiretorioArquivoDeSaida());
+            criarDiretorio(getDiretorioTempCompressao());
+        }
+
+        int criarDiretorio(string caminho){
+            #if defined(_WIN32)
+            /* Windows -------------------------------------------------- */
+            std::wstring stemp = std::wstring(caminho.begin(), caminho.end());
+            LPCWSTR sw = stemp.c_str();
+            return CreateDirectoryW(sw, NULL );
+            #elif defined(__unix__) || defined(__unix) || defined(unix) || (defined(__APPLE__) && defined(__MACH__))
+            /* Linux/Mac -------------------------------------------------- */
+            return mkdir(caminho);
+            #endif
+        }
 
 };
 

@@ -3,7 +3,7 @@
     CenarioArvoreB.h
     Propósito: Implementação do cenario da arvore B do trabalho 2.
 
-    @author Thiago Almeida, Luan Ciriberi
+    @author Thiago Almeida, Luan Ciribelli
     @version 1.0 18/10/19
 */
 
@@ -15,6 +15,8 @@
 #include "../LeitorUserReviews.h"
 #include "../Log.h"
 #include "../LeitorBase.h"
+#include "../arvores/ArvoreB.h"
+#include "../arvores/ArvoreBObjeto.h"
 
 using namespace std;
 
@@ -98,17 +100,20 @@ public:
             cout << algoritmos[0] << endl;
 
             //inicialização do algoritmo
-            /*
-             colocar codigo aqui
-            */
-           //arvore->resetContadores();
+
+            ArvoreBObjeto* arvoreObjetos = new ArvoreBObjeto();
+
+            //arvoreObjetos->resetContadores();
 
             timerStart();//marca o tempo inicial
 
             // aqui roda o algoritmo
-            /*
-             colocar codigo aqui
-            */
+            for(int i = 0; i < tamDataset; i++)
+                arvoreObjetos->insert(copiaLocalObjetos[i]);
+
+
+
+
 
             tempo_teste = timerEnd();//marca o tempo final
 
@@ -122,6 +127,9 @@ public:
             //delete arvore;
             delete[] copiaLocalObjetos;
             //arvore = NULL;
+            delete arvoreObjetos;
+            delete[] copiaLocalObjetos;
+            arvoreObjetos = NULL;
             copiaLocalObjetos = NULL;
 
             ////////// Arvore B com objetos e d=20 //////////
@@ -133,31 +141,33 @@ public:
             cout << algoritmos[1] << endl;
 
             //inicialização do algoritmo
-            /*
-             colocar codigo aqui
-            */
-            //arvore->resetContadores();
+              ArvoreBObjeto* arvoreObjetos = new ArvoreBObjeto();
+
+            //arvoreObjetos->resetContadores();
 
             timerStart();//marca o tempo inicial
 
             // aqui roda o algoritmo
-            /*
-             colocar codigo aqui
-            */
+            for(int i = 0; i < tamDataset; i++)
+                arvoreObjetos->insert(copiaLocalObjetos[i]);
+
+
+
+
 
             tempo_teste = timerEnd();//marca o tempo final
 
             //salva os resultados
-            temposDeExecucao[1][t] = tempo_teste;
-            numeroDeComparacores[1][t] = 0;/* arvore->getNumComparacoes(); */
-            numeroDeCopias[1][t] = 0;/* arvore->getNumCopias(); */
-            salvaLinhaResultado(1, t);
+            temposDeExecucao[0][t] = tempo_teste;
+            numeroDeComparacores[0][t] = 0;/* arvore->getNumComparacoes(); */
+            numeroDeCopias[0][t] = 0;/* arvore->getNumCopias(); */
+            salvaLinhaResultado(0, t);
 
             //libera memoria desse teste
-            //delete arvore; // colocar variavel do algoritmo aqui
-            delete[] copiaLocalObjetos;
-            //arvore = NULL; // colocar variavel do algoritmo aqui
-            copiaLocalObjetos = NULL;
+            delete ArvoreBObjeto; // colocar variavel do algoritmo aqui
+            delete[] copiaLocalInteiro;
+            arvore = NULL; // colocar variavel do algoritmo aqui
+            copiaLocalInteiro = NULL;
 
 
             ////////// Arvore B com inteiros e d=2 //////////
@@ -169,17 +179,15 @@ public:
             cout << algoritmos[2] << endl;
 
             //inicialização do algoritmo
-            /*
-             colocar codigo aqui
-            */
-           //arvore->resetContadores();
+           ArvoreB * arvore = new ArvoreB();
+           arvore->resetContadores();
 
             timerStart();//marca o tempo inicial
 
             // aqui roda o algoritmo
-            /*
-             colocar codigo aqui
-            */
+            for(int i = 0; i < tamDataset; i++)
+                arvore->insert(copiaLocalInteiro[i]);
+
 
             tempo_teste = timerEnd();//marca o tempo final
 
@@ -190,9 +198,9 @@ public:
             salvaLinhaResultado(2, t);
 
             //libera memoria desse teste
-            //delete arvore;
+            delete ArvoreB; // colocar variavel do algoritmo aqui
             delete[] copiaLocalInteiro;
-            //arvore = NULL;
+            arvore = NULL; // colocar variavel do algoritmo aqui
             copiaLocalInteiro = NULL;
 
             ////////// Arvore B com inteiros e d=20 //////////
@@ -203,18 +211,29 @@ public:
             //debug - nome do algoritmo
             cout << algoritmos[3] << endl;
 
-            //inicialização do algoritmo
-            /*
-             colocar codigo aqui
-            */
-            //arvore->resetContadores();
+            ArvoreB * arvore = new ArvoreB<int> ();
+           arvore->resetContadores();
 
             timerStart();//marca o tempo inicial
 
             // aqui roda o algoritmo
-            /*
-             colocar codigo aqui
-            */
+            for(int i = 0; i < tamDataset; i++)
+                arvore->insert(copiaLocalInteiro[i]);
+
+
+            tempo_teste = timerEnd();//marca o tempo final
+
+            //salva os resultados
+            temposDeExecucao[2][t] = tempo_teste;
+            numeroDeComparacores[2][t] = 0;/* arvore->getNumComparacoes(); */
+            numeroDeCopias[2][t] = 0;/* arvore->getNumCopias(); */
+            salvaLinhaResultado(2, t);
+
+            //libera memoria desse teste
+            delete ArvoreB; // colocar variavel do algoritmo aqui
+            delete[] copiaLocalInteiro;
+            arvore = NULL; // colocar variavel do algoritmo aqui
+            copiaLocalInteiro = NULL;
 
             tempo_teste = timerEnd();//marca o tempo final
 

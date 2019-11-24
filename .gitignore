@@ -150,3 +150,4 @@ src-trabalho2/datasets/preprocessado/
 src-trabalho2/saidas/
 src-trabalho2/.idea/
 src-trabalho2/CMakeLists.txt
+src-trabalho2/temp_compressao/

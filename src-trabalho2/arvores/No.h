@@ -21,32 +21,31 @@ using namespace std;
 template <class T>
 class No
 {
-    public:
-        No(){
-            this->isLeaf=false;
-            this->parent=NULL;
-            this->color = 1;//o nó começa sempre como vermelho
-            this->leftChild = NULL;
-            this->rightChild = NULL;
-            
-        };
-        ~No(){
-            parent = NULL;
-            leftChild = NULL;
-            rightChild = NULL;
-        };   
+public:
+    No()
+    {
+        this->isLeaf = false;
+        this->parent = NULL;
+        this->color = 1; //o nó começa sempre como vermelho
+        this->leftChild = NULL;
+        this->rightChild = NULL;
+    };
+    ~No()
+    {
+        parent = NULL;
+        leftChild = NULL;
+        rightChild = NULL;
+    };
 
-        //parametros comuns
-        bool isLeaf; // true se for nó folha
-        No* parent; //ponteiro para o nó superior
-        T value; //Valor ou objeto armazenado
+    //parametros comuns
+    bool isLeaf; // true se for nó folha
+    No *parent;  //ponteiro para o nó superior
+    T value;     //Valor ou objeto armazenado
 
-        //parametros correspondentes a arvore Rubro-Negra
-        int color; //0: Preto, 1: Vermelho
-        No *leftChild; //Filho a esquerda
-        No *rightChild; //Filho a direita
-    
-
+    //parametros correspondentes a arvore Rubro-Negra
+    int color;      //0: Preto, 1: Vermelho
+    No *leftChild;  //Filho a esquerda
+    No *rightChild; //Filho a direita
 };
 
 #endif // NO_H
