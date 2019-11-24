@@ -101,7 +101,7 @@ public:
 
             //inicialização do algoritmo
 
-            ArvoreBObjeto* arvoreObjetos = new ArvoreBObjeto();
+            ArvoreBObjeto* arvoreObjetos = new ArvoreBObjeto(2,true);
 
             //arvoreObjetos->resetContadores();
 
@@ -141,7 +141,7 @@ public:
             cout << algoritmos[1] << endl;
 
             //inicialização do algoritmo
-              ArvoreBObjeto* arvoreObjetos = new ArvoreBObjeto();
+              ArvoreBObjeto* arvoreObjetos = new ArvoreBObjeto(20,true);
 
             //arvoreObjetos->resetContadores();
 
@@ -179,7 +179,7 @@ public:
             cout << algoritmos[2] << endl;
 
             //inicialização do algoritmo
-           ArvoreB * arvore = new ArvoreB();
+           ArvoreB * arvore = new ArvoreB(2,true);
            arvore->resetContadores();
 
             timerStart();//marca o tempo inicial
@@ -211,7 +211,7 @@ public:
             //debug - nome do algoritmo
             cout << algoritmos[3] << endl;
 
-            ArvoreB * arvore = new ArvoreB<int> ();
+            ArvoreB * arvore = new ArvoreB(20,true);
            arvore->resetContadores();
 
             timerStart();//marca o tempo inicial
