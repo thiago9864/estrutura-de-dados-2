@@ -103,7 +103,7 @@ public:
 
             ArvoreBObjeto* arvoreObjetos = new ArvoreBObjeto();
 
-            //arvoreObjetos->resetContadores();
+            arvoreObjetos->resetContadores();
 
             timerStart();//marca o tempo inicial
 
@@ -119,8 +119,8 @@ public:
 
             //salva os resultados
             temposDeExecucao[0][t] = tempo_teste;
-            numeroDeComparacores[0][t] = 0;/* arvore->getNumComparacoes(); */
-            numeroDeCopias[0][t] = 0;/* arvore->getNumCopias(); */
+            numeroDeComparacores[0][t] = arvoreObjetos->getNumComparacoes(); 
+            numeroDeCopias[0][t] = arvoreObjetos->getNumCopias(); 
             salvaLinhaResultado(0, t);
 
             //libera memoria desse teste
@@ -159,14 +159,14 @@ public:
 
             //salva os resultados
             temposDeExecucao[0][t] = tempo_teste;
-            numeroDeComparacores[0][t] = 0;/* arvore->getNumComparacoes(); */
-            numeroDeCopias[0][t] = 0;/* arvore->getNumCopias(); */
+            numeroDeComparacores[0][t] = arvoreObjetos->getNumComparacoes(); 
+            numeroDeCopias[0][t] = arvoreObjetos->getNumCopias(); 
             salvaLinhaResultado(0, t);
 
             //libera memoria desse teste
-            delete ArvoreBObjeto; // colocar variavel do algoritmo aqui
+            delete arvoreObjetos; // colocar variavel do algoritmo aqui
             delete[] copiaLocalInteiro;
-            arvore = NULL; // colocar variavel do algoritmo aqui
+            arvoreObjetos = NULL; // colocar variavel do algoritmo aqui
             copiaLocalInteiro = NULL;
 
 
@@ -198,7 +198,7 @@ public:
             salvaLinhaResultado(2, t);
 
             //libera memoria desse teste
-            delete ArvoreB; // colocar variavel do algoritmo aqui
+            delete arvore; // colocar variavel do algoritmo aqui
             delete[] copiaLocalInteiro;
             arvore = NULL; // colocar variavel do algoritmo aqui
             copiaLocalInteiro = NULL;
@@ -211,7 +211,7 @@ public:
             //debug - nome do algoritmo
             cout << algoritmos[3] << endl;
 
-            ArvoreB * arvore = new ArvoreB<int> ();
+            ArvoreB* arvore = new ArvoreB();
            arvore->resetContadores();
 
             timerStart();//marca o tempo inicial
@@ -230,7 +230,7 @@ public:
             salvaLinhaResultado(2, t);
 
             //libera memoria desse teste
-            delete ArvoreB; // colocar variavel do algoritmo aqui
+            delete arvore; // colocar variavel do algoritmo aqui
             delete[] copiaLocalInteiro;
             arvore = NULL; // colocar variavel do algoritmo aqui
             copiaLocalInteiro = NULL;

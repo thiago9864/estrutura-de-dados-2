@@ -46,7 +46,7 @@ public:
     void remove(int k);
 };
 
-void ArvoreBObjetos::insert(int k)
+void ArvoreBObjeto::insert(int k)
 {
 
     if (raiz == NULL)
@@ -78,7 +78,7 @@ void ArvoreBObjetos::insert(int k)
     }
 }
 
-void ArvoreBObjetos::remove(int k)
+void ArvoreBObjeto::remove(int k)
 {
     if (!raiz)
     {
