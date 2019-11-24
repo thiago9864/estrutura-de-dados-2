@@ -169,10 +169,15 @@ public:
             cout << algoritmos[2] << endl;
 
             //inicialização do algoritmo
+<<<<<<< Updated upstream
             /*
              colocar codigo aqui
             */
            //arvore->resetContadores();
+=======
+           ArvoreB * arvore = new ArvoreB(2,true);
+           arvore->resetContadores();
+>>>>>>> Stashed changes
 
             timerStart();//marca o tempo inicial
 
@@ -203,11 +208,16 @@ public:
             //debug - nome do algoritmo
             cout << algoritmos[3] << endl;
 
+<<<<<<< Updated upstream
             //inicialização do algoritmo
             /*
              colocar codigo aqui
             */
             //arvore->resetContadores();
+=======
+            ArvoreB * arvore = new ArvoreB(2,true);
+           arvore->resetContadores();
+>>>>>>> Stashed changes
 
             timerStart();//marca o tempo inicial
 

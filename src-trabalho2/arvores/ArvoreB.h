@@ -21,10 +21,16 @@ https://www.geeksforgeeks.org/delete-operation-in-b-tree/
 
 Class ArvoreB : protected BaseArvores
 {
+<<<<<<< Updated upstream
 private:
     No raiz;
  
     int t;
+=======
+    NoB *raiz; //No que aponta pra raiz
+    int t; // grau minimo
+
+>>>>>>> Stashed changes
 public:
 //Construtor vazio
   
