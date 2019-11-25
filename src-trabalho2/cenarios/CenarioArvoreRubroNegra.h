@@ -111,7 +111,7 @@ public:
 
 
             //Teste na tela
-            //arvore->imprimir();
+            //arvoreObjetos->imprimir();
 
             tempo_teste = timerEnd();//marca o tempo final
 
