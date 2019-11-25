@@ -19,7 +19,7 @@ template <class T>
 class NoBObjeto
 {
 private:
-    int *chave;
+    UserReview *chave;
     int t;
     NoBObjeto **C;
     int n;
@@ -31,19 +31,19 @@ public:
         t = t1;
         folha = folha1;
 
-        chave = new int[2 * t - 1];
+        chave = new UserReview[2 * t - 1];
         C = new NoBObjeto *[2 * t];
 
         n = 0;
     }
 
-    NoBObjeto *procura(int k)
+    NoBObjeto *procura(UserReview k)
     {
         int i = 0;
-        while (i < n && k > chave[i])
+        while (i < n && k.id > chave[i].id)
             i++;
 
-        if (chave[i] == k)
+        if (chave[i].id == k.id)
             return this;
 
         if (folha == true)
@@ -52,22 +52,22 @@ public:
         return C[i]->procura(k);
     }
 
-    int achachave(int k)
+    int achachave(UserReview k)
     {
         int idx = 0;
-        while (idx < n && chave[idx] < k)
+        while (idx < n && chave[idx].id < k.id)
             ++idx;
         return idx;
     }
 
-    void inserenaocheio(int k)
+    void inserenaocheio(UserReview k)
     {
         int i = n - 1;
 
         if (folha == true)
         {
 
-            while (i >= 0 && chave[i] > k)
+            while (i >= 0 && chave[i].id > k.id)
             {
                 chave[i + 1] = chave[i];
                 i--;
@@ -79,14 +79,14 @@ public:
         else
         {
 
-            while (i >= 0 && chave[i] > k)
+            while (i >= 0 && chave[i].id > k.id)
                 i--;
 
             if (C[i + 1]->n == 2 * t - 1)
             {
                 dividefilho(i + 1, C[i + 1]);
 
-                if (chave[i + 1] < k)
+                if (chave[i + 1].id < k.id)
                     i++;
             }
             C[i + 1]->inserenaocheio(k);
@@ -123,12 +123,12 @@ public:
         n = n + 1;
     }
 
-    void remove(int k)
+    void remove(UserReview k)
     {
 
         int idx = achachave(k);
 
-        if (idx < n && chave[idx] == k)
+        if (idx < n && chave[idx].id == k.id)
         {
 
             if (folha)
@@ -141,7 +141,7 @@ public:
 
             if (folha)
             {
-                cout << "A chave " << k << " não existe na arvore\n";
+                cout << "A chave " << k.id << " não existe na arvore\n";
                 return;
             }
 
@@ -172,18 +172,18 @@ public:
     void removenaofolha(int idx)
     {
 
-        int k = chave[idx];
+        UserReview k = chave[idx];
 
         if (C[idx]->n >= t)
         {
-            int pred = getPred(idx);
+            UserReview pred = getPred(idx);
             chave[idx] = pred;
             C[idx]->remove(pred);
         }
 
         else if (C[idx + 1]->n >= t)
         {
-            int succ = getSucc(idx);
+            UserReview succ = getSucc(idx);
             chave[idx] = succ;
             C[idx + 1]->remove(succ);
         }
@@ -196,7 +196,7 @@ public:
         return;
     }
 
-    int getPred(int idx)
+    UserReview getPred(int idx)
     {
 
         NoBObjeto *cur = C[idx];
@@ -206,7 +206,7 @@ public:
         return cur->chave[cur->n - 1];
     }
 
-    int getSucc(int idx)
+    UserReview getSucc(int idx)
     {
         NoBObjeto *cur = C[idx + 1];
         while (!cur->folha)
@@ -328,7 +328,7 @@ public:
 
             if (folha == false)
                 C[i]->percorre();
-            cout << " " << chave[i];
+            cout << " " << chave[i].id;
         }
 
         if (folha == false)

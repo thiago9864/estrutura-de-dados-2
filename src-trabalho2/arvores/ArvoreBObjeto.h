@@ -20,6 +20,7 @@
 
 class ArvoreBObjeto : public BaseArvores
 {
+private:
     NoBObjeto<UserReview> *raiz;
     int t;
 
@@ -36,69 +37,66 @@ public:
             raiz->percorre();
     }
 
-    NoBObjeto<UserReview> *procura(int k)
+    NoBObjeto<UserReview> *procura(UserReview k)
     {
         return (raiz == NULL) ? NULL : raiz->procura(k);
     }
 
-    void insert(int k);
-
-    void remove(int k);
-};
-
-void ArvoreBObjetos::insert(int k)
-{
-
-    if (raiz == NULL)
+    void insert(UserReview k)
     {
 
-        raiz = new NoBObjeto<UserReview>(t, true);
-        raiz->chave[0] = k;
-        raiz->n = 1;
-    }
-    else
-    {
-        if (raiz->n == 2 * t - 1)
+        if (raiz == NULL)
         {
-            NoBObjeto<UserReview> *s = new NoBObjeto<UserReview>(t, false);
 
-            s->C[0] = raiz;
-
-            s->dividefilho(0, raiz);
-
-            int i = 0;
-            if (s->chave[0] < k)
-                i++;
-            s->C[i]->inserenaocheio(k);
-
-            raiz = s;
+            raiz = new NoBObjeto<UserReview>(t, true);
+            raiz->chave[0] = k;
+            raiz->n = 1;
         }
         else
-            raiz->inserenaocheio(k);
-    }
-}
+        {
+            if (raiz->n == 2 * t - 1)
+            {
+                NoBObjeto<UserReview> *s = new NoBObjeto<UserReview>(t, false);
 
-void ArvoreBObjetos::remove(int k)
-{
-    if (!raiz)
+                s->C[0] = raiz;
+
+                s->dividefilho(0, raiz);
+
+                int i = 0;
+                if (s->chave[0].id < k.id)
+                    i++;
+                s->C[i]->inserenaocheio(k);
+
+                raiz = s;
+            }
+            else
+                raiz->inserenaocheio(k);
+        }
+    }
+
+    void remove(UserReview k)
     {
-        cout << "A arvore está vazia\n";
+        if (!raiz)
+        {
+            cout << "A arvore está vazia\n";
+            return;
+        }
+
+        raiz->remove(k);
+
+        if (raiz->n == 0)
+        {
+            NoBObjeto<UserReview> *tmp = raiz;
+            if (raiz->folha)
+                raiz = NULL;
+            else
+                raiz = raiz->C[0];
+
+            delete tmp;
+        }
         return;
     }
 
-    raiz->remove(k);
-
-    if (raiz->n == 0)
-    {
-        NoBObjeto<UserReview> *tmp = raiz;
-        if (raiz->folha)
-            raiz = NULL;
-        else
-            raiz = raiz->C[0];
-
-        delete tmp;
-    }
-    return;
-}
+};
 
 #endif //SRC_TRABALHO2_ARVOREBObjetos_H

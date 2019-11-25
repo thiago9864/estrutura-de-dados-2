@@ -101,7 +101,7 @@ class ArvoreRubroNegra : public BaseArvores{
                 }
             }
 
-            return auxRoot;
+            //return auxRoot;
         };
 
         //Função que verifica se há necessidade de correção na arvore vermelho preta
@@ -160,7 +160,7 @@ class ArvoreRubroNegra : public BaseArvores{
                     avo = rotacaoSimplesDir(avo);
                 }
             } else {
-                this->registraComparacao(); 
+                this->registraComparacao();
                 if(pai->rightChild == p)
                 {
                     avo = rotacaoSimplesEsq(avo);
@@ -220,10 +220,10 @@ class ArvoreRubroNegra : public BaseArvores{
                 //No final de cada execução da recursividade é realmente somado ao lado com maior altura negra
                 if(alturaEsquerda > alturaDireita)
                     return alturaEsquerda+1;
-                else 
+                else
                     return alturaDireita+1;
             }
-        };     
+        };
 
         //Função de impressão da arvore RB
        void imprimir()
@@ -337,7 +337,7 @@ class ArvoreRubroNegra : public BaseArvores{
             if(a)
             {
                 a->parent = p;
-            } 
+            }
             if(b)
             {
                 b->parent = p;
@@ -350,7 +350,7 @@ class ArvoreRubroNegra : public BaseArvores{
             {
                 c->leftChild = pai;
             }
-            
+
             return pai;
         };
 
@@ -404,7 +404,7 @@ class ArvoreRubroNegra : public BaseArvores{
                 p->value = aux->value;
                 p->rightChild = aux->rightChild;
                 p->leftChild = aux->leftChild;
-                
+
                 delete aux;
             } else {
                 aux = p->leftChild;
@@ -447,7 +447,7 @@ class ArvoreRubroNegra : public BaseArvores{
                 this->registraComparacao();
                 if(pai->rightChild == p)
                     p->rightChild = nullptr;
-                else 
+                else
                     pai->leftChild = nullptr;
 
                 delete p;
@@ -479,7 +479,7 @@ class ArvoreRubroNegra : public BaseArvores{
                         if(pai->rightChild == p)
                         {
                             pai->rightChild = nullptr;
-                            delete p;  
+                            delete p;
                         } else {
                             pai->leftChild = nullptr;
                             delete p;
@@ -510,7 +510,7 @@ class ArvoreRubroNegra : public BaseArvores{
                 p->color = false;
             else
                 p->color = true;
-                
+
         };
 
         No<T>* rotacaoSimplesDir(No<T>* p)
@@ -527,7 +527,7 @@ class ArvoreRubroNegra : public BaseArvores{
             if(a)
             {
                 a->parent = p;
-            } 
+            }
             if(b)
             {
                 b->parent = p;
@@ -562,8 +562,8 @@ class ArvoreRubroNegra : public BaseArvores{
             return rotacaoSimplesEsq(p);
         }
 
-        
-        
+
+
 };
 
 #endif //SRC_TRABALHO2_ARVORERUBRONEGRA_H

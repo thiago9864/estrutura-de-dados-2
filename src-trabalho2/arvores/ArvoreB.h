@@ -19,6 +19,7 @@
 
 class ArvoreB : public BaseArvores
 {
+private:
     NoB *raiz; //ponteiro pra raiz
     int t; // grau minimo
 
@@ -40,64 +41,59 @@ public:
         return (raiz == NULL) ? NULL : raiz->procura(k);
     }
 
-    void insert(int k);
-
-    void remove(int k);
-};
-
-void ArvoreB::insert(int k)
-{
-
-    if (raiz == NULL)
+    void insert(int k)
     {
 
-        raiz = new NoB(t, true);
-        raiz->chave[0] = k;
-        raiz->n = 1;
-    }
-    else
-    {
-        if (raiz->n == 2 * t - 1)
+        if (raiz == NULL)
         {
-            NoB *s = new NoB(t, false);
 
-            s->C[0] = raiz;
-
-            s->dividefilho(0, raiz);
-
-            int i = 0;
-            if (s->chave[0] < k)
-                i++;
-            s->C[i]->inserenaocheio(k);
-
-            raiz = s;
+            raiz = new NoB(t, true);
+            raiz->chave[0] = k;
+            raiz->n = 1;
         }
         else
-            raiz->inserenaocheio(k);
-    }
-}
+        {
+            if (raiz->n == 2 * t - 1)
+            {
+                NoB *s = new NoB(t, false);
 
-void ArvoreB::remove(int k)
-{
-    if (!raiz)
+                s->C[0] = raiz;
+
+                s->dividefilho(0, raiz);
+
+                int i = 0;
+                if (s->chave[0] < k)
+                    i++;
+                s->C[i]->inserenaocheio(k);
+
+                raiz = s;
+            }
+            else
+                raiz->inserenaocheio(k);
+        }
+    }
+
+    void remove(int k)
     {
-        cout << "A arvore está vazia\n";
+        if (!raiz)
+        {
+            cout << "A arvore está vazia\n";
+            return;
+        }
+
+        raiz->remove(k);
+
+        if (raiz->n == 0)
+        {
+            NoB *tmp = raiz;
+            if (raiz->folha)
+                raiz = NULL;
+            else
+                raiz = raiz->C[0];
+
+            delete tmp;
+        }
         return;
     }
-
-    raiz->remove(k);
-
-    if (raiz->n == 0)
-    {
-        NoB *tmp = raiz;
-        if (raiz->folha)
-            raiz = NULL;
-        else
-            raiz = raiz->C[0];
-
-        delete tmp;
-    }
-    return;
-}
-
+};
 #endif //SRC_TRABALHO2_ARVOREB_H

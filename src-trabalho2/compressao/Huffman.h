@@ -76,7 +76,7 @@ public:
             }
         }
 
-        cout << stringCompactadaASC << endl;
+        //cout << stringCompactadaASC << endl;
 
     }
 

@@ -121,14 +121,15 @@ public:
                                    );
 
             huffman->calculaEstatisticas(getDiretorioTempCompressao() + "huffman_original" + to_string(tamDataset) + ".txt",
-                                         getDiretorioTempCompressao() + "huffman_compactado" + to_string(tamDataset) + ".txt");
+                                         getDiretorioTempCompressao() + "huffman_compactado" + to_string(tamDataset) + ".txt"
+                                         );
 
 
             //salva os resultados
             temposDeExecucao[0][t] = tempo_teste;
-            taxaDeCompressao[0][t] = 0;huffman->geraTaxaCompressao();
-            taxaDeCompressaoEmDisco[0][t] = 0; huffman->geraTaxaCompressaoEmDisco();
-            armazenamentoEmDisco[0][t] = 0; huffman->geraTamanhoCompactadoEmDisco();
+            taxaDeCompressao[0][t] = huffman->geraTaxaCompressao();
+            taxaDeCompressaoEmDisco[0][t] = huffman->geraTaxaCompressaoEmDisco();
+            armazenamentoEmDisco[0][t] = huffman->geraTamanhoCompactadoEmDisco();
             salvaLinhaResultado(0, t);
 
             //libera memoria desse teste
@@ -156,10 +157,11 @@ public:
             tempo_teste = timerEnd();//marca o tempo final
 
             //salva em disco para obter a taxa de compressão de armazenamento
-            lzw->salvarEmDisco(getDiretorioTempCompressao() + "lzw_original" + to_string(tamDataset) + ".txt", getDiretorioTempCompressao() + "lzw_compactado" + to_string(tamDataset) + ".lzw");
+            lzw->salvarEmDisco(getDiretorioTempCompressao() + "lzw_original" + to_string(tamDataset) + ".txt",
+                               getDiretorioTempCompressao() + "lzw_compactado" + to_string(tamDataset) + ".lzw");
             lzw->calculaEstatisticas();
 
-            lzw->descompactar("lzw_compactado.lzw");
+            //lzw->descompactar("lzw_compactado.lzw");
 
             //salva os resultados
             temposDeExecucao[1][t] = tempo_teste;
