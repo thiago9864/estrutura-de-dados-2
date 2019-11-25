@@ -19,8 +19,8 @@
 
 class ArvoreB : public BaseArvores
 {
-    NoB *raiz;
-    int t;
+    NoB *raiz; //ponteiro pra raiz
+    int t; // grau minimo
 
 public:
     ArvoreB(int _t)

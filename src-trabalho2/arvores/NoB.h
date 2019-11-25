@@ -16,11 +16,11 @@
 class NoB
 {
 private:
-    int *chave;
-    int t;
-    NoB **C;
-    int n;
-    bool folha;
+    int *chave; // ponteiro que aponta pra um vetor com as chaves
+    int t; // grau minimo
+    NoB **C; // ponteiro que aponta pra um vetor de ponteiros com os filhos
+    int n; // Numero de nos atuais
+    bool folha; // booleano é folha
 
 public:
     NoB(int t1, bool folha1)
