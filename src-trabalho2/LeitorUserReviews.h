@@ -82,7 +82,7 @@ class LeitorUserReviews : protected LeitorBase
             while (getline(arqEntrada, line))
             {
                 vector<string> result = explode(line, ',');
-
+                //cout << line << endl;
                 //obtem o numero de colunas e extrai o header
                 if(!headerProcessado){
                     headerProcessado=true;
@@ -100,9 +100,9 @@ class LeitorUserReviews : protected LeitorBase
                         pos=getRand(numRegistros);
                     }
 
-                    if(linhas_inseridas %500000 == 0){
+                    /*if(linhas_inseridas > 0 && linhas_inseridas %100000 == 0){
                         cout << linhas_inseridas << " registros lidos" << endl;
-                    }
+                    }*/
 
                     //cria objeto na posicao
                     UserReview u;

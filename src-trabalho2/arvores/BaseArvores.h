@@ -9,7 +9,7 @@
 #ifndef BASEARVORES_H
 #define BASEARVORES_H
 #include <iostream>
-
+#include "NoB.h"
 using namespace std;
 
 /**
@@ -24,18 +24,18 @@ class BaseArvores
 
         /**
          * Obtem o numero de comparacoes
-         * @return uint64_t 
+         * @return uint64_t
          */
         uint64_t getNumComparacoes(){
-            return numComparacoes;
+            return numComparacoes + NoB::numComparacoes;
         }
 
         /**
          * Obtem o numero de copias
-         * @return uint64_t 
+         * @return uint64_t
          */
         uint64_t getNumCopias(){
-            return numCopias;
+            return numCopias + NoB::numCopias;
         }
 
         /**
@@ -61,7 +61,7 @@ class BaseArvores
         void registraCopia(){
             numCopias++;
         }
-        
+
     private:
         uint64_t numComparacoes;
         uint64_t numCopias;
