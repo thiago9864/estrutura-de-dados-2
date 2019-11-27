@@ -60,6 +60,7 @@ class ArvoreRubroNegraObjetos : public BaseArvores
             if(p == nullptr)
             {
                 this->registraComparacao();
+                this->registraCopia();
                 p = new NoRubroNegro();
                 p->value = valor;
                 p->color = 0; //Preta para raiz
@@ -82,6 +83,7 @@ class ArvoreRubroNegraObjetos : public BaseArvores
                 p->parent = pai;
                 p->value= valor;
                 this->registraComparacao();
+                this->registraCopia();
 
                 if(valor.id > pai->value.id)
                 {
