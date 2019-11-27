@@ -28,7 +28,7 @@
 
 #elif defined(__linux__) || defined(__linux) || defined(linux) || defined(__gnu_linux__)
 //includes para linux
-#include <direct.h>
+#include <unistd.h>
 
 #endif
 

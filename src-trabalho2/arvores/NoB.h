@@ -11,7 +11,7 @@
 */
 
 #ifndef SRC_TRABALHO2_NoB_H
-#define SRC_TRABALHO2_No_H
+#define SRC_TRABALHO2_NoB_H
 
 class NoB
 {
@@ -23,6 +23,9 @@ private:
     bool folha; // booleano é folha
 
 public:
+    static int numCopias;
+    static int numComparacoes;
+
     NoB(int t1, bool folha1)
     {
         t = t1;
@@ -30,7 +33,8 @@ public:
 
         chave = new int[2 * t - 1];
         C = new NoB *[2 * t];
-
+        numCopias = 0;
+        numComparacoes = 0;
         n = 0;
     }
 
@@ -67,6 +71,7 @@ public:
             while (i >= 0 && chave[i] > k)
             {
                 chave[i + 1] = chave[i];
+                NoB::numCopias++;
                 i--;
             }
 
@@ -334,5 +339,9 @@ public:
 
     friend class ArvoreB;
 };
+
+// Initialize static member of class Box
+int NoB::numComparacoes = 0;
+int NoB::numCopias = 0;
 
 #endif //SRC_TRABALHO2_NoB_H
