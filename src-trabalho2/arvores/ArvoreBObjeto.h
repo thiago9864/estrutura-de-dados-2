@@ -51,6 +51,8 @@ public:
             raiz = new NoBObjeto<UserReview>(t, true);
             raiz->chave[0] = k;
             raiz->n = 1;
+            registraCopia();
+            registraCopia();
         }
         else
         {
@@ -59,12 +61,16 @@ public:
                 NoBObjeto<UserReview> *s = new NoBObjeto<UserReview>(t, false);
 
                 s->C[0] = raiz;
+                registraCopia();
 
                 s->dividefilho(0, raiz);
 
                 int i = 0;
                 if (s->chave[0].id < k.id)
+                {
+                    registraComparacao();
                     i++;
+                }
                 s->C[i]->inserenaocheio(k);
 
                 raiz = s;
@@ -86,12 +92,16 @@ public:
 
         if (raiz->n == 0)
         {
+            registraComparacao();
             NoBObjeto<UserReview> *tmp = raiz;
             if (raiz->folha)
                 raiz = NULL;
             else
+            {
                 raiz = raiz->C[0];
 
+                registraCopia();
+            }
             delete tmp;
         }
         return;
