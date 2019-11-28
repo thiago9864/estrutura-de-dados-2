@@ -15,7 +15,7 @@
 #include <time.h>
 #include <random>
 #include <chrono>
-#include <direct.h>
+//#include <direct.h>
 #include "UserReview.h"
 
 #if defined(_WIN32)
@@ -224,7 +224,7 @@ class LeitorBase
             return CreateDirectoryW(sw, NULL );
             #elif defined(__unix__) || defined(__unix) || defined(unix) || (defined(__APPLE__) && defined(__MACH__))
             /* Linux/Mac -------------------------------------------------- */
-            return mkdir(caminho);
+          //  return mkdir(caminho);
             #endif
         }
 

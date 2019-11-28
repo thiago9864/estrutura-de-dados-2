@@ -44,6 +44,8 @@ class BaseArvores
         void resetContadores(){
             numComparacoes = 0;
             numCopias = 0;
+            NoB::numComparacoes=0;
+            NoB::numCopias=0;
         }
 
         /**

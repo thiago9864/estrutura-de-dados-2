@@ -48,7 +48,9 @@ public:
         {
 
             raiz = new NoB(t, true);
+            registraCopia();
             raiz->chave[0] = k;
+            registraCopia();
             raiz->n = 1;
         }
         else
@@ -58,42 +60,48 @@ public:
                 NoB *s = new NoB(t, false);
 
                 s->C[0] = raiz;
+                registraCopia();
 
                 s->dividefilho(0, raiz);
 
                 int i = 0;
-                if (s->chave[0] < k)
-                    i++;
-                s->C[i]->inserenaocheio(k);
-
-                raiz = s;
+                if (s->chave[0] < k) {
+                registraComparacao();
+                i++;
             }
-            else
-                raiz->inserenaocheio(k);
+            s->C[i]->inserenaocheio(k);
+
+            raiz = s;
         }
+        else
+            raiz->inserenaocheio(k);
     }
 
-    void remove(int k)
+
+void remove(int k)
+{
+    if (!raiz)
     {
-        if (!raiz)
-        {
-            cout << "A arvore está vazia\n";
-            return;
-        }
-
-        raiz->remove(k);
-
-        if (raiz->n == 0)
-        {
-            NoB *tmp = raiz;
-            if (raiz->folha)
-                raiz = NULL;
-            else
-                raiz = raiz->C[0];
-
-            delete tmp;
-        }
+        cout << "A arvore está vazia\n";
         return;
     }
+
+    raiz->remove(k);
+
+    if (raiz->n == 0)
+    {
+        registraComparacao();
+        NoB *tmp = raiz;
+        if (raiz->folha)
+            raiz = NULL;
+        else
+        {
+            raiz = raiz->C[0];
+            registraCopia();
+        }
+        delete tmp;
+    }
+    return;
+}
 };
 #endif //SRC_TRABALHO2_ARVOREB_H

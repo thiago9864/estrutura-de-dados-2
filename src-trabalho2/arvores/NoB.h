@@ -23,8 +23,8 @@ private:
     bool folha; // booleano é folha
 
 public:
-    static int numCopias;
-    static int numComparacoes;
+    static int numCopias; // contador para o numero de copia feitas, excluindo copias com intuito de percorrer a arvore
+    static int numComparacoes;  // contador para o numero de comparações feitas, excluindo comparações com Null e se é folha
 
     NoB(int t1, bool folha1)
     {
@@ -57,7 +57,7 @@ public:
     {
         int idx = 0;
         while (idx < n && chave[idx] < k)
-            ++idx;
+            idx++;
         return idx;
     }
 
@@ -70,26 +70,35 @@ public:
 
             while (i >= 0 && chave[i] > k)
             {
+                NoB::numComparacoes++;
                 chave[i + 1] = chave[i];
                 NoB::numCopias++;
                 i--;
             }
 
             chave[i + 1] = k;
+            NoB::numCopias++;
             n = n + 1;
         }
         else
         {
 
             while (i >= 0 && chave[i] > k)
+            {
                 i--;
+                NoB::numComparacoes++;
+            }
 
             if (C[i + 1]->n == 2 * t - 1)
             {
+                NoB::numComparacoes++;
                 dividefilho(i + 1, C[i + 1]);
 
                 if (chave[i + 1] < k)
+                {
                     i++;
+                    NoB::numComparacoes++;
+                }
             }
             C[i + 1]->inserenaocheio(k);
         }
@@ -102,8 +111,10 @@ public:
         z->n = t - 1;
 
         for (int j = 0; j < t - 1; j++)
+        {
             z->chave[j] = y->chave[j + t];
-
+            NoB::numCopias++;
+        }
         if (y->folha == false)
         {
             for (int j = 0; j < t; j++)
@@ -113,14 +124,24 @@ public:
         y->n = t - 1;
 
         for (int j = n; j >= i + 1; j--)
+        {
+            NoB::numComparacoes++;
             C[j + 1] = C[j];
+            NoB::numCopias++;
+        }
 
         C[i + 1] = z;
+        NoB::numCopias++;
 
         for (int j = n - 1; j >= i; j--)
+        {
+            NoB::numComparacoes++;
             chave[j + 1] = chave[j];
+            NoB::numCopias++;
+        }
 
         chave[i] = y->chave[t - 1];
+        NoB::numCopias++;
 
         n = n + 1;
     }
@@ -132,6 +153,7 @@ public:
 
         if (idx < n && chave[idx] == k)
         {
+            NoB::numComparacoes++;
 
             if (folha)
                 removefolha(idx);
@@ -164,7 +186,10 @@ public:
     {
 
         for (int i = idx + 1; i < n; ++i)
+        {
             chave[i - 1] = chave[i];
+            NoB::numComparacoes++;
+        }
 
         n--;
 
@@ -178,6 +203,7 @@ public:
 
         if (C[idx]->n >= t)
         {
+            NoB::numComparacoes++;
             int pred = getPred(idx);
             chave[idx] = pred;
             C[idx]->remove(pred);
@@ -185,6 +211,7 @@ public:
 
         else if (C[idx + 1]->n >= t)
         {
+            NoB::numComparacoes++;
             int succ = getSucc(idx);
             chave[idx] = succ;
             C[idx + 1]->remove(succ);
@@ -202,6 +229,7 @@ public:
     {
 
         NoB *cur = C[idx];
+        NoB::numCopias++;
         while (!cur->folha)
             cur = cur->C[cur->n];
 
@@ -211,6 +239,7 @@ public:
     int getSucc(int idx)
     {
         NoB *cur = C[idx + 1];
+        NoB::numCopias++;
         while (!cur->folha)
             cur = cur->C[0];
 
@@ -221,15 +250,24 @@ public:
     {
 
         if (idx != 0 && C[idx - 1]->n >= t)
+        {
+
+            NoB::numComparacoes++;
             emprestaant(idx);
-
+        }
         else if (idx != n && C[idx + 1]->n >= t)
+        {
             emprestaprox(idx);
-
+            NoB::numComparacoes++;
+        }
         else
         {
+            NoB::numComparacoes++;
             if (idx != n)
+            {
                 juntar(idx);
+
+            }
             else
                 juntar(idx - 1);
         }
@@ -240,10 +278,16 @@ public:
     {
 
         NoB *filho = C[idx];
+        NoB::numCopias++;
         NoB *irmao = C[idx - 1];
+        NoB::numCopias++;
 
         for (int i = filho->n - 1; i >= 0; --i)
+        {
             filho->chave[i + 1] = filho->chave[i];
+            NoB::numCopias++;
+            NoB::numComparacoes++;
+        }
 
         if (!filho->folha)
         {
@@ -252,11 +296,13 @@ public:
         }
 
         filho->chave[0] = chave[idx - 1];
+        NoB::numCopias++;
 
         if (!filho->folha)
             filho->C[0] = irmao->C[irmao->n];
 
         chave[idx - 1] = irmao->chave[irmao->n - 1];
+        NoB::numCopias++;
 
         filho->n += 1;
         irmao->n -= 1;
@@ -268,18 +314,25 @@ public:
     {
 
         NoB *filho = C[idx];
+        NoB::numCopias++;
         NoB *irmao = C[idx + 1];
+        NoB::numCopias++;
 
         filho->chave[(filho->n)] = chave[idx];
+        NoB::numCopias++;
 
         if (!(filho->folha))
             filho->C[(filho->n) + 1] = irmao->C[0];
 
         chave[idx] = irmao->chave[0];
+        NoB::numCopias++;
 
         for (int i = 1; i < irmao->n; ++i)
+        {
             irmao->chave[i - 1] = irmao->chave[i];
-
+            NoB::numCopias++;
+            NoB::numComparacoes++;
+        }
         if (!irmao->folha)
         {
             for (int i = 1; i <= irmao->n; ++i)
@@ -295,12 +348,19 @@ public:
     void juntar(int idx)
     {
         NoB *filho = C[idx];
+        NoB::numCopias++;
         NoB *irmao = C[idx + 1];
+        NoB::numCopias++;
 
         filho->chave[t - 1] = chave[idx];
+        NoB::numCopias++;
 
         for (int i = 0; i < irmao->n; ++i)
+        {
             filho->chave[i + t] = irmao->chave[i];
+            NoB::numCopias++;
+            NoB::numComparacoes++;
+        }
 
         if (!filho->folha)
         {
@@ -309,11 +369,18 @@ public:
         }
 
         for (int i = idx + 1; i < n; ++i)
+        {
             chave[i - 1] = chave[i];
+            NoB::numCopias++;
+            NoB::numComparacoes++;
+        }
 
         for (int i = idx + 2; i <= n; ++i)
+        {
             C[i - 1] = C[i];
-
+            NoB::numCopias++;
+            NoB::numComparacoes++;
+        }
         filho->n += irmao->n + 1;
         n--;
 
