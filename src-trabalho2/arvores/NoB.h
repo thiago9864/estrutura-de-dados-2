@@ -4,27 +4,23 @@
     Propósito: Classe para implementar o NoB usando inteiros como chave
 
     @author: Luan Reis Ciribelli
-    @version 1.0 27/10/2019
+    @version 1.0 27/11/2019
 */
 
 #ifndef SRC_TRABALHO2_NoB_H
 #define SRC_TRABALHO2_NoB_H
 
-
-
-
 class NoB
 {
 private:
     int *chave; // ponteiro que aponta pra um vetor com as chaves
-    int t; // grau minimo
-    NoB **C; // ponteiro que aponta pra um vetor de ponteiros com os filhos
-    int n; // Numero de nos atuais
+    int t;      // grau minimo
+    NoB **C;    // ponteiro que aponta pra um vetor de ponteiros com os filhos
+    int n;      // Numero de nos atuais
     bool folha; // booleano é folha
 
 public:
-
-    NoB(int t1, bool folha1)
+    NoB(int t1, bool folha1) // construtor do Nó que recebe a ordem e se é folha
     {
         t = t1;
         folha = folha1;
@@ -33,7 +29,7 @@ public:
         C = new NoB *[2 * t];
         n = 0;
     }
-
+    // Função que procura um  Nó, ela é um ponteiro e percorre a arvore usando a estrategia binaria
     NoB *procura(int k)
     {
         int i = 0;
@@ -48,7 +44,7 @@ public:
 
         return C[i]->procura(k);
     }
-
+    // Função que procura uma chave especifica em um Nó, por meio do percorrimento da arvore
     int achachave(int k)
     {
         int idx = 0;
@@ -56,6 +52,7 @@ public:
             idx++;
         return idx;
     }
+    // Insere num vetor que tem espaço sobrando, onde ele simplismente precisa achar a posição necessaria e inserir
 
     void inserenaocheio(int k)
     {
@@ -100,6 +97,7 @@ public:
         }
     }
 
+    // Dá o split do filho pra inserção de um novo valor, a função dá um split classico onde ele divide o filho em dois, encaixa o valor requerido e depois retorna os dois vetores e qual numero irá "subir"
     void dividefilho(int i, NoB *y)
     {
 
@@ -142,6 +140,7 @@ public:
 
         n = n + 1;
     }
+    // Remove um Nó especificado, usando as duas funções auxiliares "removefolha" e "removenaofolha" permitindo que ele remova da forma mais eficiente possivel
 
     void remove(int k)
     {
@@ -178,7 +177,7 @@ public:
         }
         return;
     }
-
+    // Função chamada pela remove que faz uma remoção caso o Nó seja uma folha
     void removefolha(int idx)
     {
 
@@ -192,6 +191,7 @@ public:
 
         return;
     }
+    // Função chamada pela remove que faz uma remoção caso o Nó não seja uma folha, resolvendo as trocas de ponteiros e verificando se não são criadas chaves com tamanhos menores que a ordem
 
     void removenaofolha(int idx)
     {
@@ -222,7 +222,7 @@ public:
         return;
     }
 
-    int getPred(int idx)
+    int getPred(int idx) // Pega o predecessor
     {
 
         NoB *cur = C[idx];
@@ -233,7 +233,7 @@ public:
         return cur->chave[cur->n - 1];
     }
 
-    int getSucc(int idx)
+    int getSucc(int idx) // Pega o sucessor
     {
         NoB *cur = C[idx + 1];
         Contador::getInstance().registraCopia();
@@ -243,7 +243,7 @@ public:
         return cur->chave[0];
     }
 
-    void preenche(int idx)
+    void preenche(int idx) // Função que preenche a arvore
     {
 
         if (idx != 0 && C[idx - 1]->n >= t)
@@ -262,7 +262,6 @@ public:
             if (idx != n)
             {
                 juntar(idx);
-
             }
             else
                 juntar(idx - 1);
@@ -270,7 +269,7 @@ public:
         return;
     }
 
-    void emprestaant(int idx)
+    void emprestaant(int idx) //empresta o Nó anterior
     {
 
         NoB *filho = C[idx];
@@ -306,7 +305,8 @@ public:
         return;
     }
 
-    void emprestaprox(int idx)
+    void emprestaprox(int idx) //empresta o Nó seguinte
+
     {
 
         NoB *filho = C[idx];
@@ -341,7 +341,7 @@ public:
         return;
     }
 
-    void juntar(int idx)
+    void juntar(int idx) //Função que dá o "merge" entre dois Nós
     {
         NoB *filho = C[idx];
         NoB *irmao = C[idx + 1];
@@ -381,7 +381,7 @@ public:
         return;
     }
 
-    void percorre()
+    void percorre() // função que percorre a arvore
     {
 
         int i;
@@ -397,7 +397,7 @@ public:
             C[i]->percorre();
     }
 
-    friend class ArvoreB;
+    friend class ArvoreB; //Marcando a arvore que usa esses nós como "amiga" para permiti-la usar os seus privados
 };
 
 #endif //SRC_TRABALHO2_NoB_H

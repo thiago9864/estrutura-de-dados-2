@@ -4,7 +4,7 @@
     Propósito: Classe para implementar o NoB usando Objetos como chave
 
     @author: Luan Reis Ciribelli
-    @version 1.0 27/10/2019
+    @version 1.0 27/11/2019
 */
 
 #ifndef SRC_TRABALHO2_NoBObjeto_H
@@ -16,15 +16,14 @@
 class NoBObjeto
 {
 private:
-    UserReview *chave;
-    int t;
-    NoBObjeto **C;
-    int n;
-    bool folha;
+    UserReview *chave; // ponteiro que aponta pra um vetor com as chaves
+    int t;             // grau minimo
+    NoBObjeto **C;     // ponteiro que aponta pra um vetor de ponteiros com os filhos
+    int n;             // Numero de nos atuais
+    bool folha;        // booleano é folha
 
 public:
-
-    NoBObjeto(int t1, bool folha1)
+    NoBObjeto(int t1, bool folha1) // construtor do Nó que recebe a ordem e se é folha
     {
         t = t1;
         folha = folha1;
@@ -37,6 +36,7 @@ public:
         //numComparacoes = 0;
     }
 
+    // Função que procura um  Nó, ela é um ponteiro e percorre a arvore usando a estrategia binaria
     NoBObjeto *procura(UserReview k)
     {
         int i = 0;
@@ -51,7 +51,7 @@ public:
 
         return C[i]->procura(k);
     }
-
+    // Função que procura uma chave especifica em um Nó, por meio do percorrimento da arvore
     int achachave(UserReview k)
     {
         int idx = 0;
@@ -59,6 +59,7 @@ public:
             ++idx;
         return idx;
     }
+    // Insere num vetor que tem espaço sobrando, onde ele simplismente precisa achar a posição necessaria e inserir
 
     void inserenaocheio(UserReview k)
     {
@@ -102,6 +103,7 @@ public:
             C[i + 1]->inserenaocheio(k);
         }
     }
+    // Dá o split do filho pra inserção de um novo valor, a função dá um split classico onde ele divide o filho em dois, encaixa o valor requerido e depois retorna os dois vetores e qual numero irá "subir"
 
     void dividefilho(int i, NoBObjeto *y)
     {
@@ -144,9 +146,9 @@ public:
         chave[i] = y->chave[t - 1];
         Contador::getInstance().registraCopia();
 
-
         n = n + 1;
     }
+    // Remove um Nó especificado, usando as duas funções auxiliares "removefolha" e "removenaofolha" permitindo que ele remova da forma mais eficiente possivel
 
     void remove(UserReview k)
     {
@@ -182,12 +184,12 @@ public:
         }
         return;
     }
-
+    // Função chamada pela remove que faz uma remoção caso o Nó seja uma folha
     void removefolha(int idx)
     {
 
         for (int i = idx + 1; i < n; ++i)
-             {
+        {
             chave[i - 1] = chave[i];
             Contador::getInstance().registraComparacao();
         }
@@ -196,6 +198,7 @@ public:
 
         return;
     }
+    // Função chamada pela remove que faz uma remoção caso o Nó não seja uma folha, resolvendo as trocas de ponteiros e verificando se não são criadas chaves com tamanhos menores que a ordem
 
     void removenaofolha(int idx)
     {
@@ -226,7 +229,7 @@ public:
         return;
     }
 
-    UserReview getPred(int idx)
+    UserReview getPred(int idx) // Pega o predecessor
     {
         NoBObjeto *cur = C[idx];
         Contador::getInstance().registraCopia();
@@ -236,7 +239,7 @@ public:
         return cur->chave[cur->n - 1];
     }
 
-    UserReview getSucc(int idx)
+    UserReview getSucc(int idx) // Pega o sucessor
     {
         NoBObjeto *cur = C[idx + 1];
         Contador::getInstance().registraCopia();
@@ -245,7 +248,7 @@ public:
 
         return cur->chave[0];
     }
-
+    // Função que preenche a arvore
     void preenche(int idx)
     {
 
@@ -270,7 +273,7 @@ public:
         }
         return;
     }
-
+    //empresta o Nó anterior
     void emprestaant(int idx)
     {
 
@@ -279,11 +282,12 @@ public:
         Contador::getInstance().registraCopia();
         Contador::getInstance().registraCopia();
 
-        for (int i = filho->n - 1; i >= 0; --i){
+        for (int i = filho->n - 1; i >= 0; --i)
+        {
             filho->chave[i + 1] = filho->chave[i];
             Contador::getInstance().registraCopia();
             Contador::getInstance().registraComparacao();
-            }
+        }
 
         if (!filho->folha)
         {
@@ -305,7 +309,7 @@ public:
 
         return;
     }
-
+    //empresta o Nó seguinte
     void emprestaprox(int idx)
     {
 
@@ -324,7 +328,7 @@ public:
         Contador::getInstance().registraCopia();
 
         for (int i = 1; i < irmao->n; ++i)
-           {
+        {
             irmao->chave[i - 1] = irmao->chave[i];
             Contador::getInstance().registraCopia();
             Contador::getInstance().registraComparacao();
@@ -342,7 +346,7 @@ public:
         return;
     }
 
-    void juntar(int idx)
+    void juntar(int idx) //Função que dá o "merge" entre dois Nós
     {
         NoBObjeto *filho = C[idx];
         NoBObjeto *irmao = C[idx + 1];
@@ -351,9 +355,9 @@ public:
 
         filho->chave[t - 1] = chave[idx];
         Contador::getInstance().registraCopia();
-        
+
         for (int i = 0; i < irmao->n; ++i)
-            {
+        {
             filho->chave[i + t] = irmao->chave[i];
             Contador::getInstance().registraCopia();
         }
@@ -365,13 +369,13 @@ public:
         }
 
         for (int i = idx + 1; i < n; ++i)
-            {
+        {
             chave[i - 1] = chave[i];
             Contador::getInstance().registraCopia();
         }
 
         for (int i = idx + 2; i <= n; ++i)
-           {
+        {
             C[i - 1] = C[i];
             Contador::getInstance().registraCopia();
         }
@@ -382,7 +386,7 @@ public:
         delete (irmao);
         return;
     }
-
+    // função que percorre a arvore
     void percorre()
     {
 
@@ -399,7 +403,7 @@ public:
             C[i]->percorre();
     }
 
-    friend class ArvoreBObjeto;
+    friend class ArvoreBObjeto; //Marcando a arvore que usa esses nós como "amiga" para permiti-la usar os seus privados
 };
 
 #endif //SRC_TRABALHO2_NoBObjeto_H

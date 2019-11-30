@@ -4,7 +4,7 @@
     Propósito: Classe para implementar a arvore B
 
     @author: Luan Reis Ciribelli
-    @version 1.0 27/10/2019
+    @version 1.0 27/11/2019
 
 
 
@@ -21,25 +21,28 @@ class ArvoreB : public BaseArvores
 {
 private:
     NoB *raiz; //ponteiro pra raiz
-    int t; // grau minimo
+    int t;     // grau minimo
 
 public:
-    ArvoreB(int _t)
+    ArvoreB(int _t) //construtor arvore
     {
         raiz = NULL;
         t = _t;
     }
+    // função que percorre a arvore chamando a função equivalente no Nó, começando pela raiz
 
     void percorre()
     {
         if (raiz != NULL)
             raiz->percorre();
     }
+    // função que procura um Nó arvore chamando a função equivalente no Nó
 
     NoB *procura(int k)
     {
         return (raiz == NULL) ? NULL : raiz->procura(k);
     }
+    // Função que insere na arvore usando os metodos "inserenaocheio" e "dividefilho", implementadas no Nó
 
     void insert(int k)
     {
@@ -72,11 +75,13 @@ public:
 
                 raiz = s;
             }
-            else {
+            else
+            {
                 raiz->inserenaocheio(k);
             }
         }
     }
+    // Função que remove um Nó passado, utiliza a função "remove" implementada no Nó.
 
     void remove(int k)
     {
