@@ -20,8 +20,8 @@ template <class T>
 class ArvoreRubroNegra : public BaseArvores{
 
     private:
-        No<T> *root;
-        int N;
+        No<T> *root; // Nó raiz
+        int N; // número de elementos da árvore
 
     public:
 
@@ -419,7 +419,8 @@ class ArvoreRubroNegra : public BaseArvores{
             }
             return p;
         };
-
+        
+        //  Função que remove um Nó
         No<T>* casoDoisFilhos(T valor,No<T>* p)
         {
             No<T>* aux;
@@ -436,7 +437,8 @@ class ArvoreRubroNegra : public BaseArvores{
             removerNo(valor,p->rightChild);
             return p;
         };
-
+        
+        //  Função de remoção, para caso do nó ser uma folha
         No<T>* casoNoFolha(No<T>* p)
         {
             this->registraComparacao();
@@ -506,7 +508,8 @@ class ArvoreRubroNegra : public BaseArvores{
             }
             return nullptr;
         };
-
+        
+        //  Função que troca a cor de um nó
         void trocarCor(No<T>* p)
         {
             if(p->color)
@@ -515,7 +518,8 @@ class ArvoreRubroNegra : public BaseArvores{
                 p->color = true;
 
         };
-
+        
+        // Função que faz a rotação de um Nó para a direita
         No<T>* rotacaoSimplesDir(No<T>* p)
         {
             No<T>* pai = p->leftChild;
@@ -546,7 +550,8 @@ class ArvoreRubroNegra : public BaseArvores{
 
             return pai;
         };
-
+        
+        // Função que faz a rotação dupla de um Nó Esquerda-Direita
         No<T>* rotacaoDuplaEsqDir(No<T>* p)
         {
             No<T>* pai = p->leftChild;
@@ -555,7 +560,8 @@ class ArvoreRubroNegra : public BaseArvores{
             p->leftChild->parent = p;
             return rotacaoSimplesDir(p);
         };
-
+        
+        // Função que faz a rotação dupla de um Nó Direita-Esquerda
         No<T>* rotacaoDuplaDirEsq(No<T>* p)
         {
             No<T>* pai = p->leftChild;
