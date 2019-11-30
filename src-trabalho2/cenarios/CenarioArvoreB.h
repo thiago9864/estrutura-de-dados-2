@@ -7,6 +7,7 @@
     @version 1.0 18/10/19
 */
 
+
 #ifndef CENARIOARVOREB_H
 #define CENARIOARVOREB_H
 #include <iostream>
@@ -51,10 +52,10 @@ public:
 
         numAlgoritmos = 4;
         algoritmos = new string[numAlgoritmos];
-        algoritmos[0] = "Arvore B (Objetos, com d=2)";
-        algoritmos[1] = "Arvore B (Objetos, com d=20)";
-        algoritmos[2] = "Arvore B (Inteiros, com d=2)";
-        algoritmos[3] = "Arvore B (Inteiros, com d=20)";
+        algoritmos[0] = "Arvore B (Objetos com d=2)";
+        algoritmos[1] = "Arvore B (Objetos com d=20)";
+        algoritmos[2] = "Arvore B (Inteiros com d=2)";
+        algoritmos[3] = "Arvore B (Inteiros com d=20)";
 
         //cria os vetores de teste
         temposDeExecucao = new double*[numAlgoritmos];
@@ -102,6 +103,7 @@ public:
             //inicialização do algoritmo
             ArvoreBObjeto* arvoreObjetos = new ArvoreBObjeto(2);
             arvoreObjetos->resetContadores();
+
 
             timerStart();//marca o tempo inicial
 

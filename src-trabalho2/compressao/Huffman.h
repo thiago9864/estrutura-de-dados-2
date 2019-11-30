@@ -6,7 +6,8 @@
 #define ESTRUTURA_DE_DADOS_2_HUFFMAN_H
 #include <iostream>
 #include <string>
-#include <bits/stdc++.h>
+//#include <bits/stdc++.h>
+#include "../stdc++.h"
 #include "BaseCompressao.h"
 
 using namespace std;

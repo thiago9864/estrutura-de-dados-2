@@ -5,13 +5,13 @@
 
     @author: Luan Reis Ciribelli
     @version 1.0 27/10/2019
-
-
-
 */
 
 #ifndef SRC_TRABALHO2_NoB_H
 #define SRC_TRABALHO2_NoB_H
+
+
+
 
 class NoB
 {
@@ -23,8 +23,6 @@ private:
     bool folha; // booleano é folha
 
 public:
-    static int numCopias; // contador para o numero de copia feitas, excluindo copias com intuito de percorrer a arvore
-    static int numComparacoes;  // contador para o numero de comparações feitas, excluindo comparações com Null e se é folha
 
     NoB(int t1, bool folha1)
     {
@@ -33,8 +31,6 @@ public:
 
         chave = new int[2 * t - 1];
         C = new NoB *[2 * t];
-        numCopias = 0;
-        numComparacoes = 0;
         n = 0;
     }
 
@@ -70,14 +66,14 @@ public:
 
             while (i >= 0 && chave[i] > k)
             {
-                NoB::numComparacoes++;
+                Contador::getInstance().registraComparacao();
                 chave[i + 1] = chave[i];
-                NoB::numCopias++;
+                Contador::getInstance().registraCopia();
                 i--;
             }
 
             chave[i + 1] = k;
-            NoB::numCopias++;
+            Contador::getInstance().registraCopia();
             n = n + 1;
         }
         else
@@ -86,18 +82,18 @@ public:
             while (i >= 0 && chave[i] > k)
             {
                 i--;
-                NoB::numComparacoes++;
+                Contador::getInstance().registraComparacao();
             }
 
             if (C[i + 1]->n == 2 * t - 1)
             {
-                NoB::numComparacoes++;
+                Contador::getInstance().registraComparacao();
                 dividefilho(i + 1, C[i + 1]);
 
                 if (chave[i + 1] < k)
                 {
                     i++;
-                    NoB::numComparacoes++;
+                    Contador::getInstance().registraComparacao();
                 }
             }
             C[i + 1]->inserenaocheio(k);
@@ -113,8 +109,9 @@ public:
         for (int j = 0; j < t - 1; j++)
         {
             z->chave[j] = y->chave[j + t];
-            NoB::numCopias++;
+            Contador::getInstance().registraCopia();
         }
+
         if (y->folha == false)
         {
             for (int j = 0; j < t; j++)
@@ -125,23 +122,23 @@ public:
 
         for (int j = n; j >= i + 1; j--)
         {
-            NoB::numComparacoes++;
+            Contador::getInstance().registraComparacao();
             C[j + 1] = C[j];
-            NoB::numCopias++;
+            Contador::getInstance().registraCopia();
         }
 
         C[i + 1] = z;
-        NoB::numCopias++;
+        Contador::getInstance().registraCopia();
 
         for (int j = n - 1; j >= i; j--)
         {
-            NoB::numComparacoes++;
+            Contador::getInstance().registraComparacao();
             chave[j + 1] = chave[j];
-            NoB::numCopias++;
+            Contador::getInstance().registraCopia();
         }
 
         chave[i] = y->chave[t - 1];
-        NoB::numCopias++;
+        Contador::getInstance().registraCopia();
 
         n = n + 1;
     }
@@ -153,7 +150,7 @@ public:
 
         if (idx < n && chave[idx] == k)
         {
-            NoB::numComparacoes++;
+            Contador::getInstance().registraComparacao();
 
             if (folha)
                 removefolha(idx);
@@ -188,7 +185,7 @@ public:
         for (int i = idx + 1; i < n; ++i)
         {
             chave[i - 1] = chave[i];
-            NoB::numComparacoes++;
+            Contador::getInstance().registraComparacao();
         }
 
         n--;
@@ -203,7 +200,7 @@ public:
 
         if (C[idx]->n >= t)
         {
-            NoB::numComparacoes++;
+            Contador::getInstance().registraComparacao();
             int pred = getPred(idx);
             chave[idx] = pred;
             C[idx]->remove(pred);
@@ -211,7 +208,7 @@ public:
 
         else if (C[idx + 1]->n >= t)
         {
-            NoB::numComparacoes++;
+            Contador::getInstance().registraComparacao();
             int succ = getSucc(idx);
             chave[idx] = succ;
             C[idx + 1]->remove(succ);
@@ -229,7 +226,7 @@ public:
     {
 
         NoB *cur = C[idx];
-        NoB::numCopias++;
+        Contador::getInstance().registraCopia();
         while (!cur->folha)
             cur = cur->C[cur->n];
 
@@ -239,7 +236,7 @@ public:
     int getSucc(int idx)
     {
         NoB *cur = C[idx + 1];
-        NoB::numCopias++;
+        Contador::getInstance().registraCopia();
         while (!cur->folha)
             cur = cur->C[0];
 
@@ -251,18 +248,17 @@ public:
 
         if (idx != 0 && C[idx - 1]->n >= t)
         {
-
-            NoB::numComparacoes++;
+            Contador::getInstance().registraComparacao();
             emprestaant(idx);
         }
         else if (idx != n && C[idx + 1]->n >= t)
         {
             emprestaprox(idx);
-            NoB::numComparacoes++;
+            Contador::getInstance().registraComparacao();
         }
         else
         {
-            NoB::numComparacoes++;
+            Contador::getInstance().registraComparacao();
             if (idx != n)
             {
                 juntar(idx);
@@ -278,15 +274,15 @@ public:
     {
 
         NoB *filho = C[idx];
-        NoB::numCopias++;
         NoB *irmao = C[idx - 1];
-        NoB::numCopias++;
+        Contador::getInstance().registraCopia();
+        Contador::getInstance().registraCopia();
 
         for (int i = filho->n - 1; i >= 0; --i)
         {
             filho->chave[i + 1] = filho->chave[i];
-            NoB::numCopias++;
-            NoB::numComparacoes++;
+            Contador::getInstance().registraCopia();
+            Contador::getInstance().registraComparacao();
         }
 
         if (!filho->folha)
@@ -296,13 +292,13 @@ public:
         }
 
         filho->chave[0] = chave[idx - 1];
-        NoB::numCopias++;
+        Contador::getInstance().registraCopia();
 
         if (!filho->folha)
             filho->C[0] = irmao->C[irmao->n];
 
         chave[idx - 1] = irmao->chave[irmao->n - 1];
-        NoB::numCopias++;
+        Contador::getInstance().registraCopia();
 
         filho->n += 1;
         irmao->n -= 1;
@@ -314,24 +310,24 @@ public:
     {
 
         NoB *filho = C[idx];
-        NoB::numCopias++;
         NoB *irmao = C[idx + 1];
-        NoB::numCopias++;
+        Contador::getInstance().registraCopia();
+        Contador::getInstance().registraCopia();
 
         filho->chave[(filho->n)] = chave[idx];
-        NoB::numCopias++;
+        Contador::getInstance().registraCopia();
 
         if (!(filho->folha))
             filho->C[(filho->n) + 1] = irmao->C[0];
 
         chave[idx] = irmao->chave[0];
-        NoB::numCopias++;
+        Contador::getInstance().registraCopia();
 
         for (int i = 1; i < irmao->n; ++i)
         {
             irmao->chave[i - 1] = irmao->chave[i];
-            NoB::numCopias++;
-            NoB::numComparacoes++;
+            Contador::getInstance().registraCopia();
+            Contador::getInstance().registraComparacao();
         }
         if (!irmao->folha)
         {
@@ -348,18 +344,17 @@ public:
     void juntar(int idx)
     {
         NoB *filho = C[idx];
-        NoB::numCopias++;
         NoB *irmao = C[idx + 1];
-        NoB::numCopias++;
+        Contador::getInstance().registraCopia();
+        Contador::getInstance().registraCopia();
 
         filho->chave[t - 1] = chave[idx];
-        NoB::numCopias++;
+        Contador::getInstance().registraCopia();
 
         for (int i = 0; i < irmao->n; ++i)
         {
             filho->chave[i + t] = irmao->chave[i];
-            NoB::numCopias++;
-            NoB::numComparacoes++;
+            Contador::getInstance().registraCopia();
         }
 
         if (!filho->folha)
@@ -371,15 +366,13 @@ public:
         for (int i = idx + 1; i < n; ++i)
         {
             chave[i - 1] = chave[i];
-            NoB::numCopias++;
-            NoB::numComparacoes++;
+            Contador::getInstance().registraCopia();
         }
 
         for (int i = idx + 2; i <= n; ++i)
         {
             C[i - 1] = C[i];
-            NoB::numCopias++;
-            NoB::numComparacoes++;
+            Contador::getInstance().registraCopia();
         }
         filho->n += irmao->n + 1;
         n--;
@@ -406,9 +399,5 @@ public:
 
     friend class ArvoreB;
 };
-
-// Initialize static member of class Box
-int NoB::numComparacoes = 0;
-int NoB::numCopias = 0;
 
 #endif //SRC_TRABALHO2_NoB_H
