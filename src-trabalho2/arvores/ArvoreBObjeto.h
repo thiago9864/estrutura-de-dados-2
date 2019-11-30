@@ -21,7 +21,7 @@
 class ArvoreBObjeto : public BaseArvores
 {
 private:
-    NoBObjeto<UserReview> *raiz;
+    NoBObjeto *raiz;
     int t;
 
 public:
@@ -37,7 +37,7 @@ public:
             raiz->percorre();
     }
 
-    NoBObjeto<UserReview> *procura(UserReview k)
+    NoBObjeto *procura(UserReview k)
     {
         return (raiz == NULL) ? NULL : raiz->procura(k);
     }
@@ -48,17 +48,15 @@ public:
         if (raiz == NULL)
         {
 
-            raiz = new NoBObjeto<UserReview>(t, true);
+            raiz = new NoBObjeto(t, true);
             raiz->chave[0] = k;
             raiz->n = 1;
-            registraCopia();
-            registraCopia();
         }
         else
         {
             if (raiz->n == 2 * t - 1)
             {
-                NoBObjeto<UserReview> *s = new NoBObjeto<UserReview>(t, false);
+                NoBObjeto *s = new NoBObjeto(t, false);
 
                 s->C[0] = raiz;
                 registraCopia();
@@ -93,13 +91,12 @@ public:
         if (raiz->n == 0)
         {
             registraComparacao();
-            NoBObjeto<UserReview> *tmp = raiz;
+            NoBObjeto *tmp = raiz;
             if (raiz->folha)
                 raiz = NULL;
             else
             {
                 raiz = raiz->C[0];
-
                 registraCopia();
             }
             delete tmp;
@@ -109,4 +106,4 @@ public:
 
 };
 
-#endif //SRC_TRABALHO2_ARVOREBObjetos_H
+#endif //SRC_TRABALHO2_ARVOREBObjeto_H

@@ -10,7 +10,7 @@
 #define LZW_H
 #include <iostream>
 #include <string>
-#include <bits/stdc++.h>
+//#include <bits/stdc++.h>
 #include "BaseCompressao.h"
 
 using namespace std;

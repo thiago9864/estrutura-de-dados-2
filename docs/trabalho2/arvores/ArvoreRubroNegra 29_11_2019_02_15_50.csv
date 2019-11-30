@@ -1,0 +1,13 @@
+Número de Testes,Algoritmo,Tempo de Execução,Número de Comparações,Número de Copias
+1000,Arvore Vermelho-Preto (Objetos),0.001020,4000,1000
+1000,Arvore Vermelho-Preto (Inteiros),0.000000,4000,1000
+5000,Arvore Vermelho-Preto (Objetos),0.003026,20000,5000
+5000,Arvore Vermelho-Preto (Inteiros),0.000000,20000,5000
+10000,Arvore Vermelho-Preto (Objetos),0.006981,40000,10000
+10000,Arvore Vermelho-Preto (Inteiros),0.000999,40000,10000
+50000,Arvore Vermelho-Preto (Objetos),0.029952,200000,50000
+50000,Arvore Vermelho-Preto (Inteiros),0.005019,200000,50000
+100000,Arvore Vermelho-Preto (Objetos),0.061835,400000,100000
+100000,Arvore Vermelho-Preto (Inteiros),0.010972,400000,100000
+500000,Arvore Vermelho-Preto (Objetos),0.312198,2000000,500000
+500000,Arvore Vermelho-Preto (Inteiros),0.052899,2000000,500000
