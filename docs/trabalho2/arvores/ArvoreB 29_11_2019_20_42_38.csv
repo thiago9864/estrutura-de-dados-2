@@ -1,0 +1,25 @@
+Número de Testes,Algoritmo,Tempo de Execução,Número de Comparações,Número de Copias
+1000,Arvore B (Objetos com d=2),0.000000,6363,4480
+1000,Arvore B (Objetos com d=20),0.000000,20198,18802
+1000,Arvore B (Inteiros com d=2),0.000000,6345,4203
+1000,Arvore B (Inteiros com d=20),0.000000,22424,15526
+5000,Arvore B (Objetos com d=2),0.015614,37506,22666
+5000,Arvore B (Objetos com d=20),0.015624,108669,96027
+5000,Arvore B (Inteiros com d=2),0.000000,37448,21071
+5000,Arvore B (Inteiros com d=20),0.000000,140629,81584
+10000,Arvore B (Objetos com d=2),0.031275,84479,46100
+10000,Arvore B (Objetos com d=20),0.031243,239817,203401
+10000,Arvore B (Inteiros com d=2),0.000000,82499,42163
+10000,Arvore B (Inteiros com d=20),0.015590,307401,165336
+50000,Arvore B (Objetos com d=2),0.218699,478583,229421
+50000,Arvore B (Objetos com d=20),0.173638,1334746,1042882
+50000,Arvore B (Inteiros com d=2),0.033640,466767,211799
+50000,Arvore B (Inteiros com d=20),0.015621,1972583,821644
+100000,Arvore B (Objetos com d=2),0.343948,1035445,460537
+100000,Arvore B (Objetos com d=20),0.332305,2815080,2111298
+100000,Arvore B (Inteiros com d=2),0.080774,1008138,423772
+100000,Arvore B (Inteiros com d=20),0.049289,4159413,1647249
+500000,Arvore B (Objetos com d=2),2.054705,5867460,2302666
+500000,Arvore B (Objetos com d=20),1.644511,15758739,10668282
+500000,Arvore B (Inteiros com d=2),0.599319,5702294,2119516
+500000,Arvore B (Inteiros com d=20),0.265566,23911063,8243687

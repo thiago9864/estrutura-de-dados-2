@@ -12,11 +12,13 @@
 #include <sstream>
 #include <string>
 #include <vector>
+//#include <stdio.h>
 #include <time.h>
 #include <random>
 #include <chrono>
-#include <direct.h>
 #include "UserReview.h"
+#include <sys/types.h>
+#include <sys/stat.h>
 
 #if defined(_WIN32)
 //includes para windows
@@ -24,11 +26,11 @@
 
 #elif defined(__APPLE__) && defined(__MACH__)
 //includes para mac
-#include <direct.h>
+//#include <unistd.h>
 
 #elif defined(__linux__) || defined(__linux) || defined(linux) || defined(__gnu_linux__)
 //includes para linux
-#include <direct.h>
+//#include <unistd.h>
 
 #endif
 
@@ -212,19 +214,42 @@ class LeitorBase
 
 
         void criaDiretoriosNecessarios(){
-            criarDiretorio(getDiretorioArquivoDeSaida());
-            criarDiretorio(getDiretorioTempCompressao());
+            criarDiretorioSeNaoExiste(getDiretorioArquivoDeSaida());
+            criarDiretorioSeNaoExiste(getDiretorioTempCompressao());
         }
 
-        int criarDiretorio(string caminho){
+        int criarDiretorioSeNaoExiste(string caminho){
+            if(directoryExists(caminho.c_str()) == false){
+                cout << "o diretorio '" << caminho << "' nao foi encontrado e sera criado" << endl;
+                #if defined(_WIN32)
+                /* Windows -------------------------------------------------- */
+                std::wstring stemp = std::wstring(caminho.begin(), caminho.end());
+                LPCWSTR sw = stemp.c_str();
+                return CreateDirectoryW(sw, NULL );
+                #elif defined(__unix__) || defined(__unix) || defined(unix) || (defined(__APPLE__) && defined(__MACH__))
+                /* Linux/Mac -------------------------------------------------- */
+                string comando = "mkdir \""+caminho+"\"";
+                system(comando.c_str());
+                return 1;//mkdir(caminho.c_str(), 0777);
+                #endif
+            }
+        }
+
+        bool directoryExists(const char* dirName) {
             #if defined(_WIN32)
-            /* Windows -------------------------------------------------- */
-            std::wstring stemp = std::wstring(caminho.begin(), caminho.end());
-            LPCWSTR sw = stemp.c_str();
-            return CreateDirectoryW(sw, NULL );
+                DWORD attribs = ::GetFileAttributesA(dirName);
+                if (attribs == INVALID_FILE_ATTRIBUTES) {
+                    return false;
+                }
+                return (attribs & FILE_ATTRIBUTE_DIRECTORY);
             #elif defined(__unix__) || defined(__unix) || defined(unix) || (defined(__APPLE__) && defined(__MACH__))
-            /* Linux/Mac -------------------------------------------------- */
-            return mkdir(caminho);
+                struct stat info;
+                if( stat( dirName, &info ) != 0 )
+                    return false;
+                else if( info.st_mode & S_IFDIR )  // S_ISDIR() doesn't exist on my windows 
+                    return true;
+                else
+                    return false;
             #endif
         }
 

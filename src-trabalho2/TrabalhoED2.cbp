@@ -32,19 +32,28 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
+		<Unit filename="Contador.h" />
 		<Unit filename="GameInfo.h" />
 		<Unit filename="LeitorBase.h" />
 		<Unit filename="LeitorGameInfo.h" />
 		<Unit filename="LeitorUserReviews.h" />
 		<Unit filename="Log.h" />
 		<Unit filename="UserReview.h" />
+		<Unit filename="arvores/ArvoreB.h" />
+		<Unit filename="arvores/ArvoreRubroNegraObjetos.h" />
 		<Unit filename="arvores/BaseArvores.h" />
 		<Unit filename="arvores/No.h" />
+		<Unit filename="arvores/NoB.h" />
+		<Unit filename="arvores/NoBObjeto.h" />
+		<Unit filename="arvores/NoObjeto.h" />
+		<Unit filename="arvores/arvorebobjeto.h" />
+		<Unit filename="arvores/arvorerubronegra.h" />
 		<Unit filename="cenarios/CenarioArvoreB.h" />
 		<Unit filename="cenarios/CenarioArvoreRubroNegra.h" />
 		<Unit filename="cenarios/CenarioCompressaoStrings.h" />
 		<Unit filename="compressao/BaseCompressao.h" />
 		<Unit filename="compressao/FileManager.h" />
+		<Unit filename="compressao/Huffman.h" />
 		<Unit filename="compressao/LZW.h" />
 		<Unit filename="main.cpp" />
 		<Extensions>

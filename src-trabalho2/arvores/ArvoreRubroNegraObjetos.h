@@ -1,43 +1,42 @@
 /**
     Universidade Federal de Juiz de Fora
-    ArvoreRubroNegra.h
+    ArvoreRubroNegraObjetos.h
     Propósito: Classe para implementar a arvore rubro negra
     @author: Renan Nunes da Costa Gonçalves
     @version 1.0 27/10/2019
 */
 
-#ifndef SRC_TRABALHO2_ARVORERUBRONEGRA_H
-#define SRC_TRABALHO2_ARVORERUBRONEGRA_H
+#ifndef SRC_TRABALHO2_ARVORERUBRONEGRAOBJETOS_H
+#define SRC_TRABALHO2_ARVORERUBRONEGRAObjetosOBJETOS_H
 
 #include <iostream>
 #include <math.h>
 #include "BaseArvores.h"
 #include "../UserReview.h"
-#include "No.h"
+#include "NoObjeto.h"
 
-
-template <class T> 
-class ArvoreRubroNegra : public BaseArvores{
-
+//template <class T>
+class ArvoreRubroNegraObjetos : public BaseArvores
+{
     private:
-        No<T> *root; // Nó raiz
-        int N; // número de elementos da árvore
+        NoRubroNegro *root;
+        int N;
 
     public:
 
-        ArvoreRubroNegra()
+        ArvoreRubroNegraObjetos()
         {
             this->root = nullptr;
             
         };
 
-        ~ArvoreRubroNegra()
+        ~ArvoreRubroNegraObjetos()
         {
             this->auxDestrutor(this->root);
         };
 
         // Função Para auxiliar o destrutor da Árvore RB
-        void auxDestrutor(No<T>* p)
+        void auxDestrutor(NoRubroNegro* p)
         {
             if(p != nullptr)
             {
@@ -48,32 +47,31 @@ class ArvoreRubroNegra : public BaseArvores{
         };
 
         //Função de inserção de Nós na arvore RB
-        void inserir(T valor)
+        void inserir(UserReview valor)
         {
             this->root = inserirNo(valor,this->root);
         };
 
         //Função auxiliar que insere o Nó. Retorna a raiz, nova ou não - dependendo do caso de inserção
-        No<T>* inserirNo(T valor, No<T>* p)
+        NoRubroNegro* inserirNo(UserReview valor, NoRubroNegro* p)
         {
-            No<T>* auxRoot; //Auxiliar para a raiz que será retornado caso o novo Nó seja inserido
+            NoRubroNegro* auxRoot; //Auxiliar para a raiz que será retornado caso o novo Nó seja inserido
             //Se p é null a arvore está vazia
             if(p == nullptr)
             {
                 this->registraComparacao();
                 this->registraCopia();
-                p = new No<T>();
+                p = new NoRubroNegro();
                 p->value = valor;
                 p->color = 0; //Preta para raiz
             } else {
-                No<T>* pai;
+                NoRubroNegro* pai;
                 while(p != nullptr)
                 {
                     pai = p;
                     this->registraComparacao();
-                   
 
-                    if(valor < p->value)
+                    if(valor.id < p->value.id)
                     {
                         p = p->leftChild;
                     } else {
@@ -81,20 +79,20 @@ class ArvoreRubroNegra : public BaseArvores{
                     }
                 }
 
-                p = new No<T>();
+                p = new NoRubroNegro();
                 p->parent = pai;
                 p->value= valor;
                 this->registraComparacao();
                 this->registraCopia();
 
-                if(valor > pai->value)
+                if(valor.id > pai->value.id)
                 {
                     pai->rightChild = p;
                 } else {
                     pai->leftChild= p;
                 }
 
-                //No<T>* auxRoot;
+                //NoRubroNegro* auxRoot;
                 while(p != nullptr)
                 {
                     this->registraComparacao();
@@ -108,7 +106,7 @@ class ArvoreRubroNegra : public BaseArvores{
         };
 
         //Função que verifica se há necessidade de correção na arvore vermelho preta
-        No<T>* verficaArvore(No<T>* p)
+        NoRubroNegro* verficaArvore(NoRubroNegro* p)
         {
             this->registraComparacao();
             if(p->parent == nullptr)
@@ -121,9 +119,9 @@ class ArvoreRubroNegra : public BaseArvores{
                 {
                     return p;
                 } else {
-                    No<T>* pai = p->parent;
-                    No<T>* avo = p->parent->parent;
-                    No<T>* tio = this->getTio(p);
+                    NoRubroNegro* pai = p->parent;
+                    NoRubroNegro* avo = p->parent->parent;
+                    NoRubroNegro* tio = this->getTio(p);
 
                     this->registraComparacao();
                     if(p->color && pai->color)
@@ -146,10 +144,10 @@ class ArvoreRubroNegra : public BaseArvores{
             }
         };
 
-        No<T>* verificarRotacao(No<T>* p)
+        NoRubroNegro* verificarRotacao(NoRubroNegro* p)
         {
-            No<T>* pai = p->parent;
-            No<T>* avo = p->parent->parent;
+            NoRubroNegro* pai = p->parent;
+            NoRubroNegro* avo = p->parent->parent;
 
             this->registraComparacao();
             if(avo->leftChild == pai)
@@ -179,7 +177,7 @@ class ArvoreRubroNegra : public BaseArvores{
         };
 
         //Função que calcula a altura da árvore RB a partir de um Nó
-        int alturaNegra(No<T>* p)
+        int alturaNegra(NoRubroNegro* p)
         {
             if(p == nullptr)
             {
@@ -189,8 +187,8 @@ class ArvoreRubroNegra : public BaseArvores{
                 //O menor entre eles é a altura negra da árvore
 
                 int alturaEsquerda = 0, alturaDireita = 0;
-                No<T>* filhoEsquerda = p->leftChild;
-                No<T>* filhoDireita = p->rightChild;
+                NoRubroNegro* filhoEsquerda = p->leftChild;
+                NoRubroNegro* filhoDireita = p->rightChild;
 
                 if((filhoDireita != nullptr) && (filhoEsquerda != nullptr))
                 {
@@ -235,7 +233,7 @@ class ArvoreRubroNegra : public BaseArvores{
        };
 
         //Função auxiliar da impressão da arvore RB
-       void imprimirPorNivel(No<T>* p, int nivel)
+       void imprimirPorNivel(NoRubroNegro* p, int nivel)
        {
            if(p != nullptr)
            {
@@ -245,7 +243,7 @@ class ArvoreRubroNegra : public BaseArvores{
                    cout << "--";
                }
 
-               cout << p->value; //O que o Nó tá guardando é para ser impresso aqui
+               cout << p->value.id; //O que o Nó tá guardando é para ser impresso aqui
                if(p->color)
                {
                    cout << "(V)" << endl;
@@ -259,9 +257,9 @@ class ArvoreRubroNegra : public BaseArvores{
 
 
        //Função que retorna o irmão do Nó
-       No<T>* getIrmao(No<T>* n)
+       NoRubroNegro* getIrmao(NoRubroNegro* n)
        {
-           No<T>* pai = n->parent;
+           NoRubroNegro* pai = n->parent;
 
            //Verifica a existencia do pai, caso contrário retorna null
            if(pai != nullptr)
@@ -278,9 +276,9 @@ class ArvoreRubroNegra : public BaseArvores{
        };
 
         //Função que retorna o "Tio" do Nó
-        No<T>* getTio(No<T>* n)
+        NoRubroNegro* getTio(NoRubroNegro* n)
         {
-           No<T>* avo = n->parent->parent; //Obtém o "Nó avô"
+           NoRubroNegro* avo = n->parent->parent; //Obtém o "Nó avô"
 
            //Verifica se o Nó avô existe
            if(avo != nullptr)
@@ -297,10 +295,10 @@ class ArvoreRubroNegra : public BaseArvores{
         };
 
         //Função que retorna o "Neto" do Nó
-        No<T>* getNeto(No<T>* n)
+        NoRubroNegro* getNeto(NoRubroNegro* n)
         {
-            No<T>* pai = n->parent;
-            No<T>* aux;
+            NoRubroNegro* pai = n->parent;
+            NoRubroNegro* aux;
 
             if(pai->leftChild == n)
             {
@@ -326,12 +324,12 @@ class ArvoreRubroNegra : public BaseArvores{
         };
 
         /*CASOS DE ROTAÇÃO DA AVORE RUBRO NEGRA*/
-        No<T>* rotacaoSimplesEsq(No<T>* p)
+        NoRubroNegro* rotacaoSimplesEsq(NoRubroNegro* p)
         {
-            No<T>* pai = p->rightChild;
-            No<T>* a = p->leftChild;
-            No<T>* b = p->leftChild;
-            No<T>* c = p->parent;
+            NoRubroNegro* pai = p->rightChild;
+            NoRubroNegro* a = p->leftChild;
+            NoRubroNegro* b = p->leftChild;
+            NoRubroNegro* c = p->parent;
 
             pai->leftChild = p;
             p->leftChild = a;
@@ -358,22 +356,22 @@ class ArvoreRubroNegra : public BaseArvores{
         };
 
         //Remoção de um Nó
-        void remover(T valor)
+        void remover(UserReview valor)
         {
             this->root= removerNo(valor,this->root);
         };
 
-        No<T>* removerNo(T valor, No<T>* p)
+        NoRubroNegro* removerNo(UserReview valor, NoRubroNegro* p)
         {
             this->registraComparacao();
             if(p == nullptr)
             {
                 return nullptr;
-            } else if(valor < p->value)
+            } else if(valor.id < p->value.id)
             {
                 this->registraComparacao();
                 removerNo(valor,p->leftChild);
-            } else if(valor > p->value)
+            } else if(valor.id > p->value.id)
             {
                 removerNo(valor,p->rightChild);
             } else {
@@ -397,9 +395,9 @@ class ArvoreRubroNegra : public BaseArvores{
             return p;
         };
 
-        No<T>* casoNoUmFilho(No<T>* p)
+        NoRubroNegro* casoNoUmFilho(NoRubroNegro* p)
         {
-            No<T>* aux;
+            NoRubroNegro* aux;
             this->registraComparacao();
             if(p->leftChild == nullptr)
             {
@@ -419,11 +417,10 @@ class ArvoreRubroNegra : public BaseArvores{
             }
             return p;
         };
-        
-        //  Função que remove um Nó
-        No<T>* casoDoisFilhos(T valor,No<T>* p)
+
+        NoRubroNegro* casoDoisFilhos(UserReview valor,NoRubroNegro* p)
         {
-            No<T>* aux;
+            NoRubroNegro* aux;
 
             aux = p->rightChild;
             while(aux->leftChild != nullptr)
@@ -437,9 +434,8 @@ class ArvoreRubroNegra : public BaseArvores{
             removerNo(valor,p->rightChild);
             return p;
         };
-        
-        //  Função de remoção, para caso do nó ser uma folha
-        No<T>* casoNoFolha(No<T>* p)
+
+        NoRubroNegro* casoNoFolha(NoRubroNegro* p)
         {
             this->registraComparacao();
             if(p->parent == nullptr)
@@ -448,7 +444,7 @@ class ArvoreRubroNegra : public BaseArvores{
             } else if(p->color)
             {
                 this->registraComparacao();
-                No<T>* pai = p->parent;
+                NoRubroNegro* pai = p->parent;
                 this->registraComparacao();
                 if(pai->rightChild == p)
                     p->rightChild = nullptr;
@@ -461,7 +457,7 @@ class ArvoreRubroNegra : public BaseArvores{
                 {
                     this->registraComparacao();
 
-                    No<T>* pai = p->parent;
+                    NoRubroNegro* pai = p->parent;
                     this->registraComparacao();
                     if(pai->rightChild == p)
                     {
@@ -474,8 +470,8 @@ class ArvoreRubroNegra : public BaseArvores{
                         pai = rotacaoDuplaDirEsq(pai);
                     }
                 } else {
-                    No<T>* irmao = getIrmao(p);
-                    No<T>* pai = p->parent;
+                    NoRubroNegro* irmao = getIrmao(p);
+                    NoRubroNegro* pai = p->parent;
                     this->getNumComparacoes();
                     this->getNumComparacoes();
                     if(!(irmao->rightChild->color) && !(irmao->leftChild->color))
@@ -492,7 +488,7 @@ class ArvoreRubroNegra : public BaseArvores{
                         trocarCor(pai);
                         trocarCor(irmao);
                     } else {
-                        No<T>* neto = this->getNeto(p);
+                        NoRubroNegro* neto = this->getNeto(p);
                         this->registraComparacao();
                         if(pai->rightChild == p)
                         {
@@ -508,9 +504,8 @@ class ArvoreRubroNegra : public BaseArvores{
             }
             return nullptr;
         };
-        
-        //  Função que troca a cor de um nó
-        void trocarCor(No<T>* p)
+
+        void trocarCor(NoRubroNegro* p)
         {
             if(p->color)
                 p->color = false;
@@ -518,14 +513,13 @@ class ArvoreRubroNegra : public BaseArvores{
                 p->color = true;
 
         };
-        
-        // Função que faz a rotação de um Nó para a direita
-        No<T>* rotacaoSimplesDir(No<T>* p)
+
+        NoRubroNegro* rotacaoSimplesDir(NoRubroNegro* p)
         {
-            No<T>* pai = p->leftChild;
-            No<T>* a = p->rightChild;
-            No<T>* b = p->rightChild;
-            No<T>* c = p->parent;
+            NoRubroNegro* pai = p->leftChild;
+            NoRubroNegro* a = p->rightChild;
+            NoRubroNegro* b = p->rightChild;
+            NoRubroNegro* c = p->parent;
 
             pai->rightChild= p;
             p->rightChild= a;
@@ -550,21 +544,19 @@ class ArvoreRubroNegra : public BaseArvores{
 
             return pai;
         };
-        
-        // Função que faz a rotação dupla de um Nó Esquerda-Direita
-        No<T>* rotacaoDuplaEsqDir(No<T>* p)
+
+        NoRubroNegro* rotacaoDuplaEsqDir(NoRubroNegro* p)
         {
-            No<T>* pai = p->leftChild;
+            NoRubroNegro* pai = p->leftChild;
 
             p->leftChild = this->rotacaoSimplesEsq(pai);
             p->leftChild->parent = p;
             return rotacaoSimplesDir(p);
         };
-        
-        // Função que faz a rotação dupla de um Nó Direita-Esquerda
-        No<T>* rotacaoDuplaDirEsq(No<T>* p)
+
+        NoRubroNegro* rotacaoDuplaDirEsq(NoRubroNegro* p)
         {
-            No<T>* pai = p->leftChild;
+            NoRubroNegro* pai = p->leftChild;
 
             p->leftChild = this->rotacaoSimplesDir(pai);
             p->leftChild->parent = p;
@@ -575,4 +567,4 @@ class ArvoreRubroNegra : public BaseArvores{
 
 };
 
-#endif //SRC_TRABALHO2_ARVORERUBRONEGRA_H
+#endif //SRC_TRABALHO2_ARVORERUBRONEGRAOBJETOS_H

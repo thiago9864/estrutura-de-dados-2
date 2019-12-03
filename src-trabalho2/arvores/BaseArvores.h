@@ -9,6 +9,7 @@
 #ifndef BASEARVORES_H
 #define BASEARVORES_H
 #include <iostream>
+#include "../Contador.h"
 
 using namespace std;
 
@@ -24,18 +25,18 @@ class BaseArvores
 
         /**
          * Obtem o numero de comparacoes
-         * @return uint64_t 
+         * @return int
          */
-        uint64_t getNumComparacoes(){
-            return numComparacoes;
+        int getNumComparacoes(){
+            return numComparacoes + Contador::getInstance().getNumComparacoes();
         }
 
         /**
          * Obtem o numero de copias
-         * @return uint64_t 
+         * @return int
          */
-        uint64_t getNumCopias(){
-            return numCopias;
+        int getNumCopias(){
+            return numCopias + Contador::getInstance().getNumCopias();
         }
 
         /**
@@ -44,6 +45,7 @@ class BaseArvores
         void resetContadores(){
             numComparacoes = 0;
             numCopias = 0;
+            Contador::getInstance().resetContadores();
         }
 
         /**
@@ -61,10 +63,10 @@ class BaseArvores
         void registraCopia(){
             numCopias++;
         }
-        
+
     private:
-        uint64_t numComparacoes;
-        uint64_t numCopias;
+        int numComparacoes;
+        int numCopias;
 
 };
 
